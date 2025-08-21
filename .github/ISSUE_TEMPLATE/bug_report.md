@@ -1,5 +1,5 @@
 ---
-name: "\U0001F9E8 Bug report"
+name: "\U0001F9E8 Bug Report"
 about: 버그 제보
 title: ""
 labels: ""
