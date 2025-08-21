@@ -1,0 +1,72 @@
+name: 🐰 Frontend CI
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  build-check:
+    name: 🧸 Build & Quality Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: ⚡ Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: client/yarn.lock
+
+      - name: 📦 Install
+        run: yarn install --frozen-lockfile
+
+      - name: 🔎 Lint
+        run: yarn lint
+
+      - name: 🏗️ Build
+        run: yarn build
+
+      - name: ✅ Post success comment
+        if: ${{ success() }}
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const body = [
+              "🚀 빌드 체크 완료!",
+              "",
+              "- Lint ✅",
+              "- Build ✅"
+            ].join("\n");
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
+
+      - name: ❌ Post failure comment
+        if: ${{ failure() }}
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const body = [
+              "🔥 빌드 실패 ㅠㅠ",
+              "",
+              "자세한 로그는 **Actions → 해당 워크플로우 → Jobs → Build & Quality Check**에서 확인해주세요."
+            ].join("\n");
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });

@@ -1,0 +1,57 @@
+# name: 🚀 Frontend CD
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# permissions:
+#   contents: read
+
+# defaults:
+#   run:
+#     working-directory: client
+
+# jobs:
+#   deploy:
+#     name: 🎯 Deploy to S3 + CloudFront
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: 📥 Checkout
+#         uses: actions/checkout@v4
+
+#       - name: ⚡ Setup Node
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 20
+#           cache: yarn
+#           cache-dependency-path: client/yarn.lock
+
+#       - name: 📦 Install
+#         run: yarn install --frozen-lockfile
+
+#       - name: 🏗️ Build
+#         run: yarn build
+
+#       - name: 📤 Deploy to S3
+#         uses: jakejarvis/s3-sync-action@master
+#         with:
+#           bucket: ${{ secrets.AWS_S3_BUCKET }}
+#           region: ${{ secrets.AWS_REGION }}
+#           source: client/dist
+#           delete: true
+#         env:
+#           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+#       - name: 🌎 Invalidate CloudFront Cache
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ${{ secrets.AWS_REGION }}
+#       - run: |
+#           aws cloudfront create-invalidation \
+#             --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+#             --paths "/*"
