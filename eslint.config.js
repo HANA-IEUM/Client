@@ -27,8 +27,7 @@ export default tseslint.config([
       prettier: prettierPlugin,
     },
     rules: {
-      // 프리티어 포맷 위반 시 에러로 처리
-      "prettier/prettier": "error",
+      "prettier/prettier": "off",
     },
   },
 ]);

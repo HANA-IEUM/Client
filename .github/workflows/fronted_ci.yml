@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: 20
           cache: yarn
-          cache-dependency-path: client/yarn.lock
+          cache-dependency-path: yarn.lock
 
       - name: 📦 Install
         run: yarn install --frozen-lockfile
