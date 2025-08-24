@@ -1,7 +1,12 @@
-import AppRouter from "./app/AppRouter";
+import AppRouter from './app/AppRouter';
+import ReactQueryProvider from './app/providers/ReactQueryProvider';
 
 function App() {
-  return <AppRouter />;
+  return (
+    <ReactQueryProvider>
+      <AppRouter />
+    </ReactQueryProvider>
+  );
 }
 
 export default App;
