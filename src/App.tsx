@@ -1,6 +1,8 @@
 function App() {
   return (
-    <h1 className="text-4xl font-bold text-blue-600">Hello Tailwind v4!</h1>
+    <h1 className="font-hana-bold text-blue-600">
+      디지털 하나로 금융서비스개발 6기!
+    </h1>
   );
 }
 
