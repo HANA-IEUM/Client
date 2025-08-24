@@ -52,6 +52,7 @@ src/
   hooks/           # 공용 훅
   layouts/         # 레이아웃 컴포넌트
   lib/             # 유틸리티 함수, axios, formValidator 등
+  pages/           # 라우트 단위 화면 컴포넌트
   styles/          # 글로벌 CSS, Tailwind @theme 확장
   types/           # 전역 타입 정의 (TS interface, type)
   App.tsx
