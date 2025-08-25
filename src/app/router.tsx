@@ -7,6 +7,7 @@ import FamilyPage from '@/pages/FamilyPage';
 import WalletPage from '@/pages/WalletPage';
 import AlbumPage from '@/pages/AlbumPage';
 import MyPage from '@/pages/MyPage';
+import RegisterPage from '@/pages/RegisterPage.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ export const router = createBrowserRouter([
       { path: 'wallet', element: <WalletPage /> },
       { path: 'album', element: <AlbumPage /> },
       { path: 'mypage', element: <MyPage /> },
+      { path: 'register', element: <RegisterPage /> },
     ],
   },
 ]);
