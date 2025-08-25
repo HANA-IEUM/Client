@@ -6,6 +6,10 @@ interface PinInputProps {
   onChange?: (pin: string) => void;
 }
 
+// BoxInput Component
+// length: 입력 길이
+// onComplete: 입력 완료시 콜백함수
+// onChange: 입력 콜백함수
 export default function BoxInput({
   length,
   onComplete,
