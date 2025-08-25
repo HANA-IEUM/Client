@@ -14,3 +14,9 @@ export type BucketStateItemProps = {
   selected: boolean;
   onClick: () => void;
 };
+
+export type SelectItemProps = {
+  text: string;
+  selected: boolean;
+  onClick: () => void;
+};
