@@ -42,3 +42,7 @@ export type BucketListItemProps = {
 export type BucketListCheckIconProps = {
   completed: boolean;
 };
+
+export type HeaderProps = {
+  onClick: () => void;
+};
