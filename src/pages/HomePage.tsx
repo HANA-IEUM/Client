@@ -1,9 +1,5 @@
 const HomePage = () => {
-  return (
-    <div>
-      <h1 className="font-hana-medium">홈 페이지입니다.</h1>
-    </div>
-  );
+  return <div>홈 페이지입니다</div>;
 };
 
 export default HomePage;
