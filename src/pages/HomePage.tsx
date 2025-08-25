@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import CallIcon from '@/assets/common/CallIcon';
-import AccountItem from '@/components/AccountItem';
+import BucketStateItem from '@/components/BucketStateItem';
 
 const HomePage = () => {
   const [selected, setSelected] = useState(false);
@@ -8,9 +8,8 @@ const HomePage = () => {
     <div>
       홈 페이지입니다.
       <CallIcon />
-      <AccountItem
-        accountName="달달 하나 통장"
-        accountNum="352-1022-1234-12"
+      <BucketStateItem
+        text="전체"
         selected={selected}
         onClick={() => setSelected((v) => !v)}
       />

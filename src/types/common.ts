@@ -8,3 +8,9 @@ export type AccountItemProps = {
   selected?: boolean;
   onClick: () => void;
 };
+
+export type BucketStateItemProps = {
+  text: string;
+  selected: boolean;
+  onClick: () => void;
+};
