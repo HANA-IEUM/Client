@@ -1,4 +1,3 @@
-import BottomTab from '@/components/BottomTab';
 import { Button } from 'antd';
 
 const LandingPage = () => {
