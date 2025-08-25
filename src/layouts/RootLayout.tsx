@@ -21,10 +21,6 @@ export default function RootLayout() {
 
         {shouldShowBottomTab && (
           <>
-            {/* 1) flow에 공간을 남겨두는 스페이서 (탭과 동일 높이) */}
-            <div className="h-20 shrink-0" />
-
-            {/* 2) 화면 하단 고정된 실제 탭 */}
             <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md">
               <BottomTab />
             </div>
