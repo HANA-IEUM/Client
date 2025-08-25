@@ -7,7 +7,7 @@ const BucketStateItem = ({ text, selected, onClick }: BucketStateItemProps) => {
       onClick={onClick}
     >
       <div
-        className={`font-hana-regular ${selected ? 'text-white' : 'text-secondary-text'}`}
+        className={`font-hana-regular ${selected ? 'text-white' : 'text-text-secondary'}`}
       >
         {text}
       </div>

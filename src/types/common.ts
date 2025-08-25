@@ -29,3 +29,16 @@ export type BucketListCategoryItemProps = {
   className?: string;
   onClick?: () => void;
 };
+
+export type BucketCategory = 'trip' | 'hobby' | 'familySupport' | 'health';
+
+export type BucketListItemProps = {
+  text?: string;
+  date?: string;
+  category: BucketCategory;
+  completed: boolean;
+};
+
+export type BucketListCheckIconProps = {
+  completed: boolean;
+};

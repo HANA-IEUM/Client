@@ -14,15 +14,16 @@ const AccountItem = ({
         ${selected ? 'bg-accent-secondary' : 'bg-btn-default-bg'}`}
       onClick={onClick}
     >
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center gap-4">
         <HanaIcon />
+        <div className="flex flex-col">
+          <span className="font-hana-bold text-primary text-xl">
+            {accountName}
+          </span>
+          <span className="font-hana-regular text-lg">{accountNum}</span>
+        </div>
       </div>
-      <div className="flex flex-col">
-        <span className="font-hana-bold text-primary text-xl">
-          {accountName}
-        </span>
-        <span className="font-hana-regular text-lg">{accountNum}</span>
-      </div>
+
       <div className="flex justify-center items-center">
         <CheckIcon selected={selected} />
       </div>
