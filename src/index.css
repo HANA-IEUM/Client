@@ -30,6 +30,22 @@
   --font-hana-medium: 'Hana2-Medium', sans-serif;
   --font-hana-bold: 'Hana2-Bold', sans-serif;
   --font-hana-heavy: 'Hana2-Heavy', sans-serif;
+
+  --color-theme-primary: #008485;
+  --color-theme-secondary: #b0d9d9;
+  --color-text-primary: #2e2e2e;
+  --color-text-secondary: #5c5c5c;
+  --color-text-placeholder: #d9d9d9;
+  --color-line: #cfcfcf;
+  --color-line-light: #ebebeb;
+  --color-accent-primary: #e90061;
+  --color-accent-secondary: #fcd9e7;
+  --color-btn-default-bg: #f2f4f6;
+  --color-icon-green: #b4f2b4;
+  --color-icon-pink: #ffbdd7;
+  --color-icon-yellow: #ffe388;
+  --color-icon-blue: #a2f0ff;
+  --color-btn-accent-bg: #ffc700;
 }
 
 @theme inline {

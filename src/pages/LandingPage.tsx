@@ -7,6 +7,7 @@ const LandingPage = () => {
       <Button>기본 버튼</Button>
       <Button variant="outline">아웃라인 버튼</Button>
       <Button variant="destructive">위험 버튼</Button>
+      <button className="bg-theme-primary">하나그린 버튼</button>
     </div>
   );
 };
