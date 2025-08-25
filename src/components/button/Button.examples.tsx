@@ -1,6 +1,5 @@
 import Button from './Button';
 
-// 버튼 사용 예시
 export default function ButtonExamples() {
   return (
     <div className="p-8 space-y-6">
