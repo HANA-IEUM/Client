@@ -5,11 +5,13 @@ import BucketListCategoryItem from '@/components/BucketListCategoryItem';
 import SelectItem from '@/components/SelectItem';
 import BucketListItem from '@/components/BucketListItem';
 import AccountItem from '@/components/AccountItem';
+import Header from '@/components/Header';
 
 const HomePage = () => {
   const [selected, setSelected] = useState(false);
   return (
     <div>
+      <Header onClick={() => console.log('헤더 클릭')} />
       홈 페이지입니다.
       <CallIcon />
       <BucketStateItem
