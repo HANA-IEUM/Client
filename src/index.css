@@ -162,4 +162,19 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Tailwind inherit 문제 해결 */
+  button,
+  input,
+  optgroup,
+  select,
+  textarea {
+    font-family: unset;
+    font-size: unset;
+    line-height: unset;
+    color: unset;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
 }
