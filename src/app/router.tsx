@@ -1,16 +1,24 @@
-import { createBrowserRouter } from "react-router-dom";
-import RootLayout from "@/layouts/RootLayout";
+import { createBrowserRouter } from 'react-router-dom';
+import RootLayout from '@/layouts/RootLayout';
 
-import LandingPage from "@/pages/LandingPage";
-import HomePage from "@/pages/HomePage";
+import LandingPage from '@/pages/LandingPage';
+import HomePage from '@/pages/HomePage';
+import FamilyPage from '@/pages/FamilyPage';
+import WalletPage from '@/pages/WalletPage';
+import AlbumPage from '@/pages/AlbumPage';
+import MyPage from '@/pages/MyPage';
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <RootLayout />,
     children: [
       { index: true, element: <LandingPage /> },
-      { path: "home", element: <HomePage /> },
+      { path: 'home', element: <HomePage /> },
+      { path: 'family', element: <FamilyPage /> },
+      { path: 'wallet', element: <WalletPage /> },
+      { path: 'album', element: <AlbumPage /> },
+      { path: 'mypage', element: <MyPage /> },
     ],
   },
 ]);
