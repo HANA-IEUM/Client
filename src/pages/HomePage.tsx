@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import CallIcon from '@/assets/common/CallIcon';
 import BucketStateItem from '@/components/BucketStateItem';
+import BucketListCategoryItem from '@/components/BucketListCategoryItem';
 import SelectItem from '@/components/SelectItem';
 
 const HomePage = () => {
@@ -19,6 +20,10 @@ const HomePage = () => {
         selected={selected}
         onClick={() => setSelected((v) => !v)}
       />
+      <BucketListCategoryItem text="건강" color="green" />
+      <BucketListCategoryItem text="여행" color="blue" />
+      <BucketListCategoryItem text="취미" color="pink" />
+      <BucketListCategoryItem text="재테크" color="yellow" />
     </div>
   );
 };
