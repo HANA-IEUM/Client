@@ -27,5 +27,6 @@ dist-ssr
 .env
 .env.local
 
-# Yarn cache
+# Yarn configuration files
 .yarn/
+.yarnrc.yml
