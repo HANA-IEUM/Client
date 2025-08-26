@@ -1,10 +1,17 @@
 import inviteSvg from '@/assets/group-join/invite.svg';
 import plusSvg from '@/assets/group-join/plus.svg';
+import Button from '@/components/button/Button';
+import { useNavigate } from 'react-router-dom';
 
-const FamilyGroupEmptyStateCard = () => {
+type Props = { onInviteClick: () => void; onCreateClick: () => void };
+
+const FamilyGroupEmptyStateCard = ({ onInviteClick, onCreateClick }: Props) => {
+  const navigate = useNavigate();
+  const goHome = () => navigate('/home');
+
   return (
-    <div className="flex flex-col jusitify-center items-center w-full pt-28">
-      <div className="font-hana-regular text-3xl flex justify-center items-center flex-col w-full">
+    <div className="relative h-full flex flex-col items-center w-full pt-28 px-6">
+      <div className="font-hana-regular text-3xl flex flex-col w-full">
         <p>
           <span className="font-hana-bold">승희</span>님은 아직 가족 그룹에{' '}
           <br />
@@ -12,7 +19,10 @@ const FamilyGroupEmptyStateCard = () => {
         </p>
       </div>
 
-      <div className="bg-btn-default-bg gap-3 rounded-lg w-[345px] h-[110px] flex pb-5 pt-6 pl-5 pr-9 mt-20">
+      <div
+        onClick={onInviteClick}
+        className="bg-btn-default-bg gap-3 cursor-pointer rounded-lg w-full h-[110px] flex pb-5 pt-6 pl-5 pr-9 mt-20"
+      >
         <img src={inviteSvg} />
         <div className="flex flex-col gap-1">
           <span className="text-xl font-hana-regular">
@@ -22,7 +32,10 @@ const FamilyGroupEmptyStateCard = () => {
         </div>
       </div>
 
-      <div className="bg-btn-default-bg gap-3 rounded-lg flex w-[345px] h-[110px] mt-9 pb-6 pt-5 pl-8 pr-12  border-2 border-dashed border-[var(--color-line)]">
+      <div
+        onClick={onCreateClick}
+        className="bg-btn-default-bg gap-3 rounded-lg cursor-pointer flex w-full h-[110px] mt-9 pb-6 pt-5 pl-8 pr-12 border-2 border-dashed border-[var(--color-line)]"
+      >
         <img src={plusSvg} />
         <div className="flex flex-col gap-1">
           <span className="text-xl font-hana-regular">
@@ -30,6 +43,15 @@ const FamilyGroupEmptyStateCard = () => {
           </span>
           <span className="text-2xl font-hana-bold">새 가족 그룹 만들기</span>
         </div>
+      </div>
+
+      <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
+        <Button
+          intent="gray"
+          label="나중에 하기"
+          size="full"
+          onClick={goHome}
+        />
       </div>
     </div>
   );
