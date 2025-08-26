@@ -1,5 +1,10 @@
-import { Input as AntInput, type InputProps as AntInputProps } from 'antd';
+import {
+  Input as AntInput,
+  type InputProps as AntInputProps,
+  type InputRef,
+} from 'antd';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { forwardRef } from 'react';
 import { cn } from '@/lib/cn';
 
 const inputVariants = cva('transition-all duration-200 !text-2xl', {
@@ -30,55 +35,65 @@ interface CustomInputProps
   helperText?: string;
 }
 
-export default function Input({
-  label,
-  error,
-  helperText,
-  className,
-  intent = 'green',
-  font = 'regular',
-  disabled = false,
-  ...props
-}: CustomInputProps) {
-  return (
-    <div className="w-full">
-      {label && (
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          {label}
-        </label>
-      )}
-
-      <AntInput
-        className={cn(
-          inputVariants({ intent, font }),
-          'h-12 rounded-md !border-2',
-          'text-text-primary',
-          'placeholder:text-text-placeholder',
-          'disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed',
-          error &&
-            '!border-red-500 focus:!border-red-500 focus:!ring-0 focus:!shadow-[0_0_0_2px_rgba(239,68,68,0.2)]',
-          className
+const Input = forwardRef<InputRef, CustomInputProps>(
+  (
+    {
+      label,
+      error,
+      helperText,
+      className,
+      intent = 'green',
+      font = 'regular',
+      disabled = false,
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <div className="w-full">
+        {label && (
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            {label}
+          </label>
         )}
-        size="large"
-        disabled={disabled}
-        status={error ? 'error' : undefined}
-        {...props}
-      />
 
-      {(error || helperText) && (
-        <div className="mt-2">
-          {error && (
-            <p className="!text-base !font-hana-regular text-red-600">
-              {error}
-            </p>
+        <AntInput
+          ref={ref}
+          className={cn(
+            inputVariants({ intent, font }),
+            'h-12 rounded-md !border-2',
+            'text-text-primary',
+            'placeholder:text-text-placeholder',
+            'disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed',
+            error &&
+              '!border-red-500 focus:!border-red-500 focus:!ring-0 focus:!shadow-[0_0_0_2px_rgba(239,68,68,0.2)]',
+            className
           )}
-          {helperText && !error && (
-            <p className="!text-base !font-hana-regular text-text-secondary">
-              {helperText}
-            </p>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
+          size="large"
+          disabled={disabled}
+          status={error ? 'error' : undefined}
+          {...props}
+        />
+
+        {(error || helperText) && (
+          <div className="mt-2">
+            {error && (
+              <p className="!text-base !font-hana-regular text-red-600">
+                {error}
+              </p>
+            )}
+            {helperText && !error && (
+              <p className="!text-base !font-hana-regular text-text-secondary">
+                {helperText}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+
+Input.displayName = 'Input';
+
+export default Input;

@@ -15,9 +15,15 @@ export default function RootLayout() {
   return (
     <div className="min-h-screen flex justify-center bg-background">
       <main className="w-full max-w-md flex flex-col relative">
-        <div className="flex-1 pb-20">
-          <Outlet />
-        </div>
+        {shouldShowBottomTab ? (
+          <div className="flex-1 pb-20">
+            <Outlet />
+          </div>
+        ) : (
+          <div className="flex-1">
+            <Outlet />
+          </div>
+        )}
 
         {shouldShowBottomTab && (
           <>

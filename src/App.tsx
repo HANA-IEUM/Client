@@ -1,14 +1,11 @@
-// import AppRouter from './app/AppRouter';
+import AppRouter from './app/AppRouter';
 import ReactQueryProvider from './app/providers/ReactQueryProvider';
-import ButtonExamples from '@/components/button/Button.examples';
-import InputExamples from '@/components/input/Input.examples';
+import ButtonExamples from './components/button/Button.examples';
 
 function App() {
   return (
     <ReactQueryProvider>
-      <ButtonExamples />
-      <InputExamples />
-      {/* <AppRouter /> */}
+      <AppRouter />
     </ReactQueryProvider>
   );
 }
