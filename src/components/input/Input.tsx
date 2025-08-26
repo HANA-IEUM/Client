@@ -1,4 +1,3 @@
-import React from 'react';
 import { Input as AntInput, type InputProps as AntInputProps } from 'antd';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/cn';
