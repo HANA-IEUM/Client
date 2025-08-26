@@ -15,6 +15,7 @@ interface PinInputProps {
   value?: string;
   isPassword?: boolean;
   align?: 'start' | 'center' | 'end';
+  focusColorClass?: string;
 }
 
 export interface BoxInputHandle {
@@ -34,6 +35,7 @@ const BoxInput = forwardRef<BoxInputHandle, PinInputProps>(
       value = '',
       isPassword = false,
       align = 'center',
+      focusColorClass = 'focus:border-theme-primary',
     },
     ref
   ) => {
@@ -121,7 +123,7 @@ const BoxInput = forwardRef<BoxInputHandle, PinInputProps>(
             onChange={(e) => handleChange(e, index)}
             onKeyDown={(e) => handleKeyDown(e, index)}
             onFocus={handleFocus}
-            className="w-14 h-14 text-center border-3 border-line rounded-lg focus:border-theme-primary outline-none"
+            className={`w-14 h-14 text-center border-3 border-line rounded-lg ${focusColorClass} outline-none`}
           />
         ))}
       </div>
