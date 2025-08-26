@@ -14,6 +14,7 @@
     "@tanstack/react-query": "^5.85.5",
     "antd": "^5.27.1",
     "axios": "^1.11.0",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -53,5 +54,6 @@
     "*.{json,md,css,scss}": [
       "prettier --write"
     ]
-  }
+  },
+  "packageManager": "yarn@1.22.22"
 }
