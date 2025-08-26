@@ -9,6 +9,7 @@ import AlbumPage from '@/pages/AlbumPage';
 import MyPage from '@/pages/MyPage';
 import RegisterPage from '@/pages/RegisterPage.tsx';
 import GroupJoinPage from '@/pages/GroupJoinPage';
+import LoginPage from '@/pages/LoginPage.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ export const router = createBrowserRouter([
       { path: 'album', element: <AlbumPage /> },
       { path: 'mypage', element: <MyPage /> },
       { path: 'register', element: <RegisterPage /> },
+      { path: 'login', element: <LoginPage /> },
       { path: 'group', element: <GroupJoinPage /> },
     ],
   },
