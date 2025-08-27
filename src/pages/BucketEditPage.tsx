@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import BucketEditBasicInfo from '@/features/bucket-edit/components/BucketEditBasicInfo';
@@ -10,17 +10,17 @@ import Header from '@/components/Header';
 import Stepper from '@/components/common/Stepper';
 
 const BucketEditPage = () => {
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
   const [step, setStep] = useState(0);
 
-  const [editInfo, setEditInfo] = useState({
-    withWho: '혼자',
-    family: ['손혜정', '원윤서'],
-    what: '유럽여행 가기',
-    isprivate: false,
-    targetAmount: 4000000,
-    targetPeriod: '2026-04-03',
-  });
+  //   const [editInfo, setEditInfo] = useState({
+  //     withWho: '혼자',
+  //     family: ['손혜정', '원윤서'],
+  //     what: '유럽여행 가기',
+  //     isprivate: false,
+  //     targetAmount: 4000000,
+  //     targetPeriod: '2026-04-03',
+  //   });
 
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden px-6">
