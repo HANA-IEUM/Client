@@ -11,6 +11,11 @@ import BoxInput, {
 } from '@/components/common/BoxInput.tsx';
 import phoneIcon from '@/assets/common/user/phone.png';
 import messageIcon from '@/assets/common/user/message.png';
+import { useRegister } from '@/hooks/auth/useRegister.ts';
+import { useVerification } from '@/hooks/auth/useVerification.ts';
+import checkCircleSvg from '@/assets/group-join/checkCircle.svg';
+import toast from 'react-hot-toast';
+import { useVerificationConfirm } from '@/hooks/auth/useVerificationConfirm.ts';
 
 // 슬라이드 애니메이션을 위한 variants
 const variants = {
@@ -37,6 +42,17 @@ type Step1Props = {
 const Step1 = ({ phoneNumber, onPhoneNumberChange, onNext }: Step1Props) => {
   const inputRef = useRef<InputRef>(null);
 
+  const verificationMutation = useVerification(
+    () => {},
+    () => {}
+  );
+
+  const buttonClick = () => {
+    onNext();
+    verificationMutation.mutate({
+      to: phoneNumber,
+    });
+  };
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -64,7 +80,7 @@ const Step1 = ({ phoneNumber, onPhoneNumberChange, onNext }: Step1Props) => {
         size="full-lg"
         intent="green"
         font="regular"
-        onClick={onNext}
+        onClick={buttonClick}
         disabled={phoneNumber.length < 10} // 전화번호가 입력되어야 활성화
       />
     </div>
@@ -80,13 +96,59 @@ const Step2 = ({ phoneNumber, onNext }: Step2Props) => {
   const [pin, setPin] = useState('');
   const boxInputRef = useRef<BoxInputHandle>(null);
 
+  // 인증번호 발송을 위한 mutation
+  const sendVerificationMutation = useVerification(
+    () => {
+      toast.custom(
+        () => (
+          <div className="max-w-[400px] mx-auto mb-16">
+            <div className="bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.08)] ring-1 ring-black/5 px-4 py-3 flex items-center gap-2">
+              <img
+                src={checkCircleSvg}
+                className="inline-block size-5"
+                alt="성공"
+              />
+              <span className="font-hana-bold text-xl text-[var(--color-text-primary)]">
+                인증번호를 재전송했어요
+              </span>
+            </div>
+          </div>
+        ),
+        { duration: 2000, position: 'top-center', id: 'resend-ok' }
+      );
+    },
+    () => {}
+  );
+
+  // 인증번호 검증을 위한 mutation
+  const verificationConfirmMutation = useVerificationConfirm(
+    () => {
+      // 성공 시 다음 단계로 이동
+      onNext();
+    },
+    () => {
+      // 실패 시 토스트 알림을 띄우고 입력값을 초기화
+      toast.error('인증번호가 올바르지 않아요.');
+      setPin('');
+      boxInputRef.current?.focus();
+    }
+  );
+
   useEffect(() => {
     boxInputRef.current?.focus();
   }, []);
 
   const handleResend = () => {
-    //TODO 재전송 로직 필요
-    console.log('인증번호 재전송 요청');
+    sendVerificationMutation.mutate({
+      to: phoneNumber,
+    });
+  };
+
+  const handleConfirm = () => {
+    verificationConfirmMutation.mutate({
+      to: phoneNumber,
+      verificationCode: pin,
+    });
   };
 
   return (
@@ -99,7 +161,7 @@ const Step2 = ({ phoneNumber, onNext }: Step2Props) => {
           <span className="font-hana-bold">{phoneNumber}</span>로 받은 <br />
           <span className="font-hana-bold">인증번호</span>를 입력해 주세요
         </p>
-        <BoxInput ref={boxInputRef} length={6} onChange={setPin} />
+        <BoxInput ref={boxInputRef} length={6} onChange={setPin} value={pin} />
         <div className="text-center">
           <Button
             label="인증번호 재전송"
@@ -115,8 +177,9 @@ const Step2 = ({ phoneNumber, onNext }: Step2Props) => {
         size="full-lg"
         intent="green"
         font="regular"
-        onClick={onNext}
-        disabled={pin.length !== 6} // 6자리 모두 입력되어야 활성화
+        onClick={handleConfirm}
+        disabled={pin.length !== 6 || verificationConfirmMutation.isPending} // 6자리 입력 & 로딩 중 아닐 때 활성화
+        loading={verificationConfirmMutation.isPending}
       />
     </div>
   );
@@ -403,8 +466,28 @@ export default function RegisterPage() {
 
   const TOTAL_STEPS = 7; // Stepper에 표시될 전체 단계 수
 
+  // 회원가입 훅
+  const registerMutation = useRegister(
+    () => {
+      //TODO UI 변경 필요
+      alert('회원가입 성공');
+      navigate('/login');
+    },
+    (error) => {
+      alert(error.message);
+    }
+  );
   const goNext = () => {
-    if (step >= TOTAL_STEPS) return;
+    if (step == TOTAL_STEPS - 1) {
+      registerMutation.mutate({
+        phoneNumber: phoneNumber,
+        password: pw,
+        name: name,
+        birthDate: birthday,
+        gender: 'M',
+        monthlyLivingCost: Number(cost),
+      });
+    }
     setDirection(1);
     setStep((prev) => prev + 1);
   };
