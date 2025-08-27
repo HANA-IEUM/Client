@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Button from '@/components/button/Button';
 import FillBoxAmount from './FillBoxAmount';
-import type { Box, MainAccount } from '../types';
+import FillBoxPassword from './FillBoxPassword'; // ✅ 패스워드 입력 추가
+import type { Box } from '../types';
 import HanaIcon from '@/assets/common/HanaIcon';
 
 interface WalletHomeProps {
@@ -17,8 +18,9 @@ const WalletHome: React.FC<WalletHomeProps> = ({
   onEditBox,
   onViewBucket,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [step, setStep] = useState<'amount' | 'password' | null>(null);
   const [selectedBox, setSelectedBox] = useState<Box | null>(null);
+  const [fillAmount, setFillAmount] = useState('');
 
   // 데모 데이터
   const mainAccount = {
@@ -28,34 +30,13 @@ const WalletHome: React.FC<WalletHomeProps> = ({
   };
 
   const boxes = [
-    {
-      id: 1,
-      name: '유럽 꿈 박스',
-      balance: '260,000',
-    },
-    {
-      id: 2,
-      name: '유럽 꿈 박스',
-      balance: '260,000',
-    },
+    { id: 1, name: '유럽 꿈 박스', balance: '260,000' },
+    { id: 2, name: '유럽 꿈 박스', balance: '260,000' },
   ];
 
   const handleFillBox = (box: Box) => {
     setSelectedBox(box);
-    setIsModalOpen(true);
-  };
-
-  const handleModalBack = () => {
-    setIsModalOpen(false);
-    setSelectedBox(null);
-  };
-
-  const handleModalConfirm = (amount: string) => {
-    if (selectedBox) {
-      onFillBox(selectedBox);
-      setIsModalOpen(false);
-      setSelectedBox(null);
-    }
+    setStep('amount');
   };
 
   return (
@@ -143,7 +124,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
                   size="lg"
                   font="regular"
                   className="!text-base flex-1"
-                  onClick={() => onViewBucket()}
+                  onClick={onViewBucket}
                 >
                   버킷 보기
                 </Button>
@@ -162,12 +143,32 @@ const WalletHome: React.FC<WalletHomeProps> = ({
         </div>
       </div>
 
-      <FillBoxAmount
-        box={selectedBox!}
-        isOpen={isModalOpen}
-        onBack={handleModalBack}
-        onConfirm={handleModalConfirm}
-      />
+      {selectedBox && (
+        <FillBoxAmount
+          box={selectedBox}
+          isOpen={step === 'amount'}
+          onBack={() => setStep(null)}
+          onNext={(amount) => {
+            setFillAmount(amount);
+            setStep('password');
+          }}
+        />
+      )}
+
+      {selectedBox && (
+        <FillBoxPassword
+          box={selectedBox}
+          amount={fillAmount}
+          isOpen={step === 'password'}
+          onBack={() => setStep('amount')}
+          onConfirm={() => {
+            // onFillBox(selectedBox);  // ← 제거
+            setStep(null);
+            setSelectedBox(null);
+            setFillAmount('');
+          }}
+        />
+      )}
     </div>
   );
 };
