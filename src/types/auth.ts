@@ -8,7 +8,14 @@ export interface RegisterPayload {
 }
 
 export interface LoginResponse {
-  data: string;
+  data: {
+    accessToken: string;
+    refreshToken: string;
+    tokenType: string;
+    expiresIn: number;
+    hideGroupPrompt: boolean;
+    mainAccountLinked: boolean;
+  };
 }
 
 export interface LoginPayload {
@@ -23,4 +30,8 @@ export interface VerificationPayload {
 export interface VerificationConfirmPayload {
   to: string;
   verificationCode: string;
+}
+
+export interface RefreshPayload {
+  refreshToken: string;
 }

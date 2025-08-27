@@ -12,6 +12,8 @@ import BoxInput, {
 import Stepper from '@/components/common/Stepper.tsx';
 import phoneIcon from '@/assets/common/user/phone.png';
 import passwordIcon from '@/assets/common/user/password.png';
+import { useLogin } from '@/hooks/auth/useLogin.ts';
+import toast from 'react-hot-toast';
 
 const variants = {
   enter: (direction: number) => ({
@@ -140,9 +142,20 @@ export default function LoginPage() {
     }
   };
 
+  const loginMutation = useLogin(
+    () => {
+      navigate('/home');
+    },
+    () => {
+      toast.error('아이디 또는 비밀번호를 확인해주세요');
+    }
+  );
+
   const handleLogin = () => {
-    console.log('로그인 시도:', { phoneNumber, password });
-    // TODO: 실제 로그인 API 연동
+    loginMutation.mutate({
+      phoneNumber: phoneNumber,
+      password: password,
+    });
   };
 
   const renderStepContent = () => {

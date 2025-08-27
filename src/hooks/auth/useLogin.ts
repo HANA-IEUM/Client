@@ -1,6 +1,7 @@
 import type { LoginPayload, LoginResponse } from '@/types/auth.ts';
 import { useMutation } from '@tanstack/react-query';
-import { loginUser } from '@/service/auth.tsx';
+import { loginUser } from '@/services/auth.ts';
+import { setTokens } from '@/lib/token.ts';
 
 export const useLogin = (
   onSuccess?: (data: LoginResponse) => void,
@@ -8,7 +9,13 @@ export const useLogin = (
 ) => {
   return useMutation({
     mutationFn: (req: LoginPayload) => loginUser(req),
-    onSuccess,
+    onSuccess: (response) => {
+      const { accessToken, refreshToken } = response.data.data;
+      if (accessToken && refreshToken) {
+        setTokens(accessToken, refreshToken);
+      }
+      onSuccess?.(response.data);
+    },
     onError,
   });
 };
