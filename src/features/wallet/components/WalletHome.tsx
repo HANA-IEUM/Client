@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@/components/button/Button';
+import FillBoxAmount from './FillBoxAmount';
 import type { Box, MainAccount } from '../types';
 import HanaIcon from '@/assets/common/HanaIcon';
 
@@ -16,6 +17,9 @@ const WalletHome: React.FC<WalletHomeProps> = ({
   onEditBox,
   onViewBucket,
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedBox, setSelectedBox] = useState<Box | null>(null);
+
   // 데모 데이터
   const mainAccount = {
     name: '달달 하나 통장',
@@ -36,15 +40,32 @@ const WalletHome: React.FC<WalletHomeProps> = ({
     },
   ];
 
+  const handleFillBox = (box: Box) => {
+    setSelectedBox(box);
+    setIsModalOpen(true);
+  };
+
+  const handleModalBack = () => {
+    setIsModalOpen(false);
+    setSelectedBox(null);
+  };
+
+  const handleModalConfirm = (amount: string) => {
+    if (selectedBox) {
+      onFillBox(selectedBox);
+      setIsModalOpen(false);
+      setSelectedBox(null);
+    }
+  };
+
   return (
-    <div className="w-full h-full pt-12 pb-20">
+    <div className="w-full h-full pt-12">
       <div className="px-6">
         <h1 className="text-4xl font-hana-bold text-text-primary !mb-8">
           지갑
         </h1>
       </div>
 
-      {/* Main Account */}
       <div className="w-full px-6 mb-14">
         <div className="bg-btn-default-bg rounded-2xl p-4 shadow-sm">
           <div className="flex items-center gap-5">
@@ -101,7 +122,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
                       font="bold"
                       radius="xl"
                       label="채우기"
-                      onClick={() => onFillBox(box)}
+                      onClick={() => handleFillBox(box)}
                     />
                   </div>
                 </div>
@@ -122,7 +143,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
                   size="lg"
                   font="regular"
                   className="!text-base flex-1"
-                  onClick={() => onViewBucket}
+                  onClick={() => onViewBucket()}
                 >
                   버킷 보기
                 </Button>
@@ -140,6 +161,13 @@ const WalletHome: React.FC<WalletHomeProps> = ({
           ))}
         </div>
       </div>
+
+      <FillBoxAmount
+        box={selectedBox!}
+        isOpen={isModalOpen}
+        onBack={handleModalBack}
+        onConfirm={handleModalConfirm}
+      />
     </div>
   );
 };
