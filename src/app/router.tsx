@@ -10,6 +10,7 @@ import MyPage from '@/pages/MyPage';
 import RegisterPage from '@/pages/RegisterPage.tsx';
 import GroupJoinPage from '@/pages/GroupJoinPage';
 import LoginPage from '@/pages/LoginPage.tsx';
+import LinkAccountPage from '@/pages/LinkAccountPage';
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ export const router = createBrowserRouter([
       { path: 'register', element: <RegisterPage /> },
       { path: 'login', element: <LoginPage /> },
       { path: 'group', element: <GroupJoinPage /> },
+      { path: 'account', element: <LinkAccountPage /> },
     ],
   },
 ]);

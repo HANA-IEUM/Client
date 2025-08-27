@@ -10,7 +10,7 @@ const AccountItem = ({
 }: AccountItemProps) => {
   return (
     <div
-      className={`w-80 h-[66px] flex justify-between items-center cursor-pointer py-2 pl-3 pr-4 shadow-sm rounded-md transition-colors
+      className={`w-full h-[66px] flex justify-between items-center cursor-pointer py-2 pl-3 pr-2 shadow-sm rounded-md transition-colors
         ${selected ? 'bg-accent-secondary' : 'bg-btn-default-bg'}`}
       onClick={onClick}
     >

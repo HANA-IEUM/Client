@@ -1,8 +1,12 @@
-export default function HanaIcon() {
+import type { HanaIconProps } from '@/types/common';
+
+export default function HanaIcon({ size, width, height }: HanaIconProps) {
+  const w = width ?? size ?? 43;
+  const h = height ?? size ?? 43;
   return (
     <svg
-      width="43"
-      height="43"
+      width={w}
+      height={h}
       viewBox="0 0 43 43"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
