@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import AccountConnect from '@/features/link-account/AccountConnect';
-import AccountFetching from '@/features/link-account/AccountFetching';
-import AccountSelect from '@/features/link-account/AccountSelect';
-import TermOfUse from '@/features/link-account/TermOfUse';
+import AccountConnect from '@/features/link-account/components/AccountConnect';
+import AccountFetching from '@/features/link-account/components/AccountFetching';
+import AccountSelect from '@/features/link-account/components/AccountSelect';
+import TermOfUse from '@/features/link-account/components/TermOfUse';
 
 const LinkAccountPage = () => {
   const FETCHING_DELAY_MS = 5000;
