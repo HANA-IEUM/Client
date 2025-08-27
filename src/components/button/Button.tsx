@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/cn';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center transition-opacity duration-200 active:opacity-80 !font-bold',
+  'inline-flex cursor-pointer items-center justify-center transition-opacity duration-200 active:opacity-80 !font-bold',
   {
     variants: {
       intent: {
