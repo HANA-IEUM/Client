@@ -4,4 +4,5 @@ export type MainAccount = {
   bankName: string;
   balance: number;
   accountType: string;
+  mainAccountLinked: boolean;
 };

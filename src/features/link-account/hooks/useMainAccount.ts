@@ -16,7 +16,6 @@ export function useMainAccount(options?: { enabled?: boolean }) {
   });
 }
 
-// 필요 시: “주계좌가 있는가”만 boolean으로
 export function useHasMainAccount(options?: { enabled?: boolean }) {
   const q = useMainAccount(options);
   return { ...q, data: Boolean(q.data) };

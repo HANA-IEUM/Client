@@ -11,12 +11,17 @@ import { useCreateGroup } from '@/features/group-join/hooks/useCreateGroup';
 import { useJoinGroup } from '@/features/group-join/hooks/useJoinGroup';
 import { useHideGroupPrompt } from '@/features/auth/hooks/useHideGroupPrompt';
 import { showSuccess, showError } from '@/lib/toast';
-import useClosable from 'antd/es/_util/hooks/useClosable';
+
+import { useQueryClient } from '@tanstack/react-query';
+import { fetchMainAccount } from '@/features/link-account/apis/accountApi';
+import { accountQK } from '@/features/link-account/hooks/useMainAccount';
 
 const GroupJoinPage = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [inviteCode, setInviteCode] = useState<string>('');
+
+  const qc = useQueryClient();
 
   const createGroup = useCreateGroup();
   const joinGroup = useJoinGroup();
@@ -50,23 +55,33 @@ const GroupJoinPage = () => {
   }, [hide]);
 
   const handleJoin = useCallback(
-    (code: string) => {
+    async (code: string) => {
       if (joinGroup.isPending) return;
-      joinGroup.mutate(code, {
-        onSuccess: () => {
-          showSuccess('그룹에 참여했어요!');
-          navigate('/home', { replace: true });
-        },
-        onError: (err: unknown) => {
-          const msg =
-            (err as { response?: { data?: { message?: string } } })?.response
-              ?.data?.message ??
-            '참여에 실패했습니다. 초대코드를 확인해 주세요.';
-          showError(msg);
-        },
-      });
+
+      try {
+        await joinGroup.mutateAsync(code);
+        showSuccess('그룹에 참여했어요!');
+
+        const main = await qc.fetchQuery({
+          queryKey: accountQK.main,
+          queryFn: fetchMainAccount,
+        });
+
+        const linked =
+          !!main &&
+          (typeof main.mainAccountLinked === 'boolean'
+            ? main.mainAccountLinked
+            : true);
+
+        navigate(linked ? '/home' : '/account', { replace: true });
+      } catch (err) {
+        const msg =
+          (err as { response?: { data?: { message?: string } } })?.response
+            ?.data?.message ?? '참여에 실패했습니다. 초대코드를 확인해 주세요.';
+        showError(msg);
+      }
     },
-    [joinGroup, navigate]
+    [joinGroup, qc, navigate]
   );
 
   return (
