@@ -1,5 +1,7 @@
+import FamilyHome from '@/features/family/FamilyHome';
+
 const FamilyPage = () => {
-  return <div>가족 페이지입니다.</div>;
+  return <FamilyHome />;
 };
 
 export default FamilyPage;
