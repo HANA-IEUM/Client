@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { InputRef } from 'antd';
-
+import { fetchGroupInfo } from '@/features/group-join/apis/groupApi';
 import Header from '@/components/Header';
 import Input from '@/components/input/Input.tsx';
 import Button from '@/components/button/Button.tsx';
@@ -151,11 +151,19 @@ export default function LoginPage() {
     }
   );
 
-  const handleLogin = () => {
-    loginMutation.mutate({
-      phoneNumber: phoneNumber,
-      password: password,
-    });
+  const handleLogin = async () => {
+    try {
+      await loginMutation.mutateAsync({
+        phoneNumber,
+        password,
+      });
+
+      const group = await fetchGroupInfo();
+
+      navigate(group ? '/home' : '/group', { replace: true });
+    } catch (e) {
+      toast.error('아이디 또는 비밀번호를 확인해주세요');
+    }
   };
 
   const renderStepContent = () => {
