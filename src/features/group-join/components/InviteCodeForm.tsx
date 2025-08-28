@@ -1,17 +1,37 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+
 import Header from '@/components/Header';
 import Input from '@/components/input/Input';
 import Button from '@/components/button/Button';
+import { useJoinGroup } from '../hooks/useJoinGroup';
+import { showSuccess, showError } from '@/lib/toast';
 
 type InviteCodeFormProps = { onBack: () => void; onNext?: () => void };
 
-const InviteCodeForm = ({ onBack, onNext }: InviteCodeFormProps) => {
+const InviteCodeForm = ({ onBack }: InviteCodeFormProps) => {
   const [code, setCode] = useState('');
   const hasText = code.trim().length > 0;
 
+  const navigate = useNavigate();
+  const joinGroup = useJoinGroup();
+
   const onJoin = () => {
-    if (!hasText) return;
-    onNext?.();
+    if (!hasText || joinGroup.isPending) return;
+
+    joinGroup.mutate(code.trim(), {
+      onSuccess: () => {
+        showSuccess('그룹에 찹여했어요!');
+        navigate('/home', { replace: true });
+      },
+      onError: (err: unknown) => {
+        const msg =
+          (err as { response?: { data?: { message?: string } } })?.response
+            ?.data?.message ?? '참여에 실패했습니다. 초대코드를 확인해 주세요.';
+        showError(msg);
+      },
+    });
   };
 
   return (
@@ -31,6 +51,9 @@ const InviteCodeForm = ({ onBack, onNext }: InviteCodeFormProps) => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setCode(e.target.value)
           }
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') onJoin();
+          }}
           font="bold"
         />
       </div>
@@ -38,9 +61,9 @@ const InviteCodeForm = ({ onBack, onNext }: InviteCodeFormProps) => {
       <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
         <Button
           intent={hasText ? 'green' : 'gray'}
-          label="그룹 참여하기"
+          label={joinGroup.isPending ? '참여 중…' : '그룹 참여하기'}
           size="full"
-          disabled={!hasText}
+          disabled={!hasText || joinGroup.isPending}
           onClick={onJoin}
         />
       </div>

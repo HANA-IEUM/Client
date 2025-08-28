@@ -1,7 +1,7 @@
 import Header from '@/components/Header';
 import Button from '@/components/button/Button';
 import copySvg from '@/assets/group-join/copy.svg';
-import checkCircleSvg from '@/assets/group-join/checkCircle.svg';
+import checkCircleSvg from '@/assets/common/toast/checkCircle.svg';
 import toast from 'react-hot-toast';
 
 type InviteCodeSharePanelProps = {
