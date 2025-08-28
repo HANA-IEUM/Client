@@ -1,4 +1,4 @@
-import FamilyHome from '@/features/family/FamilyHome';
+import FamilyHome from '@/features/family/components/FamilyHome';
 
 const FamilyPage = () => {
   return <FamilyHome />;
