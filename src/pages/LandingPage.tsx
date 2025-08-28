@@ -1,22 +1,33 @@
-import { Button } from 'antd';
+import Button from '@/components/button/Button';
+import { useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+
   return (
-    <div>
-      <h1 className="font-hana-medium">랜딩 페이지입니다.</h1>
-      <Button>Default</Button>
+    <div className="relative h-full flex flex-col items-center w-full pt-28 px-6">
+      <div className="font-hana-regular text-3xl flex flex-col w-full">
+        <p>하나이음</p>
+      </div>
 
-      {/* 기본 제공 프라이머리 */}
-      <Button type="primary">Primary</Button>
-
-      {/* 위험(빨간색) 버튼 */}
-      <Button danger>Danger</Button>
-
-      {/* 점선 스타일 */}
-      <Button type="dashed">Dashed</Button>
-
-      {/* 링크 버튼 */}
-      <Button type="link">Link</Button>
+      <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
+        <div className="flex flex-col gap-5">
+          <Button
+            intent={'green'}
+            label="로그인"
+            size="full"
+            className="h-[46px]"
+            onClick={() => navigate('/login')}
+          />
+          <Button
+            intent={'mint'}
+            label="회원가입"
+            size="full"
+            className="h-[46px]"
+            onClick={() => navigate('/register')}
+          />
+        </div>
+      </div>
     </div>
   );
 };
