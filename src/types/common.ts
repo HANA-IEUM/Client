@@ -55,3 +55,9 @@ export type BucketDetailHeaderProps = {
 export type HanaIconProps = React.SVGProps<SVGAElement> & {
   size?: number | string;
 };
+
+export type MemberItemProps = {
+  name?: string;
+  avatar?: string;
+  onSupportClick?: () => void;
+};
