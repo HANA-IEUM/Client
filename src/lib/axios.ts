@@ -67,7 +67,7 @@ api.interceptors.response.use(
         const response = await refreshTokenAPI({
           refreshToken: currentRefreshToken,
         });
-        const { accessToken, refreshToken } = response.data.data;
+        const { accessToken, refreshToken } = response.data;
         setTokens(accessToken, refreshToken);
 
         api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
