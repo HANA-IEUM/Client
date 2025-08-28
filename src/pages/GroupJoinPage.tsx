@@ -9,7 +9,9 @@ import InviteCodeSharePanel from '@/features/group-join/components/InviteCodeSha
 
 import { useCreateGroup } from '@/features/group-join/hooks/useCreateGroup';
 import { useJoinGroup } from '@/features/group-join/hooks/useJoinGroup';
+import { useHideGroupPrompt } from '@/features/auth/hooks/useHideGroupPrompt';
 import { showSuccess, showError } from '@/lib/toast';
+import useClosable from 'antd/es/_util/hooks/useClosable';
 
 const GroupJoinPage = () => {
   const navigate = useNavigate();
@@ -18,6 +20,7 @@ const GroupJoinPage = () => {
 
   const createGroup = useCreateGroup();
   const joinGroup = useJoinGroup();
+  const hide = useHideGroupPrompt();
 
   const handleCreateGroup = useCallback(
     async (groupName: string) => {
@@ -34,6 +37,17 @@ const GroupJoinPage = () => {
     },
     [createGroup]
   );
+
+  const handleHide = useCallback(() => {
+    hide.mutate(undefined, {
+      onSuccess: () => {
+        showSuccess('그룹 안내를 숨겼어요.');
+        navigate('/home', { replace: true });
+      },
+      onError: () =>
+        showError('설정에 실패했어요. 잠시 후 다시 시도해 주세요.'),
+    });
+  }, [hide]);
 
   const handleJoin = useCallback(
     (code: string) => {
@@ -70,6 +84,7 @@ const GroupJoinPage = () => {
             <FamilyGroupEmptyStateCard
               onInviteClick={() => setStep(1)}
               onCreateClick={() => setStep(2)}
+              onHide={handleHide}
             />
           )}
 

@@ -5,7 +5,7 @@ import {
   setTokens,
   clearTokens,
 } from '@/lib/token';
-import { refreshToken as refreshTokenAPI } from '@/features/auth/services/auth.ts';
+import { refreshToken as refreshTokenAPI } from '@/features/auth/apis/auth';
 
 let isRefreshing = false;
 let failedQueue: ((token: string) => void)[] = [];

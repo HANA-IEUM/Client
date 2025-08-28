@@ -6,11 +6,13 @@ import { useNavigate } from 'react-router-dom';
 type FamilyGroupEmptyStateCardProps = {
   onInviteClick: () => void;
   onCreateClick: () => void;
+  onHide: () => void;
 };
 
 const FamilyGroupEmptyStateCard = ({
   onInviteClick,
   onCreateClick,
+  onHide,
 }: FamilyGroupEmptyStateCardProps) => {
   const navigate = useNavigate();
   const goHome = () => navigate('/home');
@@ -52,12 +54,22 @@ const FamilyGroupEmptyStateCard = ({
       </div>
 
       <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
-        <Button
-          intent="gray"
-          label="나중에 하기"
-          size="full"
-          onClick={goHome}
-        />
+        <div className="flex flex-col gap-5">
+          <Button
+            intent="gray"
+            label="나중에 하기"
+            size="full"
+            onClick={goHome}
+          />
+          <div
+            onClick={onHide}
+            className="flex justify-center items-center cursor-pointer"
+          >
+            <span className="text-lg font-hana-bold text-line">
+              다시 보지 않기
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );

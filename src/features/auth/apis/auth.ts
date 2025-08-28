@@ -34,3 +34,7 @@ export const verificationPhoneNumberConfirm = async (
   const { data } = await api.post('/verification/confirm', payload);
   return data;
 };
+
+export async function hideGroupPrompt(): Promise<void> {
+  await api.put('/members/group-prompt/hide');
+}
