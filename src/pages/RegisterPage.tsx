@@ -11,11 +11,11 @@ import BoxInput, {
 } from '@/components/common/BoxInput.tsx';
 import phoneIcon from '@/assets/common/user/phone.png';
 import messageIcon from '@/assets/common/user/message.png';
-import { useRegister } from '@/hooks/auth/useRegister.ts';
-import { useVerification } from '@/hooks/auth/useVerification.ts';
+import { useRegister } from '@/features/auth/hooks/useRegister.ts';
+import { useVerification } from '@/features/auth/hooks/useVerification.ts';
 import checkCircleSvg from '@/assets/group-join/checkCircle.svg';
 import toast from 'react-hot-toast';
-import { useVerificationConfirm } from '@/hooks/auth/useVerificationConfirm.ts';
+import { useVerificationConfirm } from '@/features/auth/hooks/useVerificationConfirm.ts';
 
 // 슬라이드 애니메이션을 위한 variants
 const variants = {

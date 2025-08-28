@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import { verificationPhoneNumber } from '@/service/auth.tsx';
 import type { VerificationPayload } from '@/types/auth.ts';
+import { verificationPhoneNumber } from '@/features/auth/services/auth.ts';
 
 export const useVerification = (
   onSuccess?: () => void,

@@ -12,7 +12,7 @@ import BoxInput, {
 import Stepper from '@/components/common/Stepper.tsx';
 import phoneIcon from '@/assets/common/user/phone.png';
 import passwordIcon from '@/assets/common/user/password.png';
-import { useLogin } from '@/hooks/auth/useLogin.ts';
+import { useLogin } from '@/features/auth/hooks/useLogin.ts';
 import toast from 'react-hot-toast';
 
 const variants = {
