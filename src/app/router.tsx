@@ -13,6 +13,7 @@ import LoginPage from '@/pages/LoginPage.tsx';
 import LinkAccountPage from '@/pages/LinkAccountPage';
 import BucketDetailPage from '@/pages/BucketDetailPage';
 import BucketEditPage from '@/pages/BucketEditPage';
+import SupportPage from '@/pages/SupportPage';
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ export const router = createBrowserRouter([
       { path: 'account', element: <LinkAccountPage /> },
       { path: 'bucket/:id', element: <BucketDetailPage /> },
       { path: 'bucket-edit/:id', element: <BucketEditPage /> },
+      { path: 'support', element: <SupportPage /> },
     ],
   },
 ]);

@@ -32,7 +32,10 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 z-[60] bg-white rounded-t-3xl p-6 flex flex-col"
+            className="
+              fixed bottom-0 left-1/2 -translate-x-1/2 z-[60]
+              w-full max-w-md bg-white rounded-t-3xl p-6 flex flex-col
+            "
             style={{ maxHeight }}
           >
             {children}
