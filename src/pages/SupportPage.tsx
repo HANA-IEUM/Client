@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import SelectLetterType from '@/features/support/SelectLetterType';
+import SelectLetterType from '@/features/support/components/SelectLetterType';
 import Header from '@/components/Header';
 import Stepper from '@/components/common/Stepper';
-import WriteText from '@/features/support/WriteTextAndSupport';
+import WriteText from '@/features/support/components/WriteTextAndSupport';
 
 const SupportPage = () => {
   const [step, setStep] = useState(0);

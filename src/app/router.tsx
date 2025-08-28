@@ -14,13 +14,14 @@ import LinkAccountPage from '@/pages/LinkAccountPage';
 import BucketDetailPage from '@/pages/BucketDetailPage';
 import BucketEditPage from '@/pages/BucketEditPage';
 import SupportPage from '@/pages/SupportPage';
+import OnboardingWrapper from '@/layouts/OnboardingWrapper';
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
     children: [
-      { index: true, element: <LandingPage /> },
+      { index: true, element: <OnboardingWrapper /> },
       { path: 'home', element: <HomePage /> },
       { path: 'family', element: <FamilyPage /> },
       { path: 'wallet', element: <WalletPage /> },
