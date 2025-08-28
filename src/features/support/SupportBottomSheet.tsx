@@ -91,7 +91,7 @@ const SupportBottomSheet = ({
 
       {step === 'amount' && (
         <div className="flex flex-col gap-4 min-h-[675px]">
-          <div className="font-hana-regular text-2xl w-full mb-6">
+          <div className="font-hana-regular text-3xl w-full mb-6">
             <p>
               <span className="font-hana-bold">금액</span>을 입력해 주세요
             </p>
@@ -130,7 +130,7 @@ const SupportBottomSheet = ({
 
       {step === 'pin' && (
         <div className="flex flex-col gap-4 min-h-[675px]">
-          <div className="font-hana-regular text-2xl w-full mb-6">
+          <div className="font-hana-regular text-3xl w-full mb-6">
             <p>
               계좌 <span className="font-hana-bold">비밀번호</span>를
               <br />

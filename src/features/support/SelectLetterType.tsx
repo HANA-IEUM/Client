@@ -2,7 +2,11 @@ import { useState } from 'react';
 import Button from '@/components/button/Button';
 import LetterTypeSlider from './LetterTypeSlider';
 
-const SelectLetterType = () => {
+type SelectLetterTypeProps = {
+  onNext: () => void;
+};
+
+const SelectLetterType = ({ onNext }: SelectLetterTypeProps) => {
   const [selectedColor, setSelectedColor] = useState<'pink' | 'green' | 'blue'>(
     'pink'
   );
@@ -19,7 +23,7 @@ const SelectLetterType = () => {
       <LetterTypeSlider value={selectedColor} onChange={setSelectedColor} />
 
       <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
-        <Button intent="green" label="확인" size="full" />
+        <Button intent="green" label="확인" size="full" onClick={onNext} />
       </div>
     </div>
   );

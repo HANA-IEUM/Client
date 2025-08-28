@@ -7,7 +7,7 @@ import Stepper from '@/components/common/Stepper';
 import WriteText from '@/features/support/WriteTextAndSupport';
 
 const SupportPage = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
 
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden px-6">
@@ -25,7 +25,7 @@ const SupportPage = () => {
           transition={{ duration: 0.28, ease: 'easeInOut' }}
           className="absolute inset-0 w-full h-full transform-gpu will-change-transform"
         >
-          {step === 0 && <SelectLetterType />}
+          {step === 0 && <SelectLetterType onNext={() => setStep(step + 1)} />}
 
           {step === 1 && <WriteText />}
         </motion.div>
