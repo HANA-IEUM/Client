@@ -3,9 +3,15 @@ import plusSvg from '@/assets/group-join/plus.svg';
 import Button from '@/components/button/Button';
 import { useNavigate } from 'react-router-dom';
 
-type Props = { onInviteClick: () => void; onCreateClick: () => void };
+type FamilyGroupEmptyStateCardProps = {
+  onInviteClick: () => void;
+  onCreateClick: () => void;
+};
 
-const FamilyGroupEmptyStateCard = ({ onInviteClick, onCreateClick }: Props) => {
+const FamilyGroupEmptyStateCard = ({
+  onInviteClick,
+  onCreateClick,
+}: FamilyGroupEmptyStateCardProps) => {
   const navigate = useNavigate();
   const goHome = () => navigate('/home');
 

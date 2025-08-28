@@ -5,7 +5,9 @@
       "@/*": ["./src/*"]
     },
     "noUnusedLocals": false,
-    "noUnusedParameters": false
+    "noUnusedParameters": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "files": [],
   "references": [

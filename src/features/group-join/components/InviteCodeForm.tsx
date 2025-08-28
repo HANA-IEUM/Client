@@ -3,9 +3,9 @@ import Header from '@/components/Header';
 import Input from '@/components/input/Input';
 import Button from '@/components/button/Button';
 
-type Props = { onBack: () => void; onNext?: () => void };
+type InviteCodeFormProps = { onBack: () => void; onNext?: () => void };
 
-const InviteCodeForm = ({ onBack, onNext }: Props) => {
+const InviteCodeForm = ({ onBack, onNext }: InviteCodeFormProps) => {
   const [code, setCode] = useState('');
   const hasText = code.trim().length > 0;
 

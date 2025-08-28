@@ -46,3 +46,12 @@ export type BucketListCheckIconProps = {
 export type HeaderProps = {
   onClick: () => void;
 };
+
+export type BucketDetailHeaderProps = {
+  onClick?: () => void;
+  title: string;
+};
+
+export type HanaIconProps = React.SVGProps<SVGAElement> & {
+  size?: number | string;
+};

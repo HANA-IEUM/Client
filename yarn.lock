@@ -2076,11 +2076,13 @@ __metadata:
     globals: ^16.3.0
     husky: ^9.1.7
     lint-staged: ^16.1.5
+    lottie-react: ^2.4.1
     prettier: ^3.6.2
     react: ^19.1.1
     react-dom: ^19.1.1
     react-hot-toast: ^2.6.0
     react-router-dom: ^7.8.2
+    swiper: ^11.2.10
     tailwind-merge: ^3.3.1
     tailwindcss: ^4.1.12
     tw-animate-css: ^1.3.7
@@ -3707,6 +3709,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lottie-react@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "lottie-react@npm:2.4.1"
+  dependencies:
+    lottie-web: ^5.10.2
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: ac79931d98ea38fd3a9139139fb976d24a3e4e0ede86c74d69c5571b971122ee7e98432949f0f4af33f48b736fe8448918f124d48548dd46925bab484c09e73f
+  languageName: node
+  linkType: hard
+
+"lottie-web@npm:^5.10.2":
+  version: 5.13.0
+  resolution: "lottie-web@npm:5.13.0"
+  checksum: f634eddbfc49a243af598c8c3b5b2bc347c6980cb85ef3e17a394aa52e2d4d1d04ef565d9cf1581727eec598717932abf5e0e0aba111b4d64f2a9dadaeaa98e2
+  languageName: node
+  linkType: hard
+
 "lru-cache@npm:^10.0.1, lru-cache@npm:^10.2.0":
   version: 10.4.3
   resolution: "lru-cache@npm:10.4.3"
@@ -5219,6 +5240,13 @@ __metadata:
   dependencies:
     has-flag: ^4.0.0
   checksum: 3dda818de06ebbe5b9653e07842d9479f3555ebc77e9a0280caf5a14fb877ffee9ed57007c3b78f5a6324b8dbeec648d9e97a24e2ed9fdb81ddc69ea07100f4a
+  languageName: node
+  linkType: hard
+
+"swiper@npm:^11.2.10":
+  version: 11.2.10
+  resolution: "swiper@npm:11.2.10"
+  checksum: a40ee5e252670d5b674f46517a2b6cb9477dff15cfccaa2dfdaf797a2de373e1c488302d1daeebe1b237c4bccc20238c3aed2c4a15f06db02be63e7936e94be5
   languageName: node
   linkType: hard
 
