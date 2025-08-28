@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@/components/button/Button';
 import Header from '@/components/Header';
-import type { Box, Transaction } from '../types';
+import type { Box } from '../types';
 
 interface BoxTransferHistoryProps {
   box: Box;

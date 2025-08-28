@@ -66,7 +66,6 @@ const WalletPage = () => {
           {step === 1 && selectedBox && (
             <FillBoxAmount
               box={selectedBox}
-              isOpen={true}
               onBack={() => setStep(0)}
               onConfirm={handleAmountConfirm}
             />
