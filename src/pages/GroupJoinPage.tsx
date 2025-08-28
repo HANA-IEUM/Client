@@ -84,6 +84,23 @@ const GroupJoinPage = () => {
     [joinGroup, qc, navigate]
   );
 
+  const handleConfirm = async () => {
+    try {
+      const main = await qc.fetchQuery({
+        queryKey: accountQK.main,
+        queryFn: fetchMainAccount,
+      });
+      const linked =
+        !!main &&
+        (typeof main.mainAccountLinked === 'boolean'
+          ? main.mainAccountLinked
+          : true);
+      navigate(linked ? '/home' : '/account', { replace: true });
+    } catch {
+      navigate('/account', { replace: true });
+    }
+  };
+
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden px-6">
       <AnimatePresence mode="sync" initial={false}>
@@ -123,7 +140,7 @@ const GroupJoinPage = () => {
             <InviteCodeSharePanel
               code={inviteCode}
               onBack={() => setStep(2)}
-              onConfirm={() => navigate('/home')}
+              onConfirm={handleConfirm}
             />
           )}
         </motion.div>

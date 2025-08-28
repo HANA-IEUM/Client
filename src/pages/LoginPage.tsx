@@ -17,8 +17,6 @@ import Stepper from '@/components/common/Stepper.tsx';
 import phoneIcon from '@/assets/common/user/phone.png';
 import passwordIcon from '@/assets/common/user/password.png';
 import { useLogin } from '@/features/auth/hooks/useLogin.ts';
-import toast from 'react-hot-toast';
-import type { LoginResponse } from '@/types/auth';
 import { showError } from '@/lib/toast';
 
 const variants = {
