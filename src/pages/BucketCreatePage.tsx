@@ -1,13 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import type { InputRef } from 'antd';
+import { type InputRef, Switch } from 'antd';
 import type { IconColor } from '@/types/common.ts';
 import Header from '@/components/Header';
 import Stepper from '@/components/common/Stepper.tsx';
 import Input from '@/components/input/Input.tsx';
 import Button from '@/components/button/Button.tsx';
 import BucketListCategoryItem from '@/components/BucketListCategoryItem.tsx';
+import SelectItem from '@/components/SelectItem.tsx';
+import piggyPng from '@/assets/bucket-edit/piggy.png';
 
 const variants = {
   enter: (direction: number) => ({
@@ -42,8 +44,8 @@ const Step1 = ({ setCategory, onNext }: Step1Props) => {
   };
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-grow space-y-6">
-        <p className="text-3xl font-hana-regular text-left">
+      <div className="flex-grow space-y-6 text-left">
+        <p className="text-3xl font-hana-regular">
           <span className="font-hana-bold">버킷리스트의 카테고리</span>를
           <br />
           선택해 주세요
@@ -64,31 +66,85 @@ const Step1 = ({ setCategory, onNext }: Step1Props) => {
 };
 
 // Step 2: 누구와 무엇을
-const Step2 = ({ title, onTitleChange, onNext }) => {
+type Step2Props = {
+  title: string;
+  setTitle: (str: string) => void;
+  withFamily: boolean | null;
+  setWithFamily: (bool: boolean) => void;
+  visible: boolean;
+  setVisible: (bool: boolean) => void;
+  onNext: () => void;
+};
+const Step2 = ({
+  title,
+  setTitle,
+  withFamily,
+  setWithFamily,
+  visible,
+  setVisible,
+  onNext,
+}: Step2Props) => {
   const inputRef = useRef<InputRef>(null);
   useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+    if (withFamily !== null) {
+      inputRef.current?.focus();
+    }
+  }, [withFamily]);
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-grow space-y-6">
-        <p className="text-3xl font-hana-regular text-center">
-          <span className="font-hana-bold">누구와 무엇을</span> 하고
+      <div className="flex-grow space-y-6 text-left">
+        <p className="text-3xl font-hana-regular">
+          <span className="font-hana-bold">버킷리스트</span>에 대한 정보를
           <br />
-          싶으신가요?
+          입력해 주세요
         </p>
-        <Input
-          ref={inputRef}
-          value={title}
-          onChange={onTitleChange}
-          placeholder="예: 스위스에서 패러글라이딩"
-          intent="green"
-          label="무엇을"
-        />
-        <div className="text-text-secondary text-center p-8 border border-dashed rounded-lg">
-          {/* TODO: '혼자' 또는 '함께' 선택 UI */}
-          누구와 (혼자/함께) 선택 UI 영역
+
+        <div className="flex gap-15 w-full">
+          <span className="font-hana-regular text-3xl">
+            <span className="font-hana-bold">가족</span>에게 버킷 공개{' '}
+          </span>
+          <Switch
+            checked={visible}
+            onChange={setVisible}
+            style={{
+              backgroundColor: visible ? '#008485' : '#d1d5db',
+              transform: 'scale(1.5)',
+              transformOrigin: 'center',
+              position: 'relative',
+              top: '3px',
+            }}
+          />{' '}
         </div>
+
+        <div className="w-full">
+          <p className="font-hana-bold text-3xl">1. 누구와</p>
+          <div className="flex gap-2 w-full mt-3">
+            <SelectItem
+              text="혼자"
+              selected={withFamily === false}
+              onClick={() => setWithFamily(false)}
+            />
+            <SelectItem
+              text="함께"
+              selected={withFamily === true}
+              onClick={() => setWithFamily(true)}
+            />
+          </div>
+        </div>
+        {withFamily !== null ? (
+          <>
+            <p className="font-hana-bold text-3xl">2. 무엇을</p>
+            <Input
+              ref={inputRef}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="예: 스위스에서 패러글라이딩"
+              intent="green"
+            />
+          </>
+        ) : (
+          <></>
+        )}
       </div>
       <Button
         label="다 음"
@@ -102,18 +158,38 @@ const Step2 = ({ title, onTitleChange, onNext }) => {
 };
 
 // Step 3: 함께할 그룹원
-const Step3 = ({ onNext }) => {
+type Step3Props = {
+  selectedNames: string[];
+  setSelectedNames: (prev: (prev: string[]) => string[]) => void;
+  onNext: () => void;
+};
+const Step3 = ({ selectedNames, setSelectedNames, onNext }: Step3Props) => {
+  //TODO 가족 구성원 받아오기
+  const familyNames = ['원윤서', '손혜정', '김대현', '김기보', '정재희'];
+  const toggleName = (name: string) => {
+    setSelectedNames((prev: string[]) =>
+      prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]
+    );
+  };
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-grow space-y-6">
-        <p className="text-3xl font-hana-regular text-center">
-          <span className="font-hana-bold">누구와 함께</span>
+      <div className="flex-grow space-y-6 text-left">
+        <p className="text-3xl font-hana-regular">
+          버킷리스트를 <span className="font-hana-bold">함께할 가족</span>을
           <br />
-          하시겠어요?
+          모두 선택해 주세요
         </p>
-        <div className="text-text-secondary text-center p-8 border border-dashed rounded-lg">
-          {/* TODO: 그룹원 초대/선택 UI */}
-          그룹원 선택 UI 영역
+        <div className="w-full scrollbar-hide overflow-y-auto min-h-0 pr-1 mb-5 pb-24">
+          <div className="grid grid-cols-2 gap-3 mt-6">
+            {familyNames.map((name) => (
+              <SelectItem
+                key={name}
+                text={name}
+                selected={selectedNames.includes(name)}
+                onClick={() => toggleName(name)}
+              />
+            ))}
+          </div>
         </div>
       </div>
       <Button label="다 음" size="full-lg" intent="green" onClick={onNext} />
@@ -122,34 +198,73 @@ const Step3 = ({ onNext }) => {
 };
 
 // Step 4: 목표 금액, 기간
-const Step4 = ({ amount, onAmountChange, onNext }) => {
+type Step4Props = {
+  amount: string;
+  setAmount: (str: string) => void;
+  period: number | null;
+  setPeriod: (num: number) => void;
+  onNext: () => void;
+};
+const Step4 = ({
+  amount,
+  setAmount,
+  period,
+  setPeriod,
+  onNext,
+}: Step4Props) => {
   const inputRef = useRef<InputRef>(null);
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 입력값에서 숫자만 추출
+    const rawValue = e.target.value.replace(/[^0-9]/g, '');
+    if (!rawValue) {
+      setAmount('');
+      return;
+    }
+    // 숫자로 변환 후 locale string 적용
+    const formatted = Number(rawValue).toLocaleString();
+    setAmount(formatted);
+  };
+
+  const periods = [3, 6, 12, 24];
+
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-grow space-y-6">
-        <p className="text-3xl font-hana-regular text-center">
-          <span className="font-hana-bold">목표와 기간</span>을
-          <br />
-          설정해주세요
-        </p>
-        <div className="flex items-center gap-2">
-          <Input
-            ref={inputRef}
-            value={amount}
-            onChange={onAmountChange}
-            placeholder="예: 3000000"
-            type="number"
-            intent="green"
-            label="목표 금액"
-          />
-          <span className="text-3xl font-hana-regular pt-8">원</span>
+      <div className="flex-grow space-y-6 text-left">
+        <div>
+          <p className="font-hana-regular text-3xl mb-3">
+            버킷리스트를 이루기 위한
+            <br />
+            <span className="font-hana-bold">목표 금액</span>을 입력해 주세요
+          </p>
+          <div className="flex items-center gap-2">
+            <Input
+              ref={inputRef}
+              value={amount}
+              onChange={handleChange}
+              placeholder="3,000,000"
+              type="text"
+              intent="green"
+            />
+            <span className="text-3xl font-hana-regular">원</span>
+          </div>
         </div>
-        <div className="text-text-secondary text-center p-8 border border-dashed rounded-lg">
-          {/* TODO: 기간 설정(Date Picker) UI 구현 */}
-          기간 설정 UI 영역
+        <div>
+          <p className="font-hana-regular text-3xl mb-3">
+            <span className="font-hana-bold">목표 기간</span>을 선택해 주세요
+          </p>
+          <div className="grid grid-cols-2 gap-3">
+            {periods.map((p) => (
+              <SelectItem
+                key={p}
+                text={`${p}개월`}
+                selected={period === p}
+                onClick={() => setPeriod(p)}
+              />
+            ))}
+          </div>
         </div>
       </div>
       <Button
@@ -157,38 +272,91 @@ const Step4 = ({ amount, onAmountChange, onNext }) => {
         size="full-lg"
         intent="green"
         onClick={onNext}
-        disabled={!amount}
+        disabled={!amount || !period}
       />
     </div>
   );
 };
 
 // Step 5: 최종 확인
-const Step5 = ({ bucketData, onCreate }) => (
-  <div className="flex flex-col h-full">
-    <div className="flex-grow space-y-6">
-      <p className="text-3xl font-hana-regular text-center">
-        <span className="font-hana-bold">마지막</span>으로
-        <br />
-        확인해주세요
-      </p>
-      <div className="text-left p-4 bg-btn-default-bg rounded-lg space-y-2 font-hana-regular">
-        <p>
-          <strong>카테고리:</strong> {bucketData.category || '미선택'}
+type Step5Props = {
+  targetAmount: string;
+  period: number | null;
+  livingCost: number;
+  onNext: () => void;
+};
+const Step5 = ({ targetAmount, period, livingCost, onNext }: Step5Props) => {
+  const navigate = useNavigate();
+
+  // 콤마 제거 및 월 저축액 계산
+  const cleanAmount = Number(targetAmount.replace(/,/g, ''));
+  const monthlySaving = period ? Math.round(cleanAmount / period) : 0;
+
+  // 월 생활비 대비 저축액 비율 및 설명 문구 계산
+  const getDescriptiveText = () => {
+    if (livingCost <= 0) return { text: '', percentage: 0 };
+
+    const percentage = Math.round((monthlySaving / livingCost) * 100);
+    let text = '';
+    if (percentage <= 25) {
+      text = '현재 월 생활비 대비 여유로운 수준이에요';
+    } else if (percentage <= 50) {
+      text = '현재 월 생활비 대비 적절한 수준이에요';
+    } else if (percentage <= 75) {
+      text = '현재 월 생활비 대비 다소 많은 편이에요';
+    } else {
+      text = '현재 월 생활비 대비 매우 부담될 수 있어요';
+    }
+    return { text };
+  };
+
+  const { text: description } = getDescriptiveText();
+
+  return (
+    <div className="flex flex-col h-full">
+      <div className="flex-grow space-y-6 text-left">
+        <p className="text-3xl font-hana-regular">
+          버킷리스트를 이루기 위해
+          <br />
+          한달에{' '}
+          <span className="font-hana-bold">
+            {monthlySaving.toLocaleString()}
+          </span>
+          원씩
+          <br />
+          모아야해요
         </p>
-        <p>
-          <strong>이름:</strong> {bucketData.title}
-        </p>
-        <p>
-          <strong>목표 금액:</strong>{' '}
-          {Number(bucketData.amount).toLocaleString()}원
-        </p>
-        {/* TODO: 다른 정보 요약 표시 */}
+        <div className="text-left">
+          <p className="font-hana-medium text-lg text-text-secondary">
+            {description}
+          </p>
+        </div>
+        <div className="mt-8 flex-grow flex justify-center items-center">
+          <img src={piggyPng} />
+        </div>
+      </div>
+
+      <div className="flex gap-2 w-full">
+        <Button
+          label="취 소"
+          size="lg"
+          intent="gray"
+          font="regular"
+          onClick={() => navigate('/home')}
+          className="w-1/4"
+        />
+        <Button
+          label="생성하기"
+          size="lg"
+          intent="green"
+          font="regular"
+          onClick={onNext}
+          className="w-3/4"
+        />
       </div>
     </div>
-    <Button label="생성하기" size="full-lg" intent="green" onClick={onCreate} />
-  </div>
-);
+  );
+};
 
 export default function BucketCreatePage() {
   const [step, setStep] = useState(1);
@@ -197,23 +365,29 @@ export default function BucketCreatePage() {
 
   // 버킷리스트 데이터 상태
   const [category, setCategory] = useState('');
+  const [withFamily, setWithFamily] = useState<boolean | null>(null);
+  const [visible, setVisible] = useState(true);
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
+  const [period, setPeriod] = useState<number | null>(null);
+  const [selectedNames, setSelectedNames] = useState<string[]>([]);
+  // TODO 실제 사용자의 월 생활비 데이터
+  const [livingCost, setLivingCost] = useState(2000000);
 
-  const TOTAL_STEPS = 5;
+  const TOTAL_STEPS = 4;
 
-  const handleCreate = () => {
-    console.log('버킷리스트 생성:', { category, title, amount });
-    // TODO: useMutation을 사용하여 서버에 생성 요청
-  };
+  // const handleCreate = () => {
+  //   console.log('버킷리스트 생성:', { category, title, amount, period });
+  //   // TODO: useMutation을 사용하여 서버에 생성 요청
+  // };
 
   const goNext = () => {
-    if (step >= TOTAL_STEPS) {
-      handleCreate();
-      return;
-    }
     setDirection(1);
-    setStep((prev) => prev + 1);
+    if (withFamily === false && step === 2) {
+      setStep(4);
+    } else {
+      setStep((prev) => prev + 1);
+    }
   };
 
   const goBack = () => {
@@ -221,7 +395,11 @@ export default function BucketCreatePage() {
       navigate(-1); // 이전 페이지로 이동
     } else {
       setDirection(-1);
-      setStep((prev) => prev - 1);
+      if (withFamily === false && step === 4) {
+        setStep((prev) => prev - 2);
+      } else {
+        setStep((prev) => prev - 1);
+      }
     }
   };
 
@@ -233,25 +411,39 @@ export default function BucketCreatePage() {
         return (
           <Step2
             title={title}
-            onTitleChange={(e) => setTitle(e.target.value)}
+            setTitle={setTitle}
+            withFamily={withFamily}
+            setWithFamily={setWithFamily}
+            visible={visible}
+            setVisible={setVisible}
             onNext={goNext}
           />
         );
       case 3:
-        return <Step3 onNext={goNext} />;
+        return (
+          <Step3
+            selectedNames={selectedNames}
+            setSelectedNames={setSelectedNames}
+            onNext={goNext}
+          />
+        );
       case 4:
         return (
           <Step4
             amount={amount}
-            onAmountChange={(e) => setAmount(e.target.value)}
+            setAmount={setAmount}
+            period={period}
+            setPeriod={setPeriod}
             onNext={goNext}
           />
         );
       case 5:
         return (
           <Step5
-            bucketData={{ category, title, amount }}
-            onCreate={handleCreate}
+            targetAmount={amount}
+            period={period}
+            livingCost={livingCost}
+            onNext={goNext}
           />
         );
       default:
@@ -261,10 +453,22 @@ export default function BucketCreatePage() {
 
   return (
     <div className="mx-6 flex flex-col h-screen">
-      <Header onClick={goBack} />
-      <div className="pt-5">
-        <Stepper totalSteps={TOTAL_STEPS} currentStep={step} />
-      </div>
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <Header onClick={goBack} isVisible={step < 5} />
+        </motion.div>
+      </AnimatePresence>
+      {step < 5 ? (
+        <div className="pt-5">
+          <Stepper totalSteps={TOTAL_STEPS} currentStep={step} />
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="flex-grow my-10 relative overflow-hidden">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div

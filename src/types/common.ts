@@ -45,6 +45,7 @@ export type BucketListCheckIconProps = {
 
 export type HeaderProps = {
   onClick: () => void;
+  isVisible?: boolean;
 };
 
 export type BucketDetailHeaderProps = {
