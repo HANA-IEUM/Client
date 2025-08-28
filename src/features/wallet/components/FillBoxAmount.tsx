@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
 import Button from '@/components/button/Button';
 import Input from '@/components/input/Input';
-import BottomSheet from '@/components/common/BottomSheet';
 import type { Box } from '../types';
 
 interface FillBoxAmountProps {
   box: Box;
-  isOpen: boolean;
   onBack: () => void;
-  onNext: (amount: string) => void; // ✅ Password 단계로 넘어가기
+  onConfirm: (amount: string) => void;
 }
 
 const FillBoxAmount: React.FC<FillBoxAmountProps> = ({
   box,
-  isOpen,
   onBack,
-  onNext,
+  onConfirm,
 }) => {
   const [amount, setAmount] = useState('');
 
@@ -28,8 +25,10 @@ const FillBoxAmount: React.FC<FillBoxAmountProps> = ({
     setAmount(formatAmount(e.target.value));
   };
 
+  const hasAmount = amount.replace(/,/g, '').length > 0;
+
   return (
-    <BottomSheet isOpen={isOpen} onClose={onBack}>
+    <>
       <p className="text-3xl font-hana-regular text-text-primary !mb-8 !mt-3">
         <span className="font-hana-bold">금액</span>을 입력해 주세요
       </p>
@@ -63,16 +62,17 @@ const FillBoxAmount: React.FC<FillBoxAmountProps> = ({
           뒤로
         </Button>
         <Button
-          intent="green"
+          intent={hasAmount ? 'green' : 'silver'}
           size="lg"
           font="bold"
           className="flex-1"
-          onClick={() => onNext(amount)}
+          onClick={() => onConfirm(amount)}
+          disabled={!hasAmount}
         >
           확인
         </Button>
       </div>
-    </BottomSheet>
+    </>
   );
 };
 
