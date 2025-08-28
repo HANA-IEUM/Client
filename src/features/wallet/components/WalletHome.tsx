@@ -62,7 +62,6 @@ const WalletHome: React.FC<WalletHomeProps> = ({
     setFillAmount(''); // 입력된 금액 초기화
   };
 
-  // 바텀시트 모달
   const modal =
     selectedBox && step ? (
       <>
@@ -98,7 +97,6 @@ const WalletHome: React.FC<WalletHomeProps> = ({
           </h1>
         </div>
 
-        {/* Main Account */}
         <div className="w-full px-6 mb-14">
           <div className="bg-btn-default-bg rounded-2xl p-4 shadow-sm">
             <div className="flex items-center gap-5">
