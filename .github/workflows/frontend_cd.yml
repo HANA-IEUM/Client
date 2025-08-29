@@ -1,7 +1,11 @@
-name: 🦦 Frontend CD 
+name: 🦦 Frontend CD
 
 on:
   push:
+    branches: ['main']
+
+  pull_request:
+    types: [closed]
     branches: ['main']
 
 permissions:
@@ -27,7 +31,7 @@ jobs:
       - name: 📥 Checkout
         uses: actions/checkout@v4
 
-      - name: ⚡ Setup Node (cache: yarn)
+      - name: '⚡ Setup Node (cache=yarn)'
         uses: actions/setup-node@v4
         with:
           node-version: 20
