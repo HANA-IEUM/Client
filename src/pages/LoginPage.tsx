@@ -55,7 +55,7 @@ const LoginStep1 = ({
         <div className="w-16 h-16 bg-accent-secondary rounded-full flex items-center justify-center mx-auto">
           <img src={phoneIcon} alt="phone" className="w-10 h-10" />
         </div>
-        <p className="text-3xl font-hana-regular pt-4 text-center">
+        <p className="text-3xl font-hana-regular pt-4 text-left">
           <span className="font-hana-bold">전화번호</span>를 입력해주세요
         </p>
         <Input
@@ -100,7 +100,7 @@ const LoginStep2 = ({
         <div className="w-16 h-16 bg-accent-secondary rounded-full flex items-center justify-center mx-auto">
           <img src={passwordIcon} alt="password" className="w-10 h-10" />
         </div>
-        <p className="text-3xl font-hana-regular pt-4 text-center">
+        <p className="text-3xl font-hana-regular pt-4 text-left">
           <span className="font-hana-bold">비밀번호</span>를 입력해주세요
         </p>
         <BoxInput
