@@ -88,9 +88,11 @@ export const CreateBox = ({
       >
         <div className="flex flex-col h-full items-center">
           <p className="font-hana-regular text-left text-3xl w-full !mb-0">
-            <span className="font-hana-bold">{title}</span> 버킷리스트
+            <span className="font-hana-bold">{title}</span>
             <br />
-            목표금액을 모으기 위한
+            버킷리스트 목표금액을
+            <br />
+            모으기 위한
             <br />
             <span className="font-hana-bold">박스</span>를 개설할께요{' '}
           </p>

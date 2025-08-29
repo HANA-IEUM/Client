@@ -14,20 +14,22 @@ export const ConfirmBucket = ({ title, onSubmit }: ConfirmBucketProps) => {
     <div className="flex flex-col h-full">
       <div className="flex-grow space-y-6 text-left">
         <p className="font-hana-regular text-3xl mb-3">
-          <span className="font-hana-bold">{title}</span> 버킷리스트와
+          <span className="font-hana-bold">{title}</span>
+          <br />
+          버킷리스트와
           <br />
           박스가 성공적으로
           <br />
           등록되었어요
         </p>
-        <div className="w-80 justify-start">
-          <span className="text-zinc-800 text-lg font-normal font-['Hana2.0_R']">
+        <div className="w-80 justify-start font-hana-regular">
+          <span className="text-zinc-800 text-lg">
             박스를 모두 채우면 다양한{' '}
           </span>
-          <span className="text-zinc-800 text-lg font-normal font-['Hana2.0_B']">
+          <span className="text-zinc-800 text-lg font-hana-bold">
             제휴 혜택
           </span>
-          <span className="text-zinc-800 text-lg font-normal font-['Hana2.0_R']">
+          <span className="text-zinc-800 text-lg">
             을<br />
             받을 수 있어요
           </span>
