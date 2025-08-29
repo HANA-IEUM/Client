@@ -204,7 +204,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="mx-6 flex flex-col h-screen">
+    <div className="mx-6 flex flex-col h-full">
       <Header onClick={goBack} />
       <div className="pt-5">
         <Stepper totalSteps={2} currentStep={step} color="bg-accent-primary" />
