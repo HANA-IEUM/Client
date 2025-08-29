@@ -1,6 +1,6 @@
 import type { LoginPayload, LoginResponse } from '@/types/auth.ts';
 import { useMutation } from '@tanstack/react-query';
-import { loginUser } from '@/features/auth/services/auth.ts';
+import { loginUser } from '@/features/auth/apis/auth';
 import { setTokens } from '@/lib/token.ts';
 
 export const useLogin = (

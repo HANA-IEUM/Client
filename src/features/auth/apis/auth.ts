@@ -15,7 +15,7 @@ export const registerUser = async (payload: RegisterPayload) => {
 
 export const loginUser = async (payload: LoginPayload) => {
   const { data } = await api.post<LoginResponse>('/auth/login', payload);
-  return data;
+  return data as LoginResponse;
 };
 
 export const refreshToken = async (payload: RefreshPayload) => {
@@ -34,3 +34,7 @@ export const verificationPhoneNumberConfirm = async (
   const { data } = await api.post('/verification/confirm', payload);
   return data;
 };
+
+export async function hideGroupPrompt(): Promise<void> {
+  await api.put('/members/group-prompt/hide');
+}

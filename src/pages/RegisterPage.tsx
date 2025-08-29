@@ -13,7 +13,7 @@ import phoneIcon from '@/assets/common/user/phone.png';
 import messageIcon from '@/assets/common/user/message.png';
 import { useRegister } from '@/features/auth/hooks/useRegister.ts';
 import { useVerification } from '@/features/auth/hooks/useVerification.ts';
-import checkCircleSvg from '@/assets/group-join/checkCircle.svg';
+import checkCircleSvg from '@/assets/common/toast/checkCircle.svg';
 import toast from 'react-hot-toast';
 import { useVerificationConfirm } from '@/features/auth/hooks/useVerificationConfirm.ts';
 
