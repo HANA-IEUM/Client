@@ -123,7 +123,7 @@ const BoxInput = forwardRef<BoxInputHandle, PinInputProps>(
             onChange={(e) => handleChange(e, index)}
             onKeyDown={(e) => handleKeyDown(e, index)}
             onFocus={handleFocus}
-            className={`w-14 h-14 text-center border-3 border-line rounded-lg ${focusColorClass} outline-none`}
+            className={`aspect-square max-w-11 text-center border-3 border-line rounded-lg ${focusColorClass} outline-none`}
           />
         ))}
       </div>
