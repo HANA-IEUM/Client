@@ -4,12 +4,41 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import tailwindcss from '@tailwindcss/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { VitePWA } from 'vite-plugin-pwa';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), tsconfigPaths()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    tsconfigPaths(),
+    VitePWA({
+      registerType: 'autoUpdate', // 앱 새 버전 자동 업데이트
+      manifest: {
+        name: '내 PWA 앱',
+        short_name: 'PWA앱',
+        description: 'React + Vite + TS PWA 예제',
+        theme_color: '#ffffff',
+        icons: [
+          {
+            src: '/pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
+      },
+      devOptions: {
+        enabled: true, // 개발 환경에서도 PWA 테스트 가능
+      },
+    }),
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
