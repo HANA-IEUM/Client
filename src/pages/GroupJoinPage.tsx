@@ -10,22 +10,18 @@ import InviteCodeSharePanel from '@/features/group-join/components/InviteCodeSha
 import { useCreateGroup } from '@/features/group-join/hooks/useCreateGroup';
 import { useJoinGroup } from '@/features/group-join/hooks/useJoinGroup';
 import { useHideGroupPrompt } from '@/features/auth/hooks/useHideGroupPrompt';
+import { useMainAccountLinked } from '@/features/link-account/hooks/useMainAccountLinked';
 import { showSuccess, showError } from '@/lib/toast';
-
-import { useQueryClient } from '@tanstack/react-query';
-import { fetchMainAccount } from '@/features/link-account/apis/accountApi';
-import { accountQK } from '@/features/link-account/hooks/useMainAccount';
 
 const GroupJoinPage = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [inviteCode, setInviteCode] = useState<string>('');
 
-  const qc = useQueryClient();
-
   const createGroup = useCreateGroup();
   const joinGroup = useJoinGroup();
   const hide = useHideGroupPrompt();
+  const { isLinked } = useMainAccountLinked();
 
   const handleCreateGroup = useCallback(
     async (groupName: string) => {
@@ -62,18 +58,7 @@ const GroupJoinPage = () => {
         await joinGroup.mutateAsync(code);
         showSuccess('그룹에 참여했어요!');
 
-        const main = await qc.fetchQuery({
-          queryKey: accountQK.main,
-          queryFn: fetchMainAccount,
-        });
-
-        const linked =
-          !!main &&
-          (typeof main.mainAccountLinked === 'boolean'
-            ? main.mainAccountLinked
-            : true);
-
-        navigate(linked ? '/home' : '/account', { replace: true });
+        navigate(isLinked ? '/home' : '/account', { replace: true });
       } catch (err) {
         const msg =
           (err as { response?: { data?: { message?: string } } })?.response
@@ -81,21 +66,12 @@ const GroupJoinPage = () => {
         showError(msg);
       }
     },
-    [joinGroup, qc, navigate]
+    [joinGroup, navigate]
   );
 
   const handleConfirm = async () => {
     try {
-      const main = await qc.fetchQuery({
-        queryKey: accountQK.main,
-        queryFn: fetchMainAccount,
-      });
-      const linked =
-        !!main &&
-        (typeof main.mainAccountLinked === 'boolean'
-          ? main.mainAccountLinked
-          : true);
-      navigate(linked ? '/home' : '/account', { replace: true });
+      navigate(isLinked ? '/home' : '/account', { replace: true });
     } catch {
       navigate('/account', { replace: true });
     }

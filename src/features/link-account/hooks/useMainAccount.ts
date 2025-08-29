@@ -16,7 +16,7 @@ export function useMainAccount(options?: { enabled?: boolean }) {
   });
 }
 
-export function useHasMainAccount(options?: { enabled?: boolean }) {
-  const q = useMainAccount(options);
-  return { ...q, data: Boolean(q.data) };
-}
+// export function useHasMainAccount(options?: { enabled?: boolean }) {
+//   const q = useMainAccount(options);
+//   return { ...q, data: Boolean(q.data) };
+// }
