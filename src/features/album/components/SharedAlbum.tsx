@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Button from '@/components/button/Button';
 import BucketStateItem from '@/components/BucketStateItem';
 import PhotoUploadPage from '@/features/album/components/PhotoUploadPage';
+import AlbumDetailPage from '@/features/album/components/AlbumDetailPage';
 
 type FilterType = 'all' | '박승희' | '원윤서' | '정재희';
 
@@ -10,11 +11,15 @@ interface AlbumEntry {
   image: string;
   text: string;
   author: string;
+  date: string;
 }
 
 const SharedAlbum = () => {
   const [selectedFilter, setSelectedFilter] = useState<FilterType>('all');
-  const [currentPage, setCurrentPage] = useState<'album' | 'upload'>('album');
+  const [currentPage, setCurrentPage] = useState<'album' | 'upload' | 'detail'>(
+    'album'
+  );
+  const [selectedAlbum, setSelectedAlbum] = useState<AlbumEntry | null>(null);
 
   const filters: FilterType[] = ['all', '박승희', '원윤서', '정재희'];
 
@@ -24,36 +29,42 @@ const SharedAlbum = () => {
       image: '/src/assets/common/album-sample.jpg',
       text: '여행 다녀왔어',
       author: '박승희',
+      date: '2025.08.25 (월)',
     },
     {
       id: 2,
       image: '/src/assets/common/album-sample.jpg',
       text: '음..오늘은 ...',
       author: '원윤서',
+      date: '2025.08.24 (일)',
     },
     {
       id: 3,
       image: '/src/assets/common/album-sample.jpg',
       text: '맛있는 점심',
       author: '정재희',
+      date: '2025.08.23 (토)',
     },
     {
       id: 4,
       image: '/src/assets/common/album-sample.jpg',
       text: '산책하기 좋은 ..',
       author: '박승희',
+      date: '2025.08.22 (금)',
     },
     {
       id: 5,
       image: '/src/assets/common/album-sample.jpg',
       text: '커피 한잔의 여유',
       author: '원윤서',
+      date: '2025.08.21 (목)',
     },
     {
       id: 6,
       image: '/src/assets/common/album-sample.jpg',
       text: '가족과 함께',
       author: '정재희',
+      date: '2025.08.20 (수)',
     },
   ];
 
@@ -63,6 +74,22 @@ const SharedAlbum = () => {
 
   const handleBackToAlbum = () => {
     setCurrentPage('album');
+  };
+
+  const handleAlbumClick = (album: AlbumEntry) => {
+    setSelectedAlbum(album);
+    setCurrentPage('detail');
+  };
+
+  const handleBackToAlbumList = () => {
+    setCurrentPage('album');
+    setSelectedAlbum(null);
+  };
+
+  const handleDeleteAlbum = () => {
+    // 삭제 로직 구현
+    console.log('앨범 삭제:', selectedAlbum?.id);
+    handleBackToAlbumList();
   };
 
   const handleFilterClick = (filter: FilterType) => {
@@ -76,6 +103,17 @@ const SharedAlbum = () => {
 
   if (currentPage === 'upload') {
     return <PhotoUploadPage onBack={handleBackToAlbum} />;
+  }
+
+  if (currentPage === 'detail' && selectedAlbum) {
+    return (
+      <AlbumDetailPage
+        albumData={selectedAlbum}
+        isOwner={selectedAlbum.author === '박승희'} // 임시로 박승희가 내 글이라고 가정
+        onBack={handleBackToAlbumList}
+        onDelete={handleDeleteAlbum}
+      />
+    );
   }
 
   return (
@@ -117,7 +155,11 @@ const SharedAlbum = () => {
           // 사진이 있을 때: 그리드 레이아웃
           <div className="grid grid-cols-2 gap-4">
             {filteredEntries.map((entry) => (
-              <div key={entry.id} className="space-y-2">
+              <div
+                key={entry.id}
+                className="space-y-2 cursor-pointer"
+                onClick={() => handleAlbumClick(entry)}
+              >
                 <div className="aspect-square bg-theme-secondary rounded-2xl overflow-hidden">
                   <img
                     src={entry.image}
