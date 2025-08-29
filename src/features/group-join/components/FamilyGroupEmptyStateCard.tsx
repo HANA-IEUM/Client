@@ -36,7 +36,7 @@ const FamilyGroupEmptyStateCard = ({
           <span className="text-xl font-hana-regular">
             이미 초대코드를 받았다면
           </span>
-          <span className="text-2xl font-hana-bold">가족 그룹 초대하기</span>
+          <span className="text-2xl font-hana-bold">가족 그룹 참여하기</span>
         </div>
       </div>
 
