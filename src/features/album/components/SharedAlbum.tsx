@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Button from '@/components/button/Button';
 import BucketStateItem from '@/components/BucketStateItem';
+import PhotoUploadPage from '@/features/album/components/PhotoUploadPage';
 
 type FilterType = 'all' | '박승희' | '원윤서' | '정재희';
 
@@ -13,6 +14,7 @@ interface AlbumEntry {
 
 const SharedAlbum = () => {
   const [selectedFilter, setSelectedFilter] = useState<FilterType>('all');
+  const [currentPage, setCurrentPage] = useState<'album' | 'upload'>('album');
 
   const filters: FilterType[] = ['all', '박승희', '원윤서', '정재희'];
 
@@ -38,7 +40,7 @@ const SharedAlbum = () => {
     {
       id: 4,
       image: '/src/assets/common/album-sample.jpg',
-      text: '산책하기 좋은 날씨',
+      text: '산책하기 좋은 ..',
       author: '박승희',
     },
     {
@@ -56,7 +58,11 @@ const SharedAlbum = () => {
   ];
 
   const handleWriteClick = () => {
-    console.log('작성하기 클릭');
+    setCurrentPage('upload');
+  };
+
+  const handleBackToAlbum = () => {
+    setCurrentPage('album');
   };
 
   const handleFilterClick = (filter: FilterType) => {
@@ -68,8 +74,13 @@ const SharedAlbum = () => {
       ? albumEntries
       : albumEntries.filter((entry) => entry.author === selectedFilter);
 
+  if (currentPage === 'upload') {
+    return <PhotoUploadPage onBack={handleBackToAlbum} />;
+  }
+
   return (
     <div className="w-full h-full">
+      {/* 앨범 페이지 내용 */}
       <div className="w-full bg-theme-primary pt-12 pb-12 rounded-b-2xl mb-4">
         <div className="px-6">
           <div className="flex justify-between items-center">
@@ -101,7 +112,7 @@ const SharedAlbum = () => {
         </div>
       </div>
 
-      <div className="px-6 pb-20">
+      <div className="px-6 pb-6">
         {filteredEntries.length > 0 ? (
           // 사진이 있을 때: 그리드 레이아웃
           <div className="grid grid-cols-2 gap-4">
@@ -125,9 +136,9 @@ const SharedAlbum = () => {
                 </div>
                 <div className="text-center">
                   <p className="!mb-0">
-                    <span className="font-hana-base text-regular text-text-primary">
+                    <span className="text-base font-hana-regular text-text-primary">
                       {entry.text}
-                      <span className="font-hana-base text-regular text-text-secondary">
+                      <span className="text-base font-hana-regular text-text-secondary">
                         {' '}
                         | {entry.author}
                       </span>
