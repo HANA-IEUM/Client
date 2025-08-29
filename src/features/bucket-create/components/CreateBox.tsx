@@ -94,7 +94,7 @@ export const CreateBox = ({
             <br />
             모으기 위한
             <br />
-            <span className="font-hana-bold">박스</span>를 개설할께요{' '}
+            <span className="font-hana-bold">박스</span>를 개설할게요{' '}
           </p>
           <img src={boxPng} className="w-48 h-48 my-30" alt="저금하기" />
         </div>
