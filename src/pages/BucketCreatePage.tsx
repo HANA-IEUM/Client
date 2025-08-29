@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { type InputRef, Switch } from 'antd';
@@ -10,6 +10,8 @@ import Button from '@/components/button/Button.tsx';
 import BucketListCategoryItem from '@/components/BucketListCategoryItem.tsx';
 import SelectItem from '@/components/SelectItem.tsx';
 import piggyPng from '@/assets/bucket-edit/piggy.png';
+import boxPng from '@/assets/bucket-detail/box.png';
+import BottomSheet from '@/components/common/BottomSheet.tsx';
 
 const variants = {
   enter: (direction: number) => ({
@@ -287,6 +289,7 @@ type Step5Props = {
 };
 const Step5 = ({ targetAmount, period, livingCost, onNext }: Step5Props) => {
   const navigate = useNavigate();
+  const [bottomVisible, setBottomVisible] = useState(false);
 
   // 콤마 제거 및 월 저축액 계산
   const cleanAmount = Number(targetAmount.replace(/,/g, ''));
@@ -309,7 +312,6 @@ const Step5 = ({ targetAmount, period, livingCost, onNext }: Step5Props) => {
     }
     return { text };
   };
-
   const { text: description } = getDescriptiveText();
 
   return (
@@ -332,7 +334,7 @@ const Step5 = ({ targetAmount, period, livingCost, onNext }: Step5Props) => {
           </p>
         </div>
         <div className="mt-8 flex-grow flex justify-center items-center">
-          <img src={piggyPng} />
+          <img src={piggyPng} alt="저금하기" />
         </div>
       </div>
 
@@ -346,14 +348,39 @@ const Step5 = ({ targetAmount, period, livingCost, onNext }: Step5Props) => {
           className="w-1/4"
         />
         <Button
-          label="생성하기"
+          label="확 인"
           size="lg"
           intent="green"
           font="regular"
-          onClick={onNext}
+          onClick={(e) => setBottomVisible(true)}
           className="w-3/4"
         />
       </div>
+      <BottomSheet
+        isOpen={bottomVisible}
+        onClose={() => setBottomVisible(false)}
+      >
+        <div className="flex flex-col h-full items-center">
+          <p className="font-hana-regular text-left text-3xl w-full !mb-0">
+            <span className="font-hana-bold">유럽 여행</span>버킷리스트
+            <br />
+            목표금액을 모으기 위한
+            <br />
+            <span className="font-hana-bold">박스</span>를 개설할께요{' '}
+          </p>
+          <img src={boxPng} className="w-48 h-48 my-30" alt="저금하기" />
+        </div>
+        <Button
+          label="확 인"
+          size="full-lg"
+          font="regular"
+          intent="green"
+          onClick={() => {
+            setBottomVisible(false);
+            onNext();
+          }}
+        />
+      </BottomSheet>
     </div>
   );
 };
