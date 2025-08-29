@@ -12,6 +12,8 @@ import SelectItem from '@/components/SelectItem.tsx';
 import piggyPng from '@/assets/bucket-edit/piggy.png';
 import boxPng from '@/assets/bucket-detail/box.png';
 import BottomSheet from '@/components/common/BottomSheet.tsx';
+import BoxInput from '@/components/common/BoxInput.tsx';
+import confettiGif from '@/assets/bucket-detail/confetti.gif';
 
 const variants = {
   enter: (direction: number) => ({
@@ -101,7 +103,7 @@ const Step2 = ({
           입력해 주세요
         </p>
 
-        <div className="flex gap-15 w-full">
+        <div className="flex gap-15 w-full items-center">
           <span className="font-hana-regular text-3xl">
             <span className="font-hana-bold">가족</span>에게 버킷 공개{' '}
           </span>
@@ -205,6 +207,7 @@ type Step4Props = {
   setAmount: (str: string) => void;
   period: number | null;
   setPeriod: (num: number) => void;
+  handleAmount: () => void;
   onNext: () => void;
 };
 const Step4 = ({
@@ -212,6 +215,7 @@ const Step4 = ({
   setAmount,
   period,
   setPeriod,
+  handleAmount,
   onNext,
 }: Step4Props) => {
   const inputRef = useRef<InputRef>(null);
@@ -228,6 +232,10 @@ const Step4 = ({
     // 숫자로 변환 후 locale string 적용
     const formatted = Number(rawValue).toLocaleString();
     setAmount(formatted);
+  };
+  const handleNext = () => {
+    handleAmount();
+    onNext();
   };
 
   const periods = [3, 6, 12, 24];
@@ -273,21 +281,28 @@ const Step4 = ({
         label="다 음"
         size="full-lg"
         intent="green"
-        onClick={onNext}
+        onClick={handleNext}
         disabled={!amount || !period}
       />
     </div>
   );
 };
 
-// Step 5: 최종 확인
+// Step 5: 박스 생성 확인
 type Step5Props = {
+  title: string;
   targetAmount: string;
   period: number | null;
   livingCost: number;
   onNext: () => void;
 };
-const Step5 = ({ targetAmount, period, livingCost, onNext }: Step5Props) => {
+const Step5 = ({
+  title,
+  targetAmount,
+  period,
+  livingCost,
+  onNext,
+}: Step5Props) => {
   const navigate = useNavigate();
   const [bottomVisible, setBottomVisible] = useState(false);
 
@@ -362,7 +377,7 @@ const Step5 = ({ targetAmount, period, livingCost, onNext }: Step5Props) => {
       >
         <div className="flex flex-col h-full items-center">
           <p className="font-hana-regular text-left text-3xl w-full !mb-0">
-            <span className="font-hana-bold">유럽 여행</span>버킷리스트
+            <span className="font-hana-bold">{title}</span> 버킷리스트
             <br />
             목표금액을 모으기 위한
             <br />
@@ -385,11 +400,175 @@ const Step5 = ({ targetAmount, period, livingCost, onNext }: Step5Props) => {
   );
 };
 
+// Step 6: 박스 정보 입력
+type Step6Props = {
+  boxName: string;
+  setBoxName: (str: string) => void;
+  automaticTransfer: boolean;
+  setAutomaticTransfer: (bool: boolean) => void;
+  monthlyAmount: number;
+  setMonthlyAmount: (num: number) => void;
+  transferDay: string;
+  setTransferDay: (str: string) => void;
+  onNext: () => void;
+};
+const Step6 = ({
+  boxName,
+  setBoxName,
+  automaticTransfer,
+  setAutomaticTransfer,
+  monthlyAmount,
+  setMonthlyAmount,
+  transferDay,
+  setTransferDay,
+  onNext,
+}: Step6Props) => {
+  const inputRef = useRef<InputRef>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 입력값에서 숫자만 추출
+    const rawValue = e.target.value.replace(/[^0-9]/g, '');
+    if (!rawValue) {
+      setMonthlyAmount(0);
+      return;
+    }
+    // 숫자로 변환 후 locale string 적용
+    setMonthlyAmount(Number(rawValue));
+  };
+  useEffect(() => {
+    if (automaticTransfer) {
+      inputRef.current?.focus();
+    }
+  }, [automaticTransfer]);
+  return (
+    <div className="flex flex-col h-full">
+      <div className="flex-grow space-y-6 text-left">
+        <p className="font-hana-regular text-3xl mb-3">
+          <span className="font-hana-bold">박스 별명</span>을 입력해 주세요
+        </p>
+        <Input
+          intent="green"
+          value={boxName}
+          onChange={(e) => setBoxName(e.target.value)}
+        />
+        <div className="flex items-center gap-15 w-full my-10">
+          <span className="font-hana-regular text-3xl">
+            <span className="font-hana-bold">자동이체</span> 설정{' '}
+          </span>
+          <Switch
+            checked={automaticTransfer}
+            onChange={setAutomaticTransfer}
+            style={{
+              backgroundColor: automaticTransfer ? '#008485' : '#d1d5db',
+              transform: 'scale(1.5)',
+              transformOrigin: 'center',
+              position: 'relative',
+              top: '3px',
+            }}
+          />{' '}
+        </div>
+        {automaticTransfer ? (
+          <>
+            <div className="mt-10">
+              <p className="font-hana-regular text-3xl mb-3">
+                <span className="font-hana-bold">매월 박스에 충전할 금액</span>
+                을
+                <br />
+                입력해 주세요
+              </p>
+              <div className="flex items-center gap-2">
+                <Input
+                  ref={inputRef}
+                  value={monthlyAmount.toLocaleString()}
+                  onChange={handleChange}
+                  type="text"
+                  intent="green"
+                />
+                <span className="text-3xl font-hana-regular">원</span>
+              </div>
+              <div className="mt-10">
+                <p className="font-hana-regular text-3xl mb-3">
+                  <span className="font-hana-bold">자동이체일</span>을 입력해
+                  주세요
+                </p>
+                <div className="flex gap-4 items-center">
+                  <BoxInput
+                    length={2}
+                    value={transferDay}
+                    onChange={setTransferDay}
+                    align="start"
+                  />
+                  <p className="text-3xl font-hana-regular !m-0">일</p>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
+      </div>
+      <Button
+        label="확 인"
+        disabled={boxName.length === 0}
+        size="full-lg"
+        intent="green"
+        font="regular"
+        onClick={onNext}
+      />
+    </div>
+  );
+};
+
+// Step 7: 최종 화면
+type Step7Props = {
+  title: string;
+};
+const Step7 = ({ title }: Step7Props) => {
+  const navigate = useNavigate();
+  const goHome = () => {
+    navigate('/home');
+  };
+  return (
+    <div className="flex flex-col h-full">
+      <div className="flex-grow space-y-6 text-left">
+        <p className="font-hana-regular text-3xl mb-3">
+          <span className="font-hana-bold">{title}</span> 버킷리스트와
+          <br />
+          박스가 성공적으로
+          <br />
+          등록되었어요
+        </p>
+        <div className="w-80 justify-start">
+          <span className="text-zinc-800 text-lg font-normal font-['Hana2.0_R']">
+            박스를 모두 채우면 다양한{' '}
+          </span>
+          <span className="text-zinc-800 text-lg font-normal font-['Hana2.0_B']">
+            제휴 혜택
+          </span>
+          <span className="text-zinc-800 text-lg font-normal font-['Hana2.0_R']">
+            을<br />
+            받을 수 있어요
+          </span>
+        </div>
+        <img src={confettiGif} alt={'축하해요!'} />
+      </div>
+      <Button
+        label="확 인"
+        size="full-lg"
+        font="regular"
+        intent="green"
+        onClick={goHome}
+      />
+    </div>
+  );
+};
+
 export default function BucketCreatePage() {
+  const today = new Date();
+  const dayStr = String(today.getDate()).padStart(2, '0');
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const navigate = useNavigate();
-
   // 버킷리스트 데이터 상태
   const [category, setCategory] = useState('');
   const [withFamily, setWithFamily] = useState<boolean | null>(null);
@@ -397,12 +576,22 @@ export default function BucketCreatePage() {
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
   const [period, setPeriod] = useState<number | null>(null);
+  const [monthlyAmount, setMonthlyAmount] = useState(0);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
   // TODO 실제 사용자의 월 생활비 데이터
   const [livingCost, setLivingCost] = useState(2000000);
+  const [boxName, setBoxName] = useState('');
+  const [automaticTransfer, setAutomaticTransfer] = useState(false);
+  const [transferDay, setTransferDay] = useState(dayStr);
 
   const TOTAL_STEPS = 4;
 
+  const handleAmount = () => {
+    // 콤마 제거 및 월 저축액 계산
+    const cleanAmount = Number(amount.replace(/,/g, ''));
+    const monthlySaving = period ? Math.round(cleanAmount / period) : 0;
+    setMonthlyAmount(monthlySaving);
+  };
   // const handleCreate = () => {
   //   console.log('버킷리스트 생성:', { category, title, amount, period });
   //   // TODO: useMutation을 사용하여 서버에 생성 요청
@@ -461,18 +650,36 @@ export default function BucketCreatePage() {
             setAmount={setAmount}
             period={period}
             setPeriod={setPeriod}
+            handleAmount={handleAmount}
             onNext={goNext}
           />
         );
       case 5:
         return (
           <Step5
+            title={title}
             targetAmount={amount}
             period={period}
             livingCost={livingCost}
             onNext={goNext}
           />
         );
+      case 6:
+        return (
+          <Step6
+            boxName={boxName}
+            setBoxName={setBoxName}
+            automaticTransfer={automaticTransfer}
+            setAutomaticTransfer={setAutomaticTransfer}
+            monthlyAmount={monthlyAmount}
+            setMonthlyAmount={setMonthlyAmount}
+            transferDay={transferDay}
+            setTransferDay={setTransferDay}
+            onNext={goNext}
+          />
+        );
+      case 7:
+        return <Step7 title={title} />;
       default:
         return null;
     }
@@ -486,7 +693,7 @@ export default function BucketCreatePage() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <Header onClick={goBack} isVisible={step < 5} />
+          <Header onClick={goBack} isVisible={step !== 5 && step !== 7} />{' '}
         </motion.div>
       </AnimatePresence>
       {step < 5 ? (
