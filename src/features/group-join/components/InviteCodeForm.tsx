@@ -3,15 +3,23 @@ import Header from '@/components/Header';
 import Input from '@/components/input/Input';
 import Button from '@/components/button/Button';
 
-type InviteCodeFormProps = { onBack: () => void; onNext?: () => void };
+type InviteCodeFormProps = {
+  onBack: () => void;
+  onJoin: (code: string) => void;
+  loading?: boolean;
+};
 
-const InviteCodeForm = ({ onBack, onNext }: InviteCodeFormProps) => {
+const InviteCodeForm = ({
+  onBack,
+  onJoin,
+  loading = false,
+}: InviteCodeFormProps) => {
   const [code, setCode] = useState('');
   const hasText = code.trim().length > 0;
 
-  const onJoin = () => {
-    if (!hasText) return;
-    onNext?.();
+  const submit = () => {
+    if (!hasText || loading) return;
+    onJoin(code.trim());
   };
 
   return (
@@ -31,6 +39,7 @@ const InviteCodeForm = ({ onBack, onNext }: InviteCodeFormProps) => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setCode(e.target.value)
           }
+          onKeyDown={(e) => e.key === 'Enter' && submit()}
           font="bold"
         />
       </div>
@@ -38,10 +47,10 @@ const InviteCodeForm = ({ onBack, onNext }: InviteCodeFormProps) => {
       <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
         <Button
           intent={hasText ? 'green' : 'gray'}
-          label="그룹 참여하기"
+          label={loading ? '참여 중…' : '그룹 참여하기'}
           size="full"
-          disabled={!hasText}
-          onClick={onJoin}
+          disabled={!hasText || loading}
+          onClick={submit}
         />
       </div>
     </div>

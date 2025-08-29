@@ -2,7 +2,11 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { InputRef } from 'antd';
-
+import { useQueryClient } from '@tanstack/react-query';
+import { fetchGroupInfo } from '@/features/group-join/apis/groupApi';
+import { fetchMainAccount } from '@/features/link-account/apis/accountApi';
+import { accountQK } from '@/features/link-account/hooks/useMainAccount';
+import { groupQK } from '@/features/group-join/hooks/useGroupInfo';
 import Header from '@/components/Header';
 import Input from '@/components/input/Input.tsx';
 import Button from '@/components/button/Button.tsx';
@@ -13,7 +17,7 @@ import Stepper from '@/components/common/Stepper.tsx';
 import phoneIcon from '@/assets/common/user/phone.png';
 import passwordIcon from '@/assets/common/user/password.png';
 import { useLogin } from '@/features/auth/hooks/useLogin.ts';
-import toast from 'react-hot-toast';
+import { showError } from '@/lib/toast';
 
 const variants = {
   enter: (direction: number) => ({
@@ -142,20 +146,38 @@ export default function LoginPage() {
     }
   };
 
-  const loginMutation = useLogin(
-    () => {
-      navigate('/home');
-    },
-    () => {
-      toast.error('아이디 또는 비밀번호를 확인해주세요');
-    }
-  );
+  const loginMutation = useLogin();
+  const qc = useQueryClient();
 
-  const handleLogin = () => {
-    loginMutation.mutate({
-      phoneNumber: phoneNumber,
-      password: password,
-    });
+  const handleLogin = async () => {
+    try {
+      const res = await loginMutation.mutateAsync({ phoneNumber, password });
+      const { hideGroupPrompt, mainAccountLinked } = res.data;
+
+      if (!hideGroupPrompt) {
+        navigate('/group', { replace: true });
+        return;
+      }
+
+      if (!mainAccountLinked) {
+        navigate('/account', { replace: true });
+        return;
+      }
+
+      navigate('/home', { replace: true });
+
+      if (hideGroupPrompt) {
+        qc.prefetchQuery({ queryKey: groupQK.info, queryFn: fetchGroupInfo });
+      }
+      if (mainAccountLinked) {
+        qc.prefetchQuery({
+          queryKey: accountQK.main,
+          queryFn: fetchMainAccount,
+        });
+      }
+    } catch {
+      showError('아이디 또는 비밀번호를 확인해주세요');
+    }
   };
 
   const renderStepContent = () => {
