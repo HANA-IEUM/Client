@@ -39,7 +39,9 @@ const InviteCodeForm = ({
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setCode(e.target.value)
           }
-          onKeyDown={(e) => e.key === 'Enter' && submit()}
+          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === 'Enter') submit();
+          }}
           font="bold"
         />
       </div>

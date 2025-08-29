@@ -9,7 +9,7 @@ import prettier from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
 
 export default tseslint.config([
-  globalIgnores(['dist', 'coverage']),
+  globalIgnores(['dist', 'coverage', 'dev-dist']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
