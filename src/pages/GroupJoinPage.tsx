@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import FamilyGroupEmptyStateCard from '@/features/group-join/components/FamilyGroupEmptyStateCard';
@@ -13,34 +13,46 @@ import { useHideGroupPrompt } from '@/features/auth/hooks/useHideGroupPrompt';
 import { useMainAccountLinked } from '@/features/link-account/hooks/useMainAccountLinked';
 import { showSuccess, showError } from '@/lib/toast';
 
+const getErrMsg = (err: unknown, fallback: string) =>
+  (err as { response?: { data?: { message?: string } } })?.response?.data
+    ?.message ?? fallback;
+
 const GroupJoinPage = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState(0);
-  const [inviteCode, setInviteCode] = useState<string>('');
 
-  const createGroup = useCreateGroup();
-  const joinGroup = useJoinGroup();
-  const hide = useHideGroupPrompt();
+  const [step, setStep] = useState(0);
+  const [inviteCode, setInviteCode] = useState('');
+
+  // 훅들 구조분해
+  const { mutateAsync: createGroupAsync, isPending: creating } =
+    useCreateGroup();
+  const { mutateAsync: joinGroupAsync, isPending: joining } = useJoinGroup();
+  const { mutate: hidePrompt } = useHideGroupPrompt();
   const { isLinked } = useMainAccountLinked();
+
+  // 목적지 경로 메모
+  const destination = useMemo(
+    () => (isLinked ? '/home' : '/account'),
+    [isLinked]
+  );
 
   const handleCreateGroup = useCallback(
     async (groupName: string) => {
       try {
-        const group = await createGroup.mutateAsync(groupName);
+        const group = await createGroupAsync(groupName);
         setInviteCode(group.inviteCode);
         setStep(3);
-      } catch (err: unknown) {
-        const msg =
-          (err as { response?: { data?: { message?: string } } })?.response
-            ?.data?.message ?? '그룹 생성에 실패했어요. 다시 시도해 주세요.';
-        showError(msg);
+      } catch (err) {
+        showError(
+          getErrMsg(err, '그룹 생성에 실패했어요. 다시 시도해 주세요.')
+        );
       }
     },
-    [createGroup]
+    [createGroupAsync]
   );
 
   const handleHide = useCallback(() => {
-    hide.mutate(undefined, {
+    hidePrompt(undefined, {
       onSuccess: () => {
         showSuccess('그룹 안내를 숨겼어요.');
         navigate('/home', { replace: true });
@@ -48,34 +60,27 @@ const GroupJoinPage = () => {
       onError: () =>
         showError('설정에 실패했어요. 잠시 후 다시 시도해 주세요.'),
     });
-  }, [hide]);
+  }, [hidePrompt, navigate]);
 
   const handleJoin = useCallback(
     async (code: string) => {
-      if (joinGroup.isPending) return;
-
+      if (joining) return;
       try {
-        await joinGroup.mutateAsync(code);
+        await joinGroupAsync(code);
         showSuccess('그룹에 참여했어요!');
-
-        navigate(isLinked ? '/home' : '/account', { replace: true });
+        navigate(destination, { replace: true });
       } catch (err) {
-        const msg =
-          (err as { response?: { data?: { message?: string } } })?.response
-            ?.data?.message ?? '참여에 실패했습니다. 초대코드를 확인해 주세요.';
-        showError(msg);
+        showError(
+          getErrMsg(err, '참여에 실패했습니다. 초대코드를 확인해 주세요.')
+        );
       }
     },
-    [joinGroup, navigate]
+    [joining, joinGroupAsync, navigate, destination]
   );
 
-  const handleConfirm = async () => {
-    try {
-      navigate(isLinked ? '/home' : '/account', { replace: true });
-    } catch {
-      navigate('/account', { replace: true });
-    }
-  };
+  const handleConfirm = useCallback(() => {
+    navigate(destination, { replace: true });
+  }, [navigate, destination]);
 
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden px-6">
@@ -100,7 +105,7 @@ const GroupJoinPage = () => {
             <InviteCodeForm
               onBack={() => setStep(0)}
               onJoin={handleJoin}
-              loading={joinGroup.isPending}
+              loading={joining}
             />
           )}
 
@@ -108,7 +113,7 @@ const GroupJoinPage = () => {
             <GroupNameForm
               onBack={() => setStep(0)}
               onSubmit={handleCreateGroup}
-              loading={createGroup.isPending}
+              loading={creating}
             />
           )}
 
