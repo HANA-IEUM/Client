@@ -102,7 +102,9 @@ const SupportBottomSheet = ({
               placeholder="4,000,000"
               inputMode="numeric"
               value={amount}
-              onChange={(e) => handleAmountChange(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleAmountChange(e.target.value)
+              }
               className="flex-1"
             />
             <span className="text-xl font-hana-bold">원</span>

@@ -14,9 +14,16 @@ const BucketEditBasicInfo = ({ onNext }: BucketEditBasicInfoProps) => {
 
   const [what, setWhat] = useState<string>('');
 
-  const [checked, setChecked] = useState(false);
-  const onChange: SwitchChangeEventHandler = (val) => setChecked(val);
+  const [checked, setChecked] = useState<boolean>(false);
 
+  const onChange: SwitchChangeEventHandler = (
+    checked: boolean,
+    _event:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.KeyboardEvent<HTMLSpanElement>
+  ) => {
+    setChecked(checked);
+  };
   const isValid = what.trim().length > 0;
 
   const handleNext = () => {

@@ -18,6 +18,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^11.3.19",
     "lottie-react": "^2.4.1",
+    "rc-util": "^5.44.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hot-toast": "^2.6.0",

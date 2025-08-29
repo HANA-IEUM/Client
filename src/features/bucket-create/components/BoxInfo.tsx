@@ -43,7 +43,9 @@ export const BoxInfo = ({
         <Input
           intent="green"
           value={boxName}
-          onChange={(e) => setBoxName(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setBoxName(e.target.value)
+          }
         />
         <div className="flex items-center gap-15 w-full my-10">
           <span className="font-hana-regular text-3xl">

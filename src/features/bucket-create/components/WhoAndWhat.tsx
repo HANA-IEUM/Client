@@ -68,7 +68,9 @@ export const WhoAndWhat = ({
             <Input
               ref={inputRef}
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setTitle(e.target.value)
+              }
               placeholder="예: 스위스에서 패러글라이딩"
               intent="green"
             />
