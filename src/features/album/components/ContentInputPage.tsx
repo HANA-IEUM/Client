@@ -14,7 +14,7 @@ const ContentInputPage = ({
   onBack,
   onConfirm,
 }: ContentInputPageProps) => {
-  const [textContent, setTextContent] = useState('힘내 파이팅!!');
+  const [textContent, setTextContent] = useState('');
   const [isOverLimit, setIsOverLimit] = useState(false);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
