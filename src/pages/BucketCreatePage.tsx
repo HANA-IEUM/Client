@@ -1,13 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { type InputRef, Switch } from 'antd';
 import Header from '@/components/Header';
 import Stepper from '@/components/common/Stepper.tsx';
-import Input from '@/components/input/Input.tsx';
-import Button from '@/components/button/Button.tsx';
-import BoxInput from '@/components/common/BoxInput.tsx';
-import confettiGif from '@/assets/bucket-detail/confetti.gif';
 import { SelectCategory } from '@/features/bucket-create/components/SelectCategory.tsx';
 import { WhoAndWhat } from '@/features/bucket-create/components/WhoAndWhat';
 import { SelectGroupMember } from '@/features/bucket-create/components/SelectGroupMember';
@@ -46,13 +41,17 @@ export default function BucketCreatePage() {
   const [period, setPeriod] = useState<number | null>(null);
   const [monthlyAmount, setMonthlyAmount] = useState(0);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
-  // TODO 실제 사용자의 월 생활비 데이터
-  const [livingCost, setLivingCost] = useState(2000000);
+  const [livingCost, setLivingCost] = useState(0);
   const [boxName, setBoxName] = useState('');
   const [automaticTransfer, setAutomaticTransfer] = useState(false);
   const [transferDay, setTransferDay] = useState(dayStr);
 
   const TOTAL_STEPS = 4;
+
+  useEffect(() => {
+    // TODO 실제 사용자의 월 생활비 데이터
+    setLivingCost(3000000);
+  }, []);
 
   const handleAmount = () => {
     // 콤마 제거 및 월 저축액 계산
@@ -60,10 +59,23 @@ export default function BucketCreatePage() {
     const monthlySaving = period ? Math.round(cleanAmount / period) : 0;
     setMonthlyAmount(monthlySaving);
   };
-  // const handleCreate = () => {
-  //   console.log('버킷리스트 생성:', { category, title, amount, period });
-  //   // TODO: useMutation을 사용하여 서버에 생성 요청
-  // };
+
+  const handleCreate = () => {
+    console.log('버킷리스트 생성:', {
+      category,
+      title,
+      amount,
+      period,
+      withFamily,
+      visible,
+      monthlyAmount,
+      selectedNames,
+      boxName,
+      automaticTransfer,
+      transferDay,
+    });
+    // TODO: useMutation을 사용하여 서버에 생성 요청
+  };
 
   const goNext = () => {
     setDirection(1);
@@ -147,7 +159,7 @@ export default function BucketCreatePage() {
           />
         );
       case 7:
-        return <ConfirmBucket title={title} />;
+        return <ConfirmBucket title={title} onSubmit={handleCreate} />;
       default:
         return null;
     }

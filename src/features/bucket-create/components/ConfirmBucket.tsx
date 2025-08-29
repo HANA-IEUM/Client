@@ -4,10 +4,11 @@ import Button from '@/components/button/Button.tsx';
 import type { ConfirmBucketProps } from '@/features/bucket-create/types/types.ts';
 
 // Step 7: 최종 화면
-export const ConfirmBucket = ({ title }: ConfirmBucketProps) => {
+export const ConfirmBucket = ({ title, onSubmit }: ConfirmBucketProps) => {
   const navigate = useNavigate();
   const goHome = () => {
     navigate('/home');
+    onSubmit();
   };
   return (
     <div className="flex flex-col h-full">

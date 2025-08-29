@@ -44,4 +44,5 @@ export type BoxInfoProps = {
 };
 export type ConfirmBucketProps = {
   title: string;
+  onSubmit: () => void;
 };
