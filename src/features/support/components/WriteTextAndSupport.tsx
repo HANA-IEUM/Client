@@ -22,8 +22,10 @@ const WriteTextAndSupport = () => {
         <Input
           placeholder="엄마의 버킷리스트를 응원해요."
           value={text}
-          onChange={(e) => setText(e.target.value)}
-          onKeyDown={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setText(e.target.value)
+          }
+          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
             if (e.key === 'Enter' && !isEmpty) setOpen(true);
           }}
         />

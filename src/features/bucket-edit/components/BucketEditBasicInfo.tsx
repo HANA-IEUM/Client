@@ -15,7 +15,9 @@ const BucketEditBasicInfo = ({ onNext }: BucketEditBasicInfoProps) => {
   const [what, setWhat] = useState<string>('');
 
   const [checked, setChecked] = useState(false);
-  const onChange: SwitchChangeEventHandler = (val) => setChecked(val);
+  const onChange: SwitchChangeEventHandler = (checked, _event) => {
+    setChecked(checked);
+  };
 
   const isValid = what.trim().length > 0;
 
