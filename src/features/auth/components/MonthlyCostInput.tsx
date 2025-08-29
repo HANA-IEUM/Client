@@ -6,17 +6,28 @@ import coinIcon from '@/assets/common/user/coin.png';
 
 export type MonthlyCostInputProps = {
   cost: string;
-  onCostChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setCost: (str: string) => void;
   onNext: () => void;
 };
 
 export const MonthlyCostInput = ({
   cost,
-  onCostChange,
+  setCost,
   onNext,
 }: MonthlyCostInputProps) => {
   const inputRef = useRef<InputRef>(null);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 입력값에서 숫자만 추출
+    const rawValue = e.target.value.replace(/[^0-9]/g, '');
+    if (!rawValue) {
+      setCost('');
+      return;
+    }
+    // 숫자로 변환 후 locale string 적용
+    const formatted = Number(rawValue).toLocaleString();
+    setCost(formatted);
+  };
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -36,7 +47,7 @@ export const MonthlyCostInput = ({
             intent="green"
             placeholder="500000"
             value={cost}
-            onChange={onCostChange}
+            onChange={handleChange}
           />
           <span className="text-3xl font-hana-regular">원</span>
         </div>

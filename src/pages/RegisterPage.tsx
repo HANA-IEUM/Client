@@ -109,11 +109,7 @@ export default function RegisterPage() {
         );
       case 6:
         return (
-          <MonthlyCostInput
-            cost={cost}
-            onCostChange={(e) => setCost(e.target.value)}
-            onNext={goNext}
-          />
+          <MonthlyCostInput cost={cost} setCost={setCost} onNext={goNext} />
         );
       default:
         return <div>완료!</div>; // 마지막 단계 이후

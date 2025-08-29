@@ -32,7 +32,7 @@ export const PasswordInput = ({
   };
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-grow">
+      <div className="flex-grow space-y-6">
         <div className="w-16 h-16 bg-theme-secondary rounded-full flex items-center justify-center mx-auto">
           <img src={passwordIcon} alt="message" className="w-10 h-10" />
         </div>
