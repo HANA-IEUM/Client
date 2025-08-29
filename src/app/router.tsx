@@ -12,6 +12,7 @@ import LoginPage from '@/pages/LoginPage.tsx';
 import LinkAccountPage from '@/pages/LinkAccountPage';
 import BucketDetailPage from '@/pages/BucketDetailPage';
 import BucketEditPage from '@/pages/BucketEditPage';
+import BucketCreatePage from '@/pages/BucketCreatePage.tsx';
 import SupportPage from '@/pages/SupportPage';
 import OnboardingWrapper from '@/layouts/OnboardingWrapper';
 
@@ -33,6 +34,7 @@ export const router = createBrowserRouter([
       { path: 'bucket/:id', element: <BucketDetailPage /> },
       { path: 'bucket-edit/:id', element: <BucketEditPage /> },
       { path: 'support', element: <SupportPage /> },
+      { path: 'bucket-create', element: <BucketCreatePage /> },
     ],
   },
 ]);
