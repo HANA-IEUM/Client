@@ -1,3 +1,6 @@
+import type { BucketCategoryType } from '@/features/bucket-create/types/bucket.ts';
+import type { GroupMember } from '@/types/group.ts';
+
 export type WhoAndWhatProps = {
   title: string;
   setTitle: (str: string) => void;
@@ -5,11 +8,13 @@ export type WhoAndWhatProps = {
   setWithFamily: (bool: boolean) => void;
   visible: boolean;
   setVisible: (bool: boolean) => void;
+  hasGroup: boolean;
   onNext: () => void;
 };
 export type SelectGroupMemberProps = {
-  selectedNames: string[];
-  setSelectedNames: (prev: (prev: string[]) => string[]) => void;
+  selectedNames: number[];
+  setSelectedNames: (prev: (prev: number[]) => number[]) => void;
+  groupMemberInfo: GroupMember[];
   onNext: () => void;
 };
 export type GoalAmountPeriodProps = {
@@ -21,7 +26,7 @@ export type GoalAmountPeriodProps = {
   onNext: () => void;
 };
 export type SelectCategoryProps = {
-  setCategory: (str: string) => void;
+  setCategory: (str: BucketCategoryType) => void;
   onNext: () => void;
 };
 export type CreateBoxProps = {

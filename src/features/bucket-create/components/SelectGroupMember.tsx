@@ -1,18 +1,19 @@
 // Step 3: 함께할 그룹원
 import SelectItem from '@/components/SelectItem.tsx';
 import Button from '@/components/button/Button.tsx';
-import type { SelectGroupMemberProps } from '@/features/bucket-create/types/types.ts';
+import type { SelectGroupMemberProps } from '@/features/bucket-create/types/props.ts';
 
 export const SelectGroupMember = ({
   selectedNames,
   setSelectedNames,
+  groupMemberInfo,
   onNext,
 }: SelectGroupMemberProps) => {
-  //TODO 가족 구성원 받아오기
-  const familyNames = ['원윤서', '손혜정', '김대현', '김기보', '정재희'];
-  const toggleName = (name: string) => {
-    setSelectedNames((prev: string[]) =>
-      prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]
+  const toggleName = (memberId: number) => {
+    setSelectedNames((prev: number[]) =>
+      prev.includes(memberId)
+        ? prev.filter((n) => n !== memberId)
+        : [...prev, memberId]
     );
   };
   return (
@@ -25,12 +26,12 @@ export const SelectGroupMember = ({
         </p>
         <div className="w-full scrollbar-hide overflow-y-auto min-h-0 pr-1 mb-5 pb-24">
           <div className="grid grid-cols-2 gap-3 mt-6">
-            {familyNames.map((name) => (
+            {groupMemberInfo.map((data) => (
               <SelectItem
-                key={name}
-                text={name}
-                selected={selectedNames.includes(name)}
-                onClick={() => toggleName(name)}
+                key={data.memberId}
+                text={data.name}
+                selected={selectedNames.includes(data.memberId)}
+                onClick={() => toggleName(data.memberId)}
               />
             ))}
           </div>

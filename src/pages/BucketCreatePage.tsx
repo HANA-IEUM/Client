@@ -10,6 +10,14 @@ import { GoalAmountPeriod } from '@/features/bucket-create/components/GoalAmount
 import { CreateBox } from '@/features/bucket-create/components/CreateBox.tsx';
 import { ConfirmBucket } from '@/features/bucket-create/components/ConfirmBucket.tsx';
 import { BoxInfo } from '@/features/bucket-create/components/BoxInfo.tsx';
+import { useCreateBucket } from '@/features/bucket-create/hooks/useCreateBucket.ts';
+import type {
+  BucketCategoryType,
+  CreateBucketPayload,
+} from '@/features/bucket-create/types/bucket.ts';
+import { useQuery } from '@tanstack/react-query';
+import { groupQK } from '@/features/group-join/hooks/useGroupInfo.ts';
+import { fetchGroupInfo } from '@/features/group-join/apis/groupApi.ts';
 
 const variants = {
   enter: (direction: number) => ({
@@ -33,18 +41,24 @@ export default function BucketCreatePage() {
   const [direction, setDirection] = useState(1);
   const navigate = useNavigate();
   // 버킷리스트 데이터 상태
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState<BucketCategoryType>('');
   const [withFamily, setWithFamily] = useState<boolean | null>(null);
   const [visible, setVisible] = useState(true);
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
   const [period, setPeriod] = useState<number | null>(null);
   const [monthlyAmount, setMonthlyAmount] = useState(0);
-  const [selectedNames, setSelectedNames] = useState<string[]>([]);
+  const [selectedMembersIds, setSelectedMembersIds] = useState<number[]>([]);
   const [livingCost, setLivingCost] = useState(0);
   const [boxName, setBoxName] = useState('');
   const [automaticTransfer, setAutomaticTransfer] = useState(false);
   const [transferDay, setTransferDay] = useState(dayStr);
+
+  // 그룹정보 불러오기
+  const { data: groupInfo } = useQuery({
+    queryKey: groupQK.info,
+    queryFn: fetchGroupInfo,
+  });
 
   const TOTAL_STEPS = 4;
 
@@ -53,6 +67,10 @@ export default function BucketCreatePage() {
     setLivingCost(3000000);
   }, []);
 
+  const getNumberAmount = (str: string) => {
+    return Number(str.replace(/,/g, ''));
+  };
+
   const handleAmount = () => {
     // 콤마 제거 및 월 저축액 계산
     const cleanAmount = Number(amount.replace(/,/g, ''));
@@ -60,21 +78,28 @@ export default function BucketCreatePage() {
     setMonthlyAmount(monthlySaving);
   };
 
+  const createBucketMutation = useCreateBucket(
+    () => {
+      navigate('/home', { replace: true });
+    },
+    () => {}
+  );
   const handleCreate = () => {
-    console.log('버킷리스트 생성:', {
-      category,
-      title,
-      amount,
-      period,
-      withFamily,
-      visible,
-      monthlyAmount,
-      selectedNames,
-      boxName,
-      automaticTransfer,
-      transferDay,
-    });
-    // TODO: useMutation을 사용하여 서버에 생성 요청
+    const payload: CreateBucketPayload = {
+      type: category,
+      title: title,
+      targetAmount: getNumberAmount(amount),
+      publicFlag: visible,
+      togetherFlag: withFamily,
+      selectedMemberIds: selectedMembersIds,
+      createMoneyBox: true,
+      moneyBoxName: boxName,
+      enableAutoTransfer: automaticTransfer,
+      monthlyAmount: monthlyAmount,
+      transferDay: transferDay,
+      targetMonths: period === null ? '' : period.toString(),
+    };
+    createBucketMutation.mutate(payload);
   };
 
   const goNext = () => {
@@ -112,14 +137,19 @@ export default function BucketCreatePage() {
             setWithFamily={setWithFamily}
             visible={visible}
             setVisible={setVisible}
+            hasGroup={!!groupInfo}
             onNext={goNext}
           />
         );
       case 3:
+        if (!groupInfo?.members) {
+          return null;
+        }
         return (
           <SelectGroupMember
-            selectedNames={selectedNames}
-            setSelectedNames={setSelectedNames}
+            selectedNames={selectedMembersIds}
+            setSelectedNames={setSelectedMembersIds}
+            groupMemberInfo={groupInfo.members}
             onNext={goNext}
           />
         );

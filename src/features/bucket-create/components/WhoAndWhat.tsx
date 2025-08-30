@@ -3,7 +3,7 @@ import { type InputRef, Switch } from 'antd';
 import SelectItem from '@/components/SelectItem.tsx';
 import Input from '@/components/input/Input.tsx';
 import Button from '@/components/button/Button.tsx';
-import type { WhoAndWhatProps } from '@/features/bucket-create/types/types.ts';
+import type { WhoAndWhatProps } from '@/features/bucket-create/types/props.ts';
 
 // Step 2: 누구와 무엇을
 export const WhoAndWhat = ({
@@ -13,9 +13,13 @@ export const WhoAndWhat = ({
   setWithFamily,
   visible,
   setVisible,
+  hasGroup,
   onNext,
 }: WhoAndWhatProps) => {
   const inputRef = useRef<InputRef>(null);
+  if (!hasGroup) {
+    setWithFamily(false);
+  }
   useEffect(() => {
     if (withFamily !== null) {
       inputRef.current?.focus();
@@ -49,17 +53,19 @@ export const WhoAndWhat = ({
 
         <div className="w-full">
           <p className="font-hana-bold text-3xl">1. 누구와</p>
-          <div className="flex gap-2 w-full mt-3">
+          <div className="grid grid-cols-2 gap-2 w-full mt-3">
             <SelectItem
               text="혼자"
               selected={withFamily === false}
               onClick={() => setWithFamily(false)}
             />
-            <SelectItem
-              text="함께"
-              selected={withFamily === true}
-              onClick={() => setWithFamily(true)}
-            />
+            {hasGroup && (
+              <SelectItem
+                text="함께"
+                selected={withFamily === true}
+                onClick={() => setWithFamily(true)}
+              />
+            )}
           </div>
         </div>
         {withFamily !== null ? (

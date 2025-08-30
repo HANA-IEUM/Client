@@ -1,4 +1,4 @@
-import type { CreateBoxProps } from '../types/types';
+import type { CreateBoxProps } from '../types/props.ts';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Button from '@/components/button/Button';
