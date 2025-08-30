@@ -1,19 +1,24 @@
 import type { IconColor } from '@/types/common.ts';
 import BucketListCategoryItem from '@/components/BucketListCategoryItem.tsx';
-import type { SelectCategoryProps } from '@/features/bucket-create/types/types.ts';
+import type { SelectCategoryProps } from '@/features/bucket-create/types/props.ts';
+import type { BucketCategoryType } from '@/features/bucket-create/types/bucket.ts';
 
 // Step 1: 카테고리 선택
 export const SelectCategory = ({
   setCategory,
   onNext,
 }: SelectCategoryProps) => {
-  const categories: Array<{ id: string; label: string; color: IconColor }> = [
-    { id: 'TRAVEL', label: '여행', color: 'pink' },
+  const categories: Array<{
+    id: BucketCategoryType;
+    label: string;
+    color: IconColor;
+  }> = [
+    { id: 'TRIP', label: '여행', color: 'pink' },
     { id: 'HOBBY', label: '취미', color: 'blue' },
     { id: 'HEALTH', label: '건강', color: 'yellow' },
     { id: 'FAMILY_SUPPORT', label: '가족지원', color: 'green' },
   ];
-  const handleSelectCategory = (str: string) => {
+  const handleSelectCategory = (str: BucketCategoryType) => {
     setCategory(str);
     onNext();
   };
