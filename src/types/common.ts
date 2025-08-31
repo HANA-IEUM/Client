@@ -1,3 +1,5 @@
+import type { BucketCategoryType } from '@/features/bucket-create/types/bucket.ts';
+
 export type IconProps = {
   active?: boolean;
 };
@@ -30,13 +32,12 @@ export type BucketListCategoryItemProps = {
   onClick?: () => void;
 };
 
-export type BucketCategory = 'trip' | 'hobby' | 'familySupport' | 'health';
-
 export type BucketListItemProps = {
   text?: string;
   date?: string;
-  category: BucketCategory;
+  category: BucketCategoryType;
   completed: boolean;
+  onClick?: () => void;
 };
 
 export type BucketListCheckIconProps = {
