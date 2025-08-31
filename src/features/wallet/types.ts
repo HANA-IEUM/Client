@@ -4,6 +4,10 @@ export interface Box {
   id: number;
   name: string;
   balance: string;
+  boxName?: string;
+  automaticTransfer?: boolean;
+  monthlyAmount?: number;
+  transferDay?: string;
 }
 
 export interface Transaction {
