@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import confettiGif from '@/assets/bucket-detail/confetti.gif';
 import Button from '@/components/button/Button.tsx';
-import type { ConfirmBucketProps } from '@/features/bucket-create/types/types.ts';
+import type { ConfirmBucketProps } from '@/features/bucket-create/types/props.ts';
 
 // Step 7: 최종 화면
 export const ConfirmBucket = ({ title, onSubmit }: ConfirmBucketProps) => {
