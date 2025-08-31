@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import type { BoxInfoProps } from '../types/types';
+import type { BoxInfoProps } from '../types/props.ts';
 import { Switch, type InputRef } from 'antd';
 import Input from '@/components/input/Input';
 import Button from '@/components/button/Button';

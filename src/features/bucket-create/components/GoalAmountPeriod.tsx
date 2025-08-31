@@ -4,7 +4,7 @@ import { type InputRef } from 'antd';
 import Input from '@/components/input/Input.tsx';
 import SelectItem from '@/components/SelectItem.tsx';
 import Button from '@/components/button/Button.tsx';
-import type { GoalAmountPeriodProps } from '@/features/bucket-create/types/types.ts';
+import type { GoalAmountPeriodProps } from '@/features/bucket-create/types/props.ts';
 
 export const GoalAmountPeriod = ({
   amount,
