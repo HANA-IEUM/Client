@@ -1,45 +1,47 @@
 import { useState } from 'react';
-import CallIcon from '@/assets/common/CallIcon';
-import BucketStateItem from '@/components/BucketStateItem';
-import BucketListCategoryItem from '@/components/BucketListCategoryItem';
-import SelectItem from '@/components/SelectItem';
-import BucketListItem from '@/components/BucketListItem';
-import AccountItem from '@/components/AccountItem';
-import Header from '@/components/Header';
+import { HomeHeader } from '@/features/home/components/HomeHeader.tsx';
+import {
+  FilterTabs,
+  type Tab,
+} from '@/features/home/components/FilterTabs.tsx';
+import { useBucketLists } from '@/features/home/hooks/useBucketLists.ts';
+import BucketListItem from '@/components/BucketListItem.tsx';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
-  const [selected, setSelected] = useState(false);
+  const [selected, setSelected] = useState('ALL');
+  const tabs: Tab[] = [
+    { id: 'ALL', label: '전체' },
+    { id: 'IN_PROGRESS', label: '진행중' },
+    { id: 'COMPLETED', label: '종료' },
+    { id: 'PARTICIPATING', label: '참여' },
+  ];
+  const navigate = useNavigate();
+  const { data: bucketLists, isLoading } = useBucketLists(selected);
+  const name = 'USER';
+
   return (
-    <div>
-      <Header onClick={() => console.log('헤더 클릭')} />
-      홈 페이지입니다.
-      <CallIcon />
-      <BucketStateItem
-        text="전체"
-        selected={selected}
-        onClick={() => setSelected((v) => !v)}
-      />
-      <SelectItem
-        text="원윤서"
-        selected={selected}
-        onClick={() => setSelected((v) => !v)}
-      />
-      <BucketListCategoryItem text="건강" color="green" />
-      <BucketListCategoryItem text="여행" color="blue" />
-      <BucketListCategoryItem text="취미" color="pink" />
-      <BucketListCategoryItem text="재테크" color="yellow" />
-      <AccountItem
-        accountName="달달 하나 통장"
-        accountNum="1234-5678-21"
-        selected={selected}
-        onClick={() => setSelected((v) => !v)}
-      />
-      <BucketListItem
-        category="health"
-        text="만보 걷기"
-        date="2025.02.01"
-        completed={true}
-      />
+    <div className="w-full h-full max-w-md mx-auto bg-white">
+      <HomeHeader name={name} />
+      <div className="relative pt-6 bg-white z-20 rounded-tl-3xl rounded-tr-3xl w-full shadow-[0px_-4px_2px_0px_rgba(0,0,0,0.09)]">
+        <FilterTabs tabs={tabs} selected={selected} setSelected={setSelected} />
+        <div className="px-4 mt-6 space-y-3 pb-8">
+          {isLoading ? (
+            <div className="flex justify-center items-center h-40"></div>
+          ) : (
+            bucketLists?.map((item) => (
+              <BucketListItem
+                key={item.id}
+                text={item.title}
+                date={item.targetDate}
+                category={item.type}
+                completed={item.status === 'COMPLETED'}
+                onClick={() => navigate(`/bucket/${item.id}`)}
+              />
+            ))
+          )}
+        </div>
+      </div>
     </div>
   );
 };
