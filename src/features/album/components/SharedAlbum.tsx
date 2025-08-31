@@ -4,9 +4,10 @@ import BucketStateItem from '@/components/BucketStateItem';
 import PhotoUploadPage from '@/features/album/components/PhotoUploadPage';
 import AlbumDetailPage from '@/features/album/components/AlbumDetailPage';
 import { useAlbums } from '@/features/album/hooks/useAlbums';
+import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
 import type { Photo } from '@/features/album/apis/albumApi';
 
-type FilterType = 'all' | '박승희' | '원윤서' | '정재희';
+type FilterType = 'all' | string;
 
 const SharedAlbum = () => {
   const [selectedFilter, setSelectedFilter] = useState<FilterType>('all');
@@ -15,10 +16,15 @@ const SharedAlbum = () => {
   );
   const [selectedAlbum, setSelectedAlbum] = useState<Photo | null>(null);
 
-  const filters: FilterType[] = ['all', '박승희', '원윤서', '정재희'];
-
   const { data: albumResponse, isLoading, error } = useAlbums();
+  const { data: groupInfo } = useGroupInfo();
   const albumEntries = albumResponse?.photos || [];
+
+  // 필터 목록 생성: '모두' + 그룹 멤버 이름들
+  const filters: FilterType[] = [
+    'all',
+    ...(groupInfo?.members.map((member) => member.name) || []),
+  ];
 
   const handleWriteClick = () => {
     setCurrentPage('upload');
@@ -159,7 +165,7 @@ const SharedAlbum = () => {
             ))}
           </div>
         ) : (
-          // 사진이 없을 때: 빈 상태 표시
+          // 사진이 없을 때: 필터 상태에 따라 다른 메시지 표시
           <div className="flex flex-col items-center justify-center py-20">
             <div className="w-40 h-32 flex items-center justify-center mb-6">
               <img
@@ -173,12 +179,25 @@ const SharedAlbum = () => {
               />
             </div>
             <div className="text-center space-y-2">
-              <p className="text-2xl font-hana-bold text-line !mb-0">
-                앨범이 비어있어요
-              </p>
-              <p className="text-2xl font-hana-bold text-line !mb-0">
-                가족들과 추억을 공유해 보세요
-              </p>
+              {selectedFilter === 'all' ? (
+                <>
+                  <p className="text-2xl font-hana-bold text-line !mb-0">
+                    앨범이 비어있어요
+                  </p>
+                  <p className="text-2xl font-hana-bold text-line !mb-0">
+                    가족들과 추억을 공유해 보세요
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-2xl font-hana-bold text-line !mb-0">
+                    {selectedFilter}님이 작성한 글이 없어요
+                  </p>
+                  <p className="text-2xl font-hana-bold text-line !mb-0">
+                    다른 가족 구성원의 글을 확인해 보세요
+                  </p>
+                </>
+              )}
             </div>
           </div>
         )}
