@@ -5,7 +5,7 @@ import healthImg from '@/assets/common/bucketlist-category/health.svg';
 import familySupportImg from '@/assets/common/bucketlist-category/familySupport.svg';
 
 const suggestions: { type: BucketCategoryType; title: string }[] = [
-  { type: 'FAMILY_SUPPORT', title: '유언장 작성·웰다잉 실천' },
+  { type: 'FAMILY', title: '유언장 작성·웰다잉 실천' },
   { type: 'HOBBY', title: '외국어 배우기' },
   { type: 'HOBBY', title: '한 가지 악기 마스터하기' },
   { type: 'TRIP', title: '가족(손주들)과 여행 가기' },
@@ -22,7 +22,7 @@ export const EmptyBucketList = () => {
   const IMG_MAP: Record<BucketCategoryType, string> = {
     TRIP: tripImg,
     HOBBY: hobbyImg,
-    FAMILY_SUPPORT: familySupportImg,
+    FAMILY: familySupportImg,
     HEALTH: healthImg,
     '': '',
   };
