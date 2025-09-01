@@ -22,7 +22,10 @@ const BottomTab = () => {
     <div className="w-full h-20 py-3 border-t border-line z-50 bg-white">
       <div className="flex gap-1">
         {tabs.map(({ path, label, Icon }) => {
-          const isActive = location.pathname === path;
+          const isActive =
+            path === '/family'
+              ? location.pathname.startsWith('/family')
+              : location.pathname === path;
 
           return (
             <button

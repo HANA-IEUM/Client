@@ -1,21 +1,18 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
 import InviteCodeCopyBtn from '@/components/common/InviteCodeCopyBtn';
 import MemberItem from '@/components/MemberItem';
 import FamilyGroupEmptyStateCard from './FamilyGroupEmptyStateCard';
+import { useAuth } from '@/hooks/useToken';
 
 const FamilyHome = () => {
   const { data: groupInfo, isLoading, refetch } = useGroupInfo();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
-  // 임시 구성원 데이터
-  const members = [
-    { name: '원윤서', avatar: undefined },
-    { name: '김대현', avatar: undefined },
-    { name: '손혜정', avatar: undefined },
-  ];
-
-  const handleSupportClick = (memberName: string) => {
-    // 여기에 응원하러 이동
+  const handleSupportClick = (memberId: string) => {
+    navigate(`/family/member/${memberId}/bucket`);
   };
 
   // 페이지 포커스 시 데이터 새로고침
@@ -60,16 +57,13 @@ const FamilyHome = () => {
               <MemberItem
                 key={member.memberId}
                 name={member.name}
-                onSupportClick={() => handleSupportClick(member.name)}
+                onSupportClick={
+                  member.name === user?.name
+                    ? undefined
+                    : () => handleSupportClick(member.memberId.toString())
+                }
               />
-            )) ||
-              members.map((member, index) => (
-                <MemberItem
-                  key={index}
-                  name={member.name}
-                  onSupportClick={() => handleSupportClick(member.name)}
-                />
-              ))}
+            ))}
           </div>
         </div>
       </div>

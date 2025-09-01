@@ -17,14 +17,16 @@ const MemberItem = ({ name = '원윤서', onSupportClick }: MemberItemProps) => 
         <span className="font-hana-bold text-text-primary text-xl">{name}</span>
       </div>
 
-      <Button
-        intent="green"
-        size="sm"
-        className="!w-24 !h-7 !text-base !font-hana-bold"
-        onClick={onSupportClick}
-      >
-        응원 가기
-      </Button>
+      {onSupportClick && (
+        <Button
+          intent="green"
+          size="sm"
+          className="!w-24 !h-7 !text-base !font-hana-bold"
+          onClick={onSupportClick}
+        >
+          응원 가기
+        </Button>
+      )}
     </div>
   );
 };
