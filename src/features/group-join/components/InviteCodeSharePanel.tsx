@@ -36,13 +36,7 @@ const InviteCodeSharePanel = ({
       </div>
 
       <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
-        <Button
-          intent="green"
-          label="확인"
-          size="full"
-          className="cursor-pointer"
-          onClick={onConfirm}
-        />
+        <Button intent="green" label="확인" size="full" onClick={onConfirm} />
       </div>
     </div>
   );

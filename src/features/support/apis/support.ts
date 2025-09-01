@@ -23,3 +23,8 @@ export async function fetchSupportHistory(bucketListId: number) {
   const res = await api.get(`/support/bucket/${bucketListId}`);
   return res.data?.data as SupportHistory[];
 }
+
+export async function fetchSupportDetail(supportId: number) {
+  const res = await api.get(`/support/${supportId}`);
+  return res.data?.data as SupportHistory;
+}

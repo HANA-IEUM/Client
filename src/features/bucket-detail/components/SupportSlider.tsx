@@ -56,7 +56,7 @@ export default function SupportSlider({
   );
 }
 
-function CheerCard({
+export function CheerCard({
   text,
   author,
   color,

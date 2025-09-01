@@ -16,6 +16,7 @@ import BucketCreatePage from '@/pages/BucketCreatePage.tsx';
 import SupportPage from '@/pages/SupportPage';
 import OnboardingWrapper from '@/layouts/OnboardingWrapper';
 import FamilyMemberBucketList from '@/features/family/components/FamilyMemberBucketList';
+import SupportDetailPage from '@/pages/SupportDetailPage';
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,7 @@ export const router = createBrowserRouter([
       { path: 'bucket-edit/:id', element: <BucketEditPage /> },
       { path: 'bucket-support/:id', element: <SupportPage /> },
       { path: 'bucket-create', element: <BucketCreatePage /> },
+      { path: 'support/:id', element: <SupportDetailPage /> },
     ],
   },
 ]);
