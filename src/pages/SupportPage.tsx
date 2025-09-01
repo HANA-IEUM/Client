@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import WriteTextAndSupport from '@/features/support/components/WriteTextAndSupport';
 import { useParams } from 'react-router-dom';
 import { useSupport } from '@/features/support/hooks/useSupports';
+import { showError, showSuccess } from '@/lib/toast';
 
 type SupportInfo = {
   letterColor: string;
@@ -58,13 +59,24 @@ const SupportPage = () => {
       });
     }
 
-    support({
-      letterColor: supportInfo.letterColor,
-      message: supportInfo.message,
-      supportType: payload.amount === null ? 'CHEER' : 'SPONSOR',
-      supportAmount: payload.amount,
-      accountPassword: payload.pin,
-    });
+    support(
+      {
+        letterColor: supportInfo.letterColor,
+        message: supportInfo.message,
+        supportType: payload.amount === null ? 'CHEER' : 'SPONSOR',
+        supportAmount: payload.amount,
+        accountPassword: payload.pin,
+      },
+      {
+        onSuccess: () => {
+          showSuccess('응원이 성공적으로 완료되었어요.');
+          navigate('/home');
+        },
+        onError: (error) => {
+          showError('응원에 실패했어요. 다시 시도해 주세요.');
+        },
+      }
+    );
   };
 
   return (
