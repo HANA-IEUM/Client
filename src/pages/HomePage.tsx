@@ -11,12 +11,12 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useToken.ts';
 
 const HomePage = () => {
-  const [selected, setSelected] = useState('ALL');
+  const [selected, setSelected] = useState('all');
   const tabs: Tab[] = [
-    { id: 'ALL', label: '전체' },
-    { id: 'IN_PROGRESS', label: '진행중' },
-    { id: 'COMPLETED', label: '종료' },
-    { id: 'PARTICIPATING', label: '참여' },
+    { id: 'all', label: '전체' },
+    { id: 'in_progress', label: '진행중' },
+    { id: 'completed', label: '종료' },
+    { id: 'participating', label: '참여' },
   ];
   const navigate = useNavigate();
   const { data: bucketLists, isLoading } = useBucketLists(selected);
