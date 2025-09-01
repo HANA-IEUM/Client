@@ -23,6 +23,10 @@ export interface LoginPayload {
   password: string;
 }
 
+export interface PhoneNumberPayload {
+  phoneNumber: string;
+}
+
 export interface VerificationPayload {
   to: string;
 }
@@ -34,4 +38,10 @@ export interface VerificationConfirmPayload {
 
 export interface RefreshPayload {
   refreshToken: string;
+}
+
+export interface CheckPhoneNumberResponse {
+  data: {
+    available: boolean;
+  };
 }

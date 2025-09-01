@@ -4,6 +4,8 @@ import { useVerification } from '@/features/auth/hooks/useVerification.ts';
 import phoneIcon from '@/assets/common/user/phone.png';
 import Input from '@/components/input/Input.tsx';
 import Button from '@/components/button/Button.tsx';
+import { useCheckPhoneNumber } from '@/features/auth/hooks/useCheckPhoneNumber.ts';
+import { toast } from 'react-hot-toast';
 
 export type PhoneInputProps = {
   phoneNumber: string;
@@ -18,12 +20,28 @@ export const PhoneInput = ({
 }: PhoneInputProps) => {
   const inputRef = useRef<InputRef>(null);
 
+  const checkPhoneNumberMutation = useCheckPhoneNumber(
+    (data) => {
+      if (data.data.available) {
+        goNextStep();
+      } else {
+        toast.error('이미 가입된 전화번호예요');
+      }
+    },
+    () => {}
+  );
   const verificationMutation = useVerification(
     () => {},
     () => {}
   );
 
   const buttonClick = () => {
+    checkPhoneNumberMutation.mutate({
+      phoneNumber: phoneNumber,
+    });
+  };
+
+  const goNextStep = () => {
     onNext();
     verificationMutation.mutate({
       to: phoneNumber,

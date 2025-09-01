@@ -4,8 +4,10 @@ import type {
   LoginResponse,
   RegisterPayload,
   RefreshPayload,
-  VerificationPayload,
+  PhoneNumberPayload,
   VerificationConfirmPayload,
+  CheckPhoneNumberResponse,
+  VerificationPayload,
 } from '@/types/auth.ts';
 
 export const registerUser = async (payload: RegisterPayload) => {
@@ -20,6 +22,14 @@ export const loginUser = async (payload: LoginPayload) => {
 
 export const refreshToken = async (payload: RefreshPayload) => {
   const { data } = await api.post<LoginResponse>('/auth/refresh', payload);
+  return data;
+};
+
+export const checkPhoneNumber = async (payload: PhoneNumberPayload) => {
+  const { data } = await api.post<CheckPhoneNumberResponse>(
+    '/auth/check-phone',
+    payload
+  );
   return data;
 };
 
