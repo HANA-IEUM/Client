@@ -6,7 +6,8 @@ import {
 } from '@/features/home/components/FilterTabs.tsx';
 import { useBucketLists } from '@/features/home/hooks/useBucketLists.ts';
 import BucketListItem from '@/components/BucketListItem.tsx';
-import { EmptyBucketList } from '@/features/home/components/EmptyBucketList.tsx';
+import { EmptyBucketList } from '@/features/home/components/EmptyBucketList';
+import { EmptyFilterResult } from '@/features/home/components/EmptyFilterResult';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useToken.ts';
 
@@ -19,39 +20,61 @@ const HomePage = () => {
     { id: 'participating', label: '참여' },
   ];
   const navigate = useNavigate();
-  const { data: bucketLists, isLoading } = useBucketLists(selected);
   const { user } = useAuth();
 
-  return (
-    <div className="w-full h-full max-w-md mx-auto bg-white">
-      <HomeHeader name={user?.name || '유저'} />
-      <div className="relative bg-white z-20 rounded-tl-3xl rounded-tr-3xl w-full shadow-[0px_-4-px_2px_0px_rgba(0,0,0,0.09)] min-h-[60vh]">
-        {isLoading ? (
+  const { data: bucketLists, isLoading: isListLoading } =
+    useBucketLists(selected);
+
+  const { data: allBuckets, isLoading: isExistenceLoading } =
+    useBucketLists('all');
+
+  const hasAnyBucket = allBuckets && allBuckets.length > 0;
+
+  if (isExistenceLoading) {
+    return (
+      <div className="w-full h-full max-w-md mx-auto bg-white">
+        <HomeHeader name={user?.name || '유저'} />
+        <div className="relative bg-white z-20 rounded-tl-3xl rounded-tr-3xl w-full shadow-[0px_-4-px_2px_0px_rgba(0,0,0,0.09)] min-h-[60vh]">
           <div className="flex justify-center items-center h-40"></div>
-        ) : bucketLists && bucketLists.length > 0 ? (
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full h-full max-w-md mx-auto bg-white flex flex-col">
+      <HomeHeader name={user?.name || '유저'} />
+      <div className="relative h-full bg-white z-20 rounded-tl-3xl rounded-tr-3xl w-full shadow-[0px_-4-px_2px_0px_rgba(0,0,0,0.09)] flex-1 overflow-y-auto scrollbar-hide">
+        {hasAnyBucket ? (
           <>
-            <div className="pt-6">
+            <div className="sticky top-0 bg-white z-10 pt-6">
               <FilterTabs
                 tabs={tabs}
                 selected={selected}
                 setSelected={setSelected}
               />
             </div>
-            <div className="px-4 mt-6 space-y-3 pb-8">
-              {bucketLists.map((item) => (
-                <BucketListItem
-                  key={item.id}
-                  text={item.title}
-                  date={item.targetDate}
-                  category={item.type}
-                  completed={item.status === 'COMPLETED'}
-                  onClick={() => navigate(`/bucket/${item.id}`)}
-                />
-              ))}
+            <div className="px-4 mt-6 space-y-3 pb-8 overflow-hidden">
+              {isListLoading ? (
+                <div className="flex justify-center items-center h-40"></div>
+              ) : bucketLists && bucketLists.length > 0 ? (
+                bucketLists.map((item) => (
+                  <BucketListItem
+                    key={item.id}
+                    text={item.title}
+                    date={item.targetDate}
+                    category={item.type}
+                    completed={item.status === 'COMPLETED'}
+                    onClick={() => navigate(`/bucket/${item.id}`)}
+                  />
+                ))
+              ) : (
+                <EmptyFilterResult />
+              )}
             </div>
           </>
         ) : (
-          <EmptyBucketList /> // 버킷리스트가 비어있을 때 UI
+          <EmptyBucketList />
         )}
       </div>
     </div>

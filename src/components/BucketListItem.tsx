@@ -17,7 +17,7 @@ const BucketListItem = ({
   const IMG_MAP: Record<BucketCategoryType, string> = {
     TRIP: tripImg,
     HOBBY: hobbyImg,
-    FAMILY_SUPPORT: familySupportImg,
+    FAMILY: familySupportImg,
     HEALTH: healthImg,
     '': '',
   };

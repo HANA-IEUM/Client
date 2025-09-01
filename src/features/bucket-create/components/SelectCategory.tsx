@@ -16,7 +16,7 @@ export const SelectCategory = ({
     { id: 'TRIP', label: '여행', color: 'pink' },
     { id: 'HOBBY', label: '취미', color: 'blue' },
     { id: 'HEALTH', label: '건강', color: 'yellow' },
-    { id: 'FAMILY_SUPPORT', label: '가족지원', color: 'green' },
+    { id: 'FAMILY', label: '가족지원', color: 'green' },
   ];
   const handleSelectCategory = (str: BucketCategoryType) => {
     setCategory(str);
