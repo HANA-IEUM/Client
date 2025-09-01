@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useSearchParams } from 'react-router-dom';
 
@@ -18,11 +18,9 @@ type EditInfo = {
 
 const BucketEditPage = () => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const bucketId = searchParams.get('id');
-  const { mutate: update, isPending } = useUpdateBucket(Number(bucketId));
+  const { id: bucketId } = useParams<{ id: string }>();
+  const { mutate: update } = useUpdateBucket(Number(bucketId));
   const [step, setStep] = useState(0);
-
   const [editInfo, setEditInfo] = useState<EditInfo>({
     title: '',
     publicFlag: false,
@@ -49,7 +47,6 @@ const BucketEditPage = () => {
   const handleConfirm = () => {
     update(editInfo, {
       onSuccess: () => {
-        showSuccess('버킷이 성공적으로 수정되었어요.');
         setStep(2);
       },
       onError: () => {
@@ -77,7 +74,7 @@ const BucketEditPage = () => {
                 if (editInfo.shareFlag) {
                   setStep(1);
                 } else {
-                  handleConfirm(); // 혼자 → API 성공 시 Summary로
+                  handleConfirm();
                 }
               }}
               onBack={() => navigate(-1)}

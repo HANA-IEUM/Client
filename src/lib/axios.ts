@@ -35,7 +35,7 @@ api.interceptors.request.use(
   }
 );
 
-//인터셉터: 401 에러 발생 시 Access Token을 재발급하고, 원래 요청 재시도
+// 인터셉터: 403 에러 발생 시 Access Token을 재발급하고, 원래 요청 재시도
 api.interceptors.response.use(
   (response) => {
     return response;
@@ -43,7 +43,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 403 && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise((resolve) => {
           failedQueue.push((token) => {
