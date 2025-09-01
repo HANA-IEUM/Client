@@ -35,7 +35,7 @@ api.interceptors.request.use(
   }
 );
 
-// 인터셉터: 403 에러 발생 시 Access Token을 재발급하고, 원래 요청 재시도
+//인터셉터: 403 에러 발생 시 Access Token을 재발급하고, 원래 요청 재시도
 api.interceptors.response.use(
   (response) => {
     return response;
