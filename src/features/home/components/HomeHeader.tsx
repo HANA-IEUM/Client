@@ -1,4 +1,4 @@
-import hanabankGif from '@/assets/common/header/hanabank.gif';
+import starBoyIcon from '@/assets/common/header/starBoy.png';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/button/Button.tsx';
 
@@ -24,7 +24,7 @@ export const HomeHeader = ({ name }: HomeHeaderProps) => {
             onClick={() => navigate('/bucket-create')}
           />
         </div>
-        <img src={hanabankGif} alt="캐릭터" className="w-36 h-60" />
+        <img src={starBoyIcon} alt="캐릭터" className="w-36 h-60" />
       </div>
     </header>
   );
