@@ -13,7 +13,7 @@ export interface SupportBottomSheetProps {
   onClose: () => void;
   messageText: string;
   bucketTitle?: string;
-  onSubmit: (payload: { amount: number; pin: string }) => void;
+  onSubmit: (payload: { amount: number | null; pin: string | null }) => void;
 }
 
 const SupportBottomSheet = ({
@@ -75,7 +75,10 @@ const SupportBottomSheet = ({
               <Button
                 intent="gray"
                 label="아니요"
-                onClick={onClose}
+                onClick={() => {
+                  onSubmit({ amount: null, pin: null });
+                  onClose();
+                }}
                 className="w-1/3"
               />
               <Button
@@ -99,7 +102,7 @@ const SupportBottomSheet = ({
 
           <div className="w-full flex items-center gap-2">
             <Input
-              placeholder="4,000,000"
+              placeholder="응원하는 마음을 꾹꾹 담아"
               inputMode="numeric"
               value={amount}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

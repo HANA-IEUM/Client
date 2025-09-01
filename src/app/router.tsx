@@ -33,7 +33,7 @@ export const router = createBrowserRouter([
       { path: 'account', element: <LinkAccountPage /> },
       { path: 'bucket/:id', element: <BucketDetailPage /> },
       { path: 'bucket-edit/:id', element: <BucketEditPage /> },
-      { path: 'support', element: <SupportPage /> },
+      { path: 'bucket-support/:id', element: <SupportPage /> },
       { path: 'bucket-create', element: <BucketCreatePage /> },
     ],
   },

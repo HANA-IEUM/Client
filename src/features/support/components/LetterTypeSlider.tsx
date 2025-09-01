@@ -3,18 +3,18 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-type Color = 'pink' | 'green' | 'blue';
+type Color = 'PINK' | 'GREEN' | 'BLUE';
 
 interface Props {
   value?: Color;
   onChange?: (color: Color) => void;
 }
 
-const AUTHOR = '하나이음 팀';
-const TEXT = '디지털 하나로 6기 취뽀하자';
+const AUTHOR = '딸';
+const TEXT = '엄마의 꿈을 응원해요! 파이팅! 💗';
 
-export default function LetterTypeSlider({ value = 'pink', onChange }: Props) {
-  const colors: Color[] = ['green', 'pink', 'blue'];
+export default function LetterTypeSlider({ value = 'PINK', onChange }: Props) {
+  const colors: Color[] = ['GREEN', 'PINK', 'BLUE'];
   const initialIndex = colors.indexOf(value);
 
   return (
@@ -66,9 +66,9 @@ function CheerCard({
   color: Color;
 }) {
   const bar =
-    color === 'pink'
+    color === 'PINK'
       ? 'bg-icon-pink'
-      : color === 'blue'
+      : color === 'BLUE'
         ? 'bg-icon-blue'
         : 'bg-icon-green';
 
