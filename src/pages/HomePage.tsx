@@ -7,9 +7,9 @@ import {
 import { useBucketLists } from '@/features/home/hooks/useBucketLists.ts';
 import BucketListItem from '@/components/BucketListItem.tsx';
 import { EmptyBucketList } from '@/features/home/components/EmptyBucketList';
-import { EmptyFilterResult } from '@/features/home/components/EmptyFilterResult';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useToken.ts';
+import EmptyStateMessage from '@/components/common/EmptyStateMessage.tsx';
 
 const HomePage = () => {
   const [selected, setSelected] = useState('all');
@@ -41,6 +41,11 @@ const HomePage = () => {
     );
   }
 
+  const emptyMessage: Record<string, string> = {
+    in_progress: '진행중인 버킷리스트가 없어요',
+    completed: '종료된 버킷리스트가 없어요',
+    participating: '참여중인 버킷리스트가 없어요',
+  };
   return (
     <div className="w-full h-full max-w-md mx-auto bg-white flex flex-col">
       <HomeHeader name={user?.name || '유저'} />
@@ -69,7 +74,7 @@ const HomePage = () => {
                   />
                 ))
               ) : (
-                <EmptyFilterResult />
+                <EmptyStateMessage title={emptyMessage[selected]} />
               )}
             </div>
           </>
