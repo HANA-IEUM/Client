@@ -19,7 +19,7 @@ const SupportPage = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const { id: bucketId } = useParams<{ id: string }>();
-  const { mutate: support, isPending } = useSupport(Number(bucketId));
+  const { mutate: support } = useSupport(Number(bucketId));
   const [supportInfo, setSupportInfo] = useState<SupportInfo>({
     letterColor: 'PINK',
     message: '',
