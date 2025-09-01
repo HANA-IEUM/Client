@@ -8,6 +8,7 @@ import { useDeleteBucket } from '../hooks/useDeleteBucket';
 import { showSuccess } from '@/lib/toast';
 import { showError } from '@/lib/toast';
 import type { SupportHistory } from '@/types/supportHistory';
+import EmptyStateMessage from '@/components/common/EmptyStateMessage';
 
 type BucketDetailBoxProps = {
   moneyBoxInfo: MoneyBoxInfo;
@@ -101,9 +102,11 @@ const BucketDetailBox = ({
 
       <div>
         <p className="text-white font-hana-bold text-2xl">응원</p>
-        <SupportSlider
-          items={mapSupportHistoryToCheers(supportHistory ?? [])}
-        />
+        {supportHistory && supportHistory.length > 0 ? (
+          <SupportSlider items={mapSupportHistoryToCheers(supportHistory)} />
+        ) : (
+          <EmptyStateMessage title={'아직 받은 응원이나 후원이 없어요 💌'} />
+        )}
       </div>
     </div>
   );

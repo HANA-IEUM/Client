@@ -58,7 +58,6 @@ const SupportPage = () => {
       });
     }
 
-    // 실제 API 호출 (support 훅)
     support({
       letterColor: supportInfo.letterColor,
       message: supportInfo.message,

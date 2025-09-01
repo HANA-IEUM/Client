@@ -29,20 +29,6 @@ const WriteTextAndSupport = ({
     setOpen(true);
   };
 
-  // const handleSupportSubmit = ({
-  //   amount,
-  //   pin,
-  // }: {
-  //   amount: number | null;
-  //   pin: string | null;
-  // }) => {
-  //   if (amount === null && pin === null) {
-  //     console.log('응원 요청', { message: text });
-  //   } else {
-  //     console.log('후원 요청', { message: text, amount, pin });
-  //   }
-  // };
-
   return (
     <div className="relative h-full flex flex-col items-center w-full px-6 pb-5">
       <Header onClick={onBack} />
