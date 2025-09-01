@@ -7,6 +7,7 @@ import BucketEditFamily from '@/features/bucket-edit/components/BucketEditFamily
 import BucketEditSummary from '@/features/bucket-edit/components/BucketEditSummary';
 import { useUpdateBucket } from '@/features/bucket-edit/hooks/useUpdateBucket';
 import { showError } from '@/lib/toast';
+import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
 
 type EditInfo = {
   title: string;
@@ -26,6 +27,9 @@ const BucketEditPage = () => {
     shareFlag: false,
     selectedMemberIds: [],
   });
+
+  const { data: groupInfo } = useGroupInfo();
+  const familyCount = groupInfo?.members?.length ?? 1; // 멤버 수, 없으면 1로 처리
 
   const handleChangeTitle = (title: string) => {
     setEditInfo((prev) => ({ ...prev, title }));
@@ -80,6 +84,7 @@ const BucketEditPage = () => {
               onChangeTitle={handleChangeTitle}
               onChangeShareFlag={handleChangeShareFlag}
               onChangePublicFlag={handleChangePublicFlag}
+              familyCount={familyCount}
             />
           )}
 

@@ -12,6 +12,7 @@ type BucketEditBasicInfoProps = {
   onChangeTitle: (title: string) => void;
   onChangePublicFlag: (flag: boolean) => void;
   onChangeShareFlag: (flag: boolean) => void;
+  familyCount: number;
 };
 
 const BucketEditBasicInfo = ({
@@ -20,6 +21,7 @@ const BucketEditBasicInfo = ({
   onChangeTitle,
   onChangePublicFlag,
   onChangeShareFlag,
+  familyCount,
 }: BucketEditBasicInfoProps) => {
   const [withWho, setWithWho] = useState<'혼자' | '함께'>('혼자');
   const [what, setWhat] = useState<string>('');
@@ -74,11 +76,13 @@ const BucketEditBasicInfo = ({
               selected={withWho === '혼자'}
               onClick={() => setWithWho('혼자')}
             />
-            <SelectItem
-              text="함께"
-              selected={withWho === '함께'}
-              onClick={() => setWithWho('함께')}
-            />
+            <div className={familyCount > 1 ? '' : 'invisible w-full'}>
+              <SelectItem
+                text="함께"
+                selected={withWho === '함께'}
+                onClick={() => setWithWho('함께')}
+              />
+            </div>
           </div>
         </div>
 

@@ -68,7 +68,7 @@ function CheerCard({
   return (
     <article className="w-full h-full aspect-square rounded-[32px] bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)] overflow-hidden flex flex-col">
       <div
-        className={`h-12 ${color === 'pink' ? 'bg-icon-pink' : color === 'blue' ? 'bg-icon-blue' : 'bg-icon-green'} shrink-0`}
+        className={`h-12 ${color === 'PINK' ? 'bg-icon-pink' : color === 'BLUE' ? 'bg-icon-blue' : 'bg-icon-green'} shrink-0`}
       />
       <div className="flex-1 flex flex-col justify-center items-center p-6">
         <p className="whitespace-pre-line text-center text-2xl leading-snug font-hana-bold text-neutral-700">
