@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@/components/button/Button';
 import BucketStateItem from '@/components/BucketStateItem';
 import PhotoUploadPage from '@/features/album/components/PhotoUploadPage';
 import AlbumDetailPage from '@/features/album/components/AlbumDetailPage';
 import EmptyStateMessage from '@/components/common/EmptyStateMessage';
+import FamilyRegistrationBottomSheet from './FamilyRegistrationBottomSheet';
 import { useAlbums } from '@/features/album/hooks/useAlbums';
 import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
 import type { Photo } from '@/features/album/apis/albumApi';
@@ -16,10 +17,25 @@ const SharedAlbum = () => {
     'album'
   );
   const [selectedAlbum, setSelectedAlbum] = useState<Photo | null>(null);
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
 
-  const { data: albumResponse, isLoading, error } = useAlbums();
-  const { data: groupInfo } = useGroupInfo();
+  const { data: groupInfo, isLoading: groupLoading } = useGroupInfo();
+  const {
+    data: albumResponse,
+    isLoading,
+    error,
+  } = useAlbums({
+    enabled: !!groupInfo, // 가족 그룹이 있을 때만 API 호출
+  });
   const albumEntries = albumResponse?.photos || [];
+
+  // 컴포넌트 마운트 시 가족 그룹 상태 확인
+  useEffect(() => {
+    // 그룹 정보 로딩이 완료되고, 가족 그룹이 없는 경우 바텀시트 표시
+    if (!groupLoading && !groupInfo) {
+      setShowBottomSheet(true);
+    }
+  }, [groupInfo, groupLoading]);
 
   // 필터 목록 생성: '모두' + 그룹 멤버 이름들
   const filters: FilterType[] = [
@@ -28,6 +44,11 @@ const SharedAlbum = () => {
   ];
 
   const handleWriteClick = () => {
+    // 가족 그룹에 속해있지 않은 경우 바텀시트 표시
+    if (!groupInfo) {
+      setShowBottomSheet(true);
+      return;
+    }
     setCurrentPage('upload');
   };
 
@@ -83,10 +104,11 @@ const SharedAlbum = () => {
               공유 앨범
             </h1>
             <Button
-              intent="yellow"
+              intent={groupInfo ? 'yellow' : 'disable'}
               size="md"
               className="!px-6 !py-3 !text-base !font-hana-bold"
               onClick={handleWriteClick}
+              disabled={!groupInfo}
             >
               작성하기
             </Button>
@@ -109,12 +131,14 @@ const SharedAlbum = () => {
 
       <div className="px-6 pb-6">
         {isLoading ? (
+          // 로딩 상태
           <div className="flex flex-col items-center justify-center py-20">
             <div className="text-lg font-hana-regular text-text-secondary">
               앨범을 불러오는 중...
             </div>
           </div>
         ) : error ? (
+          // 에러 상태
           <div className="flex flex-col items-center justify-center py-20">
             <div className="text-lg font-hana-regular text-accent-primary mb-4">
               앨범을 불러오는데 실패했습니다
@@ -128,6 +152,7 @@ const SharedAlbum = () => {
             </Button>
           </div>
         ) : filteredEntries.length > 0 ? (
+          // 앨범 목록
           <div className="grid grid-cols-2 gap-4">
             {filteredEntries.map((entry) => (
               <div
@@ -181,6 +206,12 @@ const SharedAlbum = () => {
           />
         )}
       </div>
+
+      {/* 가족 등록 안내 바텀시트 */}
+      <FamilyRegistrationBottomSheet
+        isOpen={showBottomSheet}
+        onClose={() => setShowBottomSheet(false)}
+      />
     </div>
   );
 };
