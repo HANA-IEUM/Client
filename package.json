@@ -61,7 +61,8 @@
     ],
     "*.{json,md,css,scss}": [
       "prettier --write"
-    ]
+    ],
+    "dev-dist/**/*": "echo 'skip dev-dist'"
   },
   "packageManager": "yarn@1.22.22"
 }
