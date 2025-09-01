@@ -4,14 +4,26 @@ import Button from '@/components/button/Button';
 import SupportSlider from './SupportSlider';
 import type { MoneyBoxInfo } from '../apis/bucketDetail';
 import { useNavigate } from 'react-router-dom';
+import { useDeleteBucket } from '../hooks/useDeleteBucket';
+import { showSuccess } from '@/lib/toast';
+import { showError } from '@/lib/toast';
 
 type BucketDetailBoxProps = {
   moneyBoxInfo: MoneyBoxInfo;
   bucketId: string;
+  targetAmount: number;
 };
 
-const BucketDetailBox = ({ moneyBoxInfo, bucketId }: BucketDetailBoxProps) => {
+const BucketDetailBox = ({
+  moneyBoxInfo,
+  bucketId,
+  targetAmount,
+}: BucketDetailBoxProps) => {
   const navigate = useNavigate();
+  const { mutate: deleteBucket, isPending } = useDeleteBucket(Number(bucketId));
+
+  const percent =
+    targetAmount > 0 ? (moneyBoxInfo.balance / targetAmount) * 100 : 0;
 
   return (
     <div className="bg-theme-primary rounded-t-3xl min-h-screen mt-7 p-5 scrollbar-hide flex flex-col gap-12">
@@ -27,13 +39,13 @@ const BucketDetailBox = ({ moneyBoxInfo, bucketId }: BucketDetailBoxProps) => {
               {moneyBoxInfo.boxName}
             </span>
             <span className="font-hana-bold text-2xl">
-              {moneyBoxInfo.balance} 원
+              {moneyBoxInfo.balance.toLocaleString()} 원
             </span>
           </div>
         </div>
 
         <div className="mt-5">
-          <ProgressBar percent={16} />
+          <ProgressBar percent={percent} />
         </div>
       </div>
 
@@ -48,7 +60,18 @@ const BucketDetailBox = ({ moneyBoxInfo, bucketId }: BucketDetailBoxProps) => {
             className="w-full !px-2"
           />
           <Button
-            label="버킷 삭제"
+            label={isPending ? '삭제 중입니다...' : '버킷 삭제'}
+            onClick={() => {
+              deleteBucket(undefined, {
+                onSuccess: () => {
+                  showSuccess('버킷이 삭제되었습니다.');
+                  navigate('/home');
+                },
+                onError: () => {
+                  showError('삭제 중 오류가 발생했습니다.');
+                },
+              });
+            }}
             intent="gray"
             size="xl"
             className="w-full !px-2"

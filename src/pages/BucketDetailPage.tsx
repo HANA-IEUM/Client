@@ -4,7 +4,6 @@ import BucketDetailHeader from '@/features/bucket-detail/components/BucketDetail
 import BucketInfo from '@/features/bucket-detail/components/BucketInfo';
 import { useBucketDetail } from '@/features/bucket-detail/hooks/useBucketDetail';
 import { useParams } from 'react-router-dom';
-import type { MoneyBoxInfo } from '@/features/bucket-detail/apis/bucketDetail';
 
 const BucketDetailPage = () => {
   const navigate = useNavigate();
@@ -18,14 +17,17 @@ const BucketDetailPage = () => {
         onClick={() => navigate(-1)}
       />
       <BucketInfo
-        withWho="혼자"
+        withWho={bucketDetail?.togetherFlag ? '함께' : '혼자'}
         targetAmount={bucketDetail?.targetAmount ?? 0}
         targetPeriod={bucketDetail?.targetDate ?? ''}
       />
-      <BucketDetailBox
-        bucketId={bucketId!}
-        moneyBoxInfo={bucketDetail?.moneyBoxInfo as MoneyBoxInfo}
-      />
+      {bucketDetail?.moneyBoxInfo && (
+        <BucketDetailBox
+          bucketId={bucketId!}
+          targetAmount={bucketDetail.targetAmount}
+          moneyBoxInfo={bucketDetail.moneyBoxInfo}
+        />
+      )}
     </div>
   );
 };
