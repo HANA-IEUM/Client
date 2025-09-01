@@ -32,3 +32,4 @@ dist-ssr
 .yarnrc.yml
 
 dev-dist
+/dev-dist/
