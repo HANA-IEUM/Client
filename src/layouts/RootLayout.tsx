@@ -10,7 +10,9 @@ export default function RootLayout() {
     '/album',
     '/mypage',
   ];
-  const shouldShowBottomTab = showBottomTabPaths.includes(location.pathname);
+  const shouldShowBottomTab = showBottomTabPaths.some((path) =>
+    location.pathname.startsWith(path)
+  );
 
   return (
     <div className="min-h-screen flex justify-center bg-background">

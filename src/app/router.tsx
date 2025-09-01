@@ -15,6 +15,7 @@ import BucketEditPage from '@/pages/BucketEditPage';
 import BucketCreatePage from '@/pages/BucketCreatePage.tsx';
 import SupportPage from '@/pages/SupportPage';
 import OnboardingWrapper from '@/layouts/OnboardingWrapper';
+import FamilyMemberBucketList from '@/features/family/components/FamilyMemberBucketList';
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
       { index: true, element: <OnboardingWrapper /> },
       { path: 'home', element: <HomePage /> },
       { path: 'family', element: <FamilyPage /> },
+      {
+        path: 'family/member/:memberId/bucket',
+        element: <FamilyMemberBucketList />,
+      },
       { path: 'wallet', element: <WalletPage /> },
       { path: 'album', element: <AlbumPage /> },
       { path: 'mypage', element: <MyPage /> },
