@@ -3,7 +3,7 @@ import type { HeaderProps } from '@/types/common';
 
 const Header = ({ onClick, isVisible = true }: HeaderProps) => {
   return (
-    <div className="w-full pt-7 pb-5">
+    <div className="w-full pt-7 pb-5 z-50">
       {isVisible && (
         <img src={backIconSvg} className="cursor-pointer" onClick={onClick} />
       )}

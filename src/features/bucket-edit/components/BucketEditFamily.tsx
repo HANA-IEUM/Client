@@ -1,24 +1,39 @@
 import { useState } from 'react';
 import Button from '@/components/button/Button';
 import SelectItem from '@/components/SelectItem';
+import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
+import Header from '@/components/Header';
 
 type BucketEditFamilyProps = {
   onNext: () => void;
+  onBack: () => void;
+  onChangeMembers: (ids: number[]) => void;
 };
 
-const BucketEditFamily = ({ onNext }: BucketEditFamilyProps) => {
-  const [selectedNames, setSelectedNames] = useState<string[]>([]);
+const BucketEditFamily = ({
+  onNext,
+  onBack,
+  onChangeMembers,
+}: BucketEditFamilyProps) => {
+  const { data: groupInfo } = useGroupInfo();
+  const [selectedMemberIds, setSelectedMemberIds] = useState<number[]>([]);
 
-  const toggleName = (name: string) => {
-    setSelectedNames((prev) =>
-      prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]
-    );
+  const toggleMember = (id: number) => {
+    let updated: number[];
+    if (selectedMemberIds.includes(id)) {
+      updated = selectedMemberIds.filter((m) => m !== id);
+    } else {
+      updated = [...selectedMemberIds, id];
+    }
+    setSelectedMemberIds(updated);
+    onChangeMembers(updated);
   };
 
-  const familyNames = ['원윤서', '손혜정', '김대현', '김기보', '정재희'];
+  const members = groupInfo?.members ?? [];
 
   return (
-    <div className="relative h-full flex flex-col items-center w-full pt-28 px-6 pb-5">
+    <div className="relative h-full flex flex-col items-center w-full px-6 pb-5">
+      <Header onClick={onBack} />
       <div className="font-hana-regular text-3xl flex flex-col w-full">
         <p>
           <br />
@@ -30,12 +45,12 @@ const BucketEditFamily = ({ onNext }: BucketEditFamilyProps) => {
 
       <div className="w-full scrollbar-hide overflow-y-auto min-h-0 pr-1 mb-5 pb-24">
         <div className="grid grid-cols-2 gap-3 mt-6">
-          {familyNames.map((name) => (
+          {members.map((member) => (
             <SelectItem
-              key={name}
-              text={name}
-              selected={selectedNames.includes(name)}
-              onClick={() => toggleName(name)}
+              key={member.memberId}
+              text={member.name}
+              selected={selectedMemberIds.includes(member.memberId)}
+              onClick={() => toggleMember(member.memberId)}
             />
           ))}
         </div>
