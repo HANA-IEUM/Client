@@ -23,7 +23,7 @@ export default function RootLayout() {
 
         {shouldShowBottomTab && (
           <>
-            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md">
+            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full z-50 max-w-md">
               <BottomTab />
             </div>
           </>

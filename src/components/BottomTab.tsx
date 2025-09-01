@@ -19,7 +19,7 @@ const BottomTab = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full h-20 py-3 border-t border-line z-50 bg-white">
+    <div className="w-full h-20 py-3 border-t border-line bg-white">
       <div className="flex gap-1">
         {tabs.map(({ path, label, Icon }) => {
           const isActive =
