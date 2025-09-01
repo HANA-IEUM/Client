@@ -1,4 +1,3 @@
-// src/features/support/hooks/useSupport.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createSupport, type SupportPayload } from '../apis/support';
 import { bucketQK } from '@/features/bucket-detail/hooks/useBucketDetail';

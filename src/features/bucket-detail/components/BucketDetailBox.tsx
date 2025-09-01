@@ -7,17 +7,31 @@ import { useNavigate } from 'react-router-dom';
 import { useDeleteBucket } from '../hooks/useDeleteBucket';
 import { showSuccess } from '@/lib/toast';
 import { showError } from '@/lib/toast';
+import type { SupportHistory } from '@/types/supportHistory';
 
 type BucketDetailBoxProps = {
   moneyBoxInfo: MoneyBoxInfo;
   bucketId: string;
   targetAmount: number;
+  supportHistory?: SupportHistory[];
 };
+
+type Cheer = { id: string; text: string; author: string; color: string };
+
+function mapSupportHistoryToCheers(history: SupportHistory[]): Cheer[] {
+  return history.map((h) => ({
+    id: String(h.id),
+    text: h.message,
+    author: h.supporterName,
+    color: h.letterColor,
+  }));
+}
 
 const BucketDetailBox = ({
   moneyBoxInfo,
   bucketId,
   targetAmount,
+  supportHistory,
 }: BucketDetailBoxProps) => {
   const navigate = useNavigate();
   const { mutate: deleteBucket, isPending } = useDeleteBucket(Number(bucketId));
@@ -87,7 +101,9 @@ const BucketDetailBox = ({
 
       <div>
         <p className="text-white font-hana-bold text-2xl">응원</p>
-        <SupportSlider />
+        <SupportSlider
+          items={mapSupportHistoryToCheers(supportHistory ?? [])}
+        />
       </div>
     </div>
   );

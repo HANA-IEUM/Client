@@ -4,11 +4,15 @@ import BucketDetailHeader from '@/features/bucket-detail/components/BucketDetail
 import BucketInfo from '@/features/bucket-detail/components/BucketInfo';
 import { useBucketDetail } from '@/features/bucket-detail/hooks/useBucketDetail';
 import { useParams } from 'react-router-dom';
+import { useSupportHistory } from '@/features/support/hooks/useSupportHistory';
 
 const BucketDetailPage = () => {
   const navigate = useNavigate();
   const { id: bucketId } = useParams<{ id: string }>();
   const { data: bucketDetail } = useBucketDetail(Number(bucketId));
+  const { data: supportHistory, isLoading } = useSupportHistory(
+    Number(bucketId)
+  );
 
   return (
     <div className="h-screen overflow-y-auto scrollbar-hide">
@@ -26,6 +30,7 @@ const BucketDetailPage = () => {
           bucketId={bucketId!}
           targetAmount={bucketDetail.targetAmount}
           moneyBoxInfo={bucketDetail.moneyBoxInfo}
+          supportHistory={supportHistory}
         />
       )}
     </div>
