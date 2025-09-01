@@ -1,10 +1,11 @@
+import { useEffect } from 'react';
 import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
 import InviteCodeCopyBtn from '@/components/common/InviteCodeCopyBtn';
 import MemberItem from '@/components/MemberItem';
 import FamilyGroupEmptyStateCard from './FamilyGroupEmptyStateCard';
 
 const FamilyHome = () => {
-  const { data: groupInfo, isLoading } = useGroupInfo();
+  const { data: groupInfo, isLoading, refetch } = useGroupInfo();
 
   // 임시 구성원 데이터
   const members = [
@@ -16,6 +17,16 @@ const FamilyHome = () => {
   const handleSupportClick = (memberName: string) => {
     // 여기에 응원하러 이동
   };
+
+  // 페이지 포커스 시 데이터 새로고침
+  useEffect(() => {
+    const handleFocus = () => {
+      refetch();
+    };
+
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, [refetch]);
 
   // 가족 그룹에 속해있지 않은 경우
   if (!isLoading && !groupInfo) {

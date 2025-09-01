@@ -112,19 +112,32 @@ const GroupJoinPage = () => {
       try {
         await joinGroupAsync(code);
         showSuccess('그룹에 참여했어요!');
-        navigate(destination, { replace: true });
+
+        // 가족 탭에서 온 경우 가족 탭으로 돌아가기
+        if (location.state?.from) {
+          navigate(location.state.from, { replace: true });
+        } else {
+          // 직접 접근한 경우 기본 목적지로 이동
+          navigate(destination, { replace: true });
+        }
       } catch (err) {
         showError(
           getErrMsg(err, '참여에 실패했습니다. 초대코드를 확인해 주세요.')
         );
       }
     },
-    [joining, joinGroupAsync, navigate, destination]
+    [joining, joinGroupAsync, navigate, destination, location.state]
   );
 
   const handleConfirm = useCallback(() => {
-    navigate(destination, { replace: true });
-  }, [navigate, destination]);
+    // 가족 탭에서 온 경우 가족 탭으로 돌아가기
+    if (location.state?.from) {
+      navigate(location.state.from, { replace: true });
+    } else {
+      // 직접 접근한 경우 기본 목적지로 이동
+      navigate(destination, { replace: true });
+    }
+  }, [navigate, destination, location.state]);
 
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden px-6">
@@ -164,7 +177,7 @@ const GroupJoinPage = () => {
           {step === 3 && (
             <InviteCodeSharePanel
               code={inviteCode}
-              onBack={() => setStep(2)}
+              onBack={handleBack}
               onConfirm={handleConfirm}
             />
           )}
