@@ -1,7 +1,11 @@
+import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
 import InviteCodeCopyBtn from '@/components/common/InviteCodeCopyBtn';
 import MemberItem from '@/components/MemberItem';
+import FamilyGroupEmptyStateCard from './FamilyGroupEmptyStateCard';
 
 const FamilyHome = () => {
+  const { data: groupInfo, isLoading } = useGroupInfo();
+
   // 임시 구성원 데이터
   const members = [
     { name: '원윤서', avatar: undefined },
@@ -13,6 +17,12 @@ const FamilyHome = () => {
     // 여기에 응원하러 이동
   };
 
+  // 가족 그룹에 속해있지 않은 경우
+  if (!isLoading && !groupInfo) {
+    return <FamilyGroupEmptyStateCard />;
+  }
+
+  // 가족 그룹에 속해있는 경우
   return (
     <>
       <div className="w-full h-full pt-12">
@@ -25,9 +35,9 @@ const FamilyHome = () => {
         <div className="w-full px-6">
           <div className="bg-btn-default-bg rounded-2xl flex flex-col gap-2 py-6 px-20 justify-center items-center mb-14">
             <span className="font-hana-bold text-3xl text-text-secondary">
-              123456
+              {groupInfo?.inviteCode || '123456'}
             </span>
-            <InviteCodeCopyBtn text="123456" />
+            <InviteCodeCopyBtn text={groupInfo?.inviteCode || '123456'} />
           </div>
 
           <h1 className="text-3xl font-hana-bold text-text-primary !mb-8">
@@ -35,13 +45,20 @@ const FamilyHome = () => {
           </h1>
 
           <div className="space-y-3">
-            {members.map((member, index) => (
+            {groupInfo?.members?.map((member) => (
               <MemberItem
-                key={index}
+                key={member.memberId}
                 name={member.name}
                 onSupportClick={() => handleSupportClick(member.name)}
               />
-            ))}
+            )) ||
+              members.map((member, index) => (
+                <MemberItem
+                  key={index}
+                  name={member.name}
+                  onSupportClick={() => handleSupportClick(member.name)}
+                />
+              ))}
           </div>
         </div>
       </div>

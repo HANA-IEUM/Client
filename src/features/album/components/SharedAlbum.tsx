@@ -3,6 +3,7 @@ import Button from '@/components/button/Button';
 import BucketStateItem from '@/components/BucketStateItem';
 import PhotoUploadPage from '@/features/album/components/PhotoUploadPage';
 import AlbumDetailPage from '@/features/album/components/AlbumDetailPage';
+import EmptyStateMessage from '@/components/common/EmptyStateMessage';
 import { useAlbums } from '@/features/album/hooks/useAlbums';
 import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
 import type { Photo } from '@/features/album/apis/albumApi';
@@ -166,40 +167,18 @@ const SharedAlbum = () => {
           </div>
         ) : (
           // 사진이 없을 때: 필터 상태에 따라 다른 메시지 표시
-          <div className="flex flex-col items-center justify-center py-20">
-            <div className="w-40 h-32 flex items-center justify-center mb-6">
-              <img
-                src="/src/assets/common/empty.svg"
-                alt="빈 앨범"
-                className="w-full h-full object-contain"
-                style={{
-                  filter:
-                    'brightness(0) saturate(100%) invert(85%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)',
-                }}
-              />
-            </div>
-            <div className="text-center space-y-2">
-              {selectedFilter === 'all' ? (
-                <>
-                  <p className="text-2xl font-hana-bold text-line !mb-0">
-                    앨범이 비어있어요
-                  </p>
-                  <p className="text-2xl font-hana-bold text-line !mb-0">
-                    가족들과 추억을 공유해 보세요
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className="text-2xl font-hana-bold text-line !mb-0">
-                    {selectedFilter}님이 작성한 글이 없어요
-                  </p>
-                  <p className="text-2xl font-hana-bold text-line !mb-0">
-                    다른 가족 구성원의 글을 확인해 보세요
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
+          <EmptyStateMessage
+            title={
+              selectedFilter === 'all'
+                ? '앨범이 비어있어요'
+                : `${selectedFilter}님이 작성한 글이 없어요`
+            }
+            subtitle={
+              selectedFilter === 'all'
+                ? '가족들과 추억을 공유해 보세요'
+                : '다른 가족 구성원의 글을 확인해 보세요'
+            }
+          />
         )}
       </div>
     </div>
