@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useSearchParams } from 'react-router-dom';
 
 import BucketEditBasicInfo from '@/features/bucket-edit/components/BucketEditBasicInfo';
 import BucketEditFamily from '@/features/bucket-edit/components/BucketEditFamily';
 import BucketEditSummary from '@/features/bucket-edit/components/BucketEditSummary';
 import { useUpdateBucket } from '@/features/bucket-edit/hooks/useUpdateBucket';
-import { showError, showSuccess } from '@/lib/toast';
+import { showError } from '@/lib/toast';
 
 type EditInfo = {
   title: string;
