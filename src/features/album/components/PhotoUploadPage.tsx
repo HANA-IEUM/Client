@@ -2,6 +2,11 @@ import { useState } from 'react';
 import Button from '@/components/button/Button';
 import Header from '@/components/Header';
 import ContentInputPage from '@/features/album/components/ContentInputPage';
+import {
+  useUploadImage,
+  useCreateAlbum,
+} from '@/features/album/hooks/useAlbumMutations';
+import { showSuccess, showError } from '@/lib/toast';
 
 interface PhotoUploadPageProps {
   onBack: () => void;
@@ -11,6 +16,11 @@ const PhotoUploadPage = ({ onBack }: PhotoUploadPageProps) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState<'photo' | 'content'>('photo');
+
+  const { mutateAsync: uploadImageAsync, isPending: uploading } =
+    useUploadImage();
+  const { mutateAsync: createAlbumAsync, isPending: creating } =
+    useCreateAlbum();
 
   const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -24,17 +34,36 @@ const PhotoUploadPage = ({ onBack }: PhotoUploadPageProps) => {
     }
   };
 
-  const handlePhotoConfirm = () => {
+  const handlePhotoConfirm = async () => {
     if (selectedImage) {
-      console.log('선택된 이미지:', selectedImage);
-      setCurrentStep('content');
+      try {
+        const response = await uploadImageAsync(selectedImage);
+
+        const imageUrl = response.imgUrl;
+        setImagePreview(imageUrl);
+        setCurrentStep('content');
+      } catch (error) {
+        showError('이미지 업로드에 실패했습니다. 다시 시도해 주세요.');
+      }
     }
   };
 
-  const handleContentConfirm = (text: string) => {
-    console.log('최종 등록:', { image: selectedImage, text });
-    // 여기에 최종 등록 로직 구현
-    onBack();
+  const handleContentConfirm = async (text: string) => {
+    if (!imagePreview) return;
+
+    try {
+      const requestData = {
+        imgUrl: imagePreview,
+        caption: text,
+      };
+
+      await createAlbumAsync(requestData);
+
+      showSuccess('앨범이 성공적으로 등록되었습니다!');
+      onBack();
+    } catch (error) {
+      showError('앨범 등록에 실패했습니다. 다시 시도해 주세요.');
+    }
   };
 
   const handleClose = () => {
@@ -54,6 +83,7 @@ const PhotoUploadPage = ({ onBack }: PhotoUploadPageProps) => {
         imagePreview={imagePreview}
         onBack={handleBackToPhoto}
         onConfirm={handleContentConfirm}
+        isCreating={creating}
       />
     );
   }
@@ -112,9 +142,9 @@ const PhotoUploadPage = ({ onBack }: PhotoUploadPageProps) => {
           size="lg"
           className="w-full !py-4 !text-lg !font-hana-bold"
           onClick={handlePhotoConfirm}
-          disabled={!selectedImage}
+          disabled={!selectedImage || uploading}
         >
-          확인
+          {uploading ? '업로드 중...' : '확인'}
         </Button>
       </div>
     </div>

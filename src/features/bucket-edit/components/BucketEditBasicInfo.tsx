@@ -1,20 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@/components/button/Button';
 import SelectItem from '@/components/SelectItem';
 import Input from '@/components/input/Input';
 import { Switch } from 'antd';
 import type { SwitchChangeEventHandler } from 'antd/es/switch';
+import Header from '@/components/Header';
 
 type BucketEditBasicInfoProps = {
   onNext: () => void;
+  onBack: () => void;
+  onChangeTitle: (title: string) => void;
+  onChangePublicFlag: (flag: boolean) => void;
+  onChangeShareFlag: (flag: boolean) => void;
 };
 
-const BucketEditBasicInfo = ({ onNext }: BucketEditBasicInfoProps) => {
+const BucketEditBasicInfo = ({
+  onNext,
+  onBack,
+  onChangeTitle,
+  onChangePublicFlag,
+  onChangeShareFlag,
+}: BucketEditBasicInfoProps) => {
   const [withWho, setWithWho] = useState<'혼자' | '함께'>('혼자');
-
   const [what, setWhat] = useState<string>('');
-
   const [checked, setChecked] = useState<boolean>(false);
+
+  useEffect(() => {
+    onChangeTitle(what);
+  }, [what]);
+
+  useEffect(() => {
+    onChangePublicFlag(checked);
+  }, [checked]);
+
+  useEffect(() => {
+    onChangeShareFlag(withWho === '함께');
+  }, [withWho]);
 
   const onChange: SwitchChangeEventHandler = (
     checked: boolean,
@@ -32,7 +53,9 @@ const BucketEditBasicInfo = ({ onNext }: BucketEditBasicInfoProps) => {
   };
 
   return (
-    <div className="relative h-full flex flex-col items-center w-full pt-28 px-6 pb-5">
+    <div className="relative h-full flex flex-col items-center w-full px-6 pb-5">
+      <Header onClick={onBack} />
+
       <div className="font-hana-regular text-3xl flex flex-col w-full">
         <p>
           <br />

@@ -7,12 +7,14 @@ interface ContentInputPageProps {
   imagePreview: string;
   onBack: () => void;
   onConfirm: (text: string) => void;
+  isCreating?: boolean;
 }
 
 const ContentInputPage = ({
   imagePreview,
   onBack,
   onConfirm,
+  isCreating = false,
 }: ContentInputPageProps) => {
   const [textContent, setTextContent] = useState('');
   const [isOverLimit, setIsOverLimit] = useState(false);
@@ -79,9 +81,9 @@ const ContentInputPage = ({
           size="lg"
           className="w-full !py-4 !text-lg !font-hana-bold"
           onClick={handleConfirm}
-          disabled={!textContent.trim() || isOverLimit}
+          disabled={!textContent.trim() || isOverLimit || isCreating}
         >
-          확인
+          {isCreating ? '등록 중...' : '확인'}
         </Button>
       </div>
     </div>
