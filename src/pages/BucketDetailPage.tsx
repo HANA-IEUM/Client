@@ -10,9 +10,7 @@ const BucketDetailPage = () => {
   const navigate = useNavigate();
   const { id: bucketId } = useParams<{ id: string }>();
   const { data: bucketDetail } = useBucketDetail(Number(bucketId));
-  const { data: supportHistory, isLoading } = useSupportHistory(
-    Number(bucketId)
-  );
+  const { data: supportHistory } = useSupportHistory(Number(bucketId));
 
   return (
     <div className="h-screen overflow-y-auto scrollbar-hide">
