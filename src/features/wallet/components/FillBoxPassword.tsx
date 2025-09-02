@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { toast } from 'react-hot-toast';
 
 import Button from '@/components/button/Button';
 import BoxInput, { type BoxInputHandle } from '@/components/common/BoxInput';
@@ -10,7 +9,7 @@ interface FillBoxPasswordProps {
   box: Box;
   amount: string;
   onBack: () => void;
-  onConfirm: () => void;
+  onConfirm: (password: string) => void;
 }
 
 const FillBoxPassword: React.FC<FillBoxPasswordProps> = ({
@@ -23,8 +22,7 @@ const FillBoxPassword: React.FC<FillBoxPasswordProps> = ({
   const [password, setPassword] = useState('');
 
   const handleSubmit = () => {
-    onConfirm();
-    toast.success('박스에 금액을 채웠어요!');
+    onConfirm(password);
   };
 
   const isPasswordComplete = password.length === 4;
@@ -43,7 +41,6 @@ const FillBoxPassword: React.FC<FillBoxPasswordProps> = ({
           isPassword
           align="center"
           focusColorClass="focus:border-theme-primary"
-          onComplete={handleSubmit}
           onChange={(pin) => setPassword(pin)}
         />
       </div>
