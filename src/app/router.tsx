@@ -7,6 +7,7 @@ import AlbumPage from '@/pages/AlbumPage';
 import BucketCreatePage from '@/pages/BucketCreatePage.tsx';
 import BucketDetailPage from '@/pages/BucketDetailPage';
 import BucketEditPage from '@/pages/BucketEditPage';
+import CouponPage from '@/pages/CouponPage';
 import FamilyPage from '@/pages/FamilyPage';
 import GroupJoinPage from '@/pages/GroupJoinPage';
 import HomePage from '@/pages/HomePage';
@@ -42,6 +43,7 @@ export const router = createBrowserRouter([
       { path: 'bucket-support/:id', element: <SupportPage /> },
       { path: 'bucket-create', element: <BucketCreatePage /> },
       { path: 'support/:id', element: <SupportDetailPage /> },
+      { path: 'coupon', element: <CouponPage /> },
     ],
   },
 ]);
