@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react';
 import { type InputRef, Switch } from 'antd';
-import SelectItem from '@/components/SelectItem.tsx';
-import Input from '@/components/input/Input.tsx';
+import { useEffect, useRef } from 'react';
+
 import Button from '@/components/button/Button.tsx';
+import Input from '@/components/input/Input.tsx';
+import SelectItem from '@/components/SelectItem.tsx';
 import type { WhoAndWhatProps } from '@/features/bucket-create/types/props.ts';
 
 // Step 2: 누구와 무엇을
@@ -26,15 +27,15 @@ export const WhoAndWhat = ({
     }
   }, [withFamily]);
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <div className="flex-grow space-y-6 text-left">
-        <p className="text-3xl font-hana-regular">
+        <p className="font-hana-regular text-3xl">
           <span className="font-hana-bold">버킷리스트</span>에 대한 정보를
           <br />
           입력해 주세요
         </p>
 
-        <div className="flex gap-15 w-full items-center">
+        <div className="flex w-full items-center gap-15">
           <span className="font-hana-regular text-3xl">
             <span className="font-hana-bold">가족</span>에게 버킷 공개{' '}
           </span>
@@ -53,7 +54,7 @@ export const WhoAndWhat = ({
 
         <div className="w-full">
           <p className="font-hana-bold text-3xl">1. 누구와</p>
-          <div className="grid grid-cols-2 gap-2 w-full mt-3">
+          <div className="mt-3 grid w-full grid-cols-2 gap-2">
             <SelectItem
               text="혼자"
               selected={withFamily === false}

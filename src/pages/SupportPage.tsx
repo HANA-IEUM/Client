@@ -1,11 +1,12 @@
-import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import SelectLetterType from '@/features/support/components/SelectLetterType';
-import { useNavigate } from 'react-router-dom';
 import WriteTextAndSupport from '@/features/support/components/WriteTextAndSupport';
-import { useParams } from 'react-router-dom';
 import { useSupport } from '@/features/support/hooks/useSupports';
+import { showError, showSuccess } from '@/lib/toast';
 
 type SupportInfo = {
   letterColor: string;
@@ -58,17 +59,28 @@ const SupportPage = () => {
       });
     }
 
-    support({
-      letterColor: supportInfo.letterColor,
-      message: supportInfo.message,
-      supportType: payload.amount === null ? 'CHEER' : 'SPONSOR',
-      supportAmount: payload.amount,
-      accountPassword: payload.pin,
-    });
+    support(
+      {
+        letterColor: supportInfo.letterColor,
+        message: supportInfo.message,
+        supportType: payload.amount === null ? 'CHEER' : 'SPONSOR',
+        supportAmount: payload.amount,
+        accountPassword: payload.pin,
+      },
+      {
+        onSuccess: () => {
+          showSuccess('응원이 성공적으로 완료되었어요.');
+          navigate('/home');
+        },
+        onError: (error) => {
+          showError('응원에 실패했어요. 다시 시도해 주세요.');
+        },
+      }
+    );
   };
 
   return (
-    <div className="relative w-full h-[100dvh] overflow-hidden px-6">
+    <div className="relative h-[100dvh] w-full overflow-hidden px-6">
       <AnimatePresence mode="sync" initial={false}>
         <motion.div
           key={step}
@@ -76,7 +88,7 @@ const SupportPage = () => {
           animate={{ x: 0 }}
           exit={{ x: '-100%' }}
           transition={{ duration: 0.28, ease: 'easeInOut' }}
-          className="absolute inset-0 w-full h-full transform-gpu will-change-transform"
+          className="absolute inset-0 h-full w-full transform-gpu will-change-transform"
         >
           {step === 0 && (
             <SelectLetterType

@@ -1,16 +1,16 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { Box } from '@/features/wallet/types';
 
-import WalletHome from '@/features/wallet/components/WalletHome';
+import BoxEdit from '@/features/wallet/components/BoxEdit';
+import BoxTransferHistory from '@/features/wallet/components/BoxTransferHistory';
 import FillBoxAmount from '@/features/wallet/components/FillBoxAmount';
 import FillBoxPassword from '@/features/wallet/components/FillBoxPassword';
-import BoxTransferHistory from '@/features/wallet/components/BoxTransferHistory';
-import BoxEdit from '@/features/wallet/components/BoxEdit';
+import WalletHome from '@/features/wallet/components/WalletHome';
 import {
   useMainAccount,
   useFillMoneyBox,
 } from '@/features/wallet/hooks/useMainAccount';
+import type { Box } from '@/features/wallet/types';
 import { showError, showSuccess } from '@/lib/toast';
 
 const WalletPage = () => {
@@ -95,7 +95,7 @@ const WalletPage = () => {
   );
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative h-full w-full">
       {step === 0 && (
         <WalletHome
           onFillBox={handleFillBox}

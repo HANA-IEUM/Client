@@ -1,15 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
 import { Switch, type InputRef } from 'antd';
-import Input from '@/components/input/Input';
+import React, { useEffect, useRef, useState } from 'react';
+
 import Button from '@/components/button/Button';
 import BoxInput from '@/components/common/BoxInput';
 import Header from '@/components/Header';
-import type { Box } from '@/features/wallet/types';
+import Input from '@/components/input/Input';
+import BoxPasswordBottomSheet from '@/features/wallet/components/BoxPasswordBottomSheet';
 import {
   useMoneyBoxEditInfo,
   useUpdateMoneyBox,
 } from '@/features/wallet/hooks/useMainAccount';
-import BoxPasswordBottomSheet from '@/features/wallet/components/BoxPasswordBottomSheet';
+import type { Box } from '@/features/wallet/types';
 import { showSuccess, showError } from '@/lib/toast';
 
 interface BoxEditProps {
@@ -102,7 +103,7 @@ const BoxEdit: React.FC<BoxEditProps> = ({ box, onBack, onSave }) => {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col">
+    <div className="flex h-screen w-full flex-col">
       {showPasswordInput && (
         <BoxPasswordBottomSheet
           open={showPasswordInput}
@@ -112,14 +113,14 @@ const BoxEdit: React.FC<BoxEditProps> = ({ box, onBack, onSave }) => {
       )}
 
       <>
-        <div className="flex-1 flex flex-col min-h-0">
+        <div className="flex min-h-0 flex-1 flex-col">
           <div className="px-6">
             <Header onClick={onBack} />
           </div>
 
-          <div className="flex-1 px-6 overflow-y-auto pb-6">
+          <div className="flex-1 overflow-y-auto px-6 pb-6">
             <div className="space-y-6 text-left">
-              <p className="font-hana-regular text-3xl mb-3">
+              <p className="font-hana-regular mb-3 text-3xl">
                 <span className="font-hana-bold">박스 별명</span>을 입력해
                 주세요
               </p>
@@ -131,7 +132,7 @@ const BoxEdit: React.FC<BoxEditProps> = ({ box, onBack, onSave }) => {
                 }
               />
 
-              <div className="flex items-center gap-15 w-full my-10">
+              <div className="my-10 flex w-full items-center gap-15">
                 <span className="font-hana-regular text-3xl">
                   <span className="font-hana-bold">자동이체</span> 설정{' '}
                 </span>
@@ -151,7 +152,7 @@ const BoxEdit: React.FC<BoxEditProps> = ({ box, onBack, onSave }) => {
               {automaticTransfer && (
                 <>
                   <div className="mt-10">
-                    <p className="font-hana-regular text-3xl mb-3">
+                    <p className="font-hana-regular mb-3 text-3xl">
                       <span className="font-hana-bold">
                         매월 박스에 충전할 금액
                       </span>
@@ -167,22 +168,22 @@ const BoxEdit: React.FC<BoxEditProps> = ({ box, onBack, onSave }) => {
                         type="text"
                         intent="green"
                       />
-                      <span className="text-3xl font-hana-regular">원</span>
+                      <span className="font-hana-regular text-3xl">원</span>
                     </div>
 
                     <div className="mt-10">
-                      <p className="font-hana-regular text-3xl mb-3">
+                      <p className="font-hana-regular mb-3 text-3xl">
                         <span className="font-hana-bold">자동이체일</span>을
                         입력해 주세요
                       </p>
-                      <div className="flex gap-4 items-center">
+                      <div className="flex items-center gap-4">
                         <BoxInput
                           length={2}
                           value={transferDay}
                           onChange={setTransferDay}
                           align="start"
                         />
-                        <p className="text-3xl font-hana-regular !m-0">일</p>
+                        <p className="font-hana-regular !m-0 text-3xl">일</p>
                       </div>
                     </div>
                   </div>
@@ -192,11 +193,11 @@ const BoxEdit: React.FC<BoxEditProps> = ({ box, onBack, onSave }) => {
           </div>
         </div>
 
-        <div className="px-6 pb-6 !mb-20">
+        <div className="!mb-20 px-6 pb-6">
           <Button
             intent="green"
             size="lg"
-            className="w-full py-4 text-lg font-hana-bold"
+            className="font-hana-bold w-full py-4 text-lg"
             onClick={handleSave}
             disabled={boxName.length === 0}
             loading={isUpdating}

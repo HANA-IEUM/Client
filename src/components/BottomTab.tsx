@@ -19,7 +19,7 @@ const BottomTab = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full h-20 py-3 border-t border-line z-50 bg-white">
+    <div className="border-line h-20 w-full border-t bg-white py-3">
       <div className="flex gap-1">
         {tabs.map(({ path, label, Icon }) => {
           const isActive =
@@ -31,7 +31,7 @@ const BottomTab = () => {
             <button
               key={path}
               onClick={() => navigate(path)}
-              className="flex flex-col gap-2 w-1/5 h-full items-center cursor-pointer"
+              className="flex h-full w-1/5 cursor-pointer flex-col items-center gap-2"
             >
               <Icon active={isActive} />
               <p

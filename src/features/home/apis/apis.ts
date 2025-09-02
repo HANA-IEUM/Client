@@ -6,8 +6,8 @@ interface BucketListResponse {
 }
 
 export const fetchBucketLists = async (filter: string) => {
-  const { data } = await api.get<BucketListResponse>('/bucket-lists', {
-    params: { status: filter === 'ALL' ? '' : filter },
-  });
+  const { data } = await api.get<BucketListResponse>(
+    '/bucket-lists/category/' + filter
+  );
   return data.data;
 };

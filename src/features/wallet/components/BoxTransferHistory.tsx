@@ -1,12 +1,13 @@
-import React, { useRef, useCallback, useEffect } from 'react';
 import { Spin } from 'antd';
+import React, { useRef, useCallback, useEffect } from 'react';
+
 import Button from '@/components/button/Button';
 import Header from '@/components/Header';
-import type { Box } from '@/features/wallet/types';
 import {
   useInfiniteAccountTransactions,
   useMoneyBoxInfo,
 } from '@/features/wallet/hooks/useMainAccount';
+import type { Box } from '@/features/wallet/types';
 import { formatKoreanDateTime } from '@/utils/dateFormat';
 
 interface BoxTransferHistoryProps {
@@ -78,17 +79,17 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
   }, [handleObserver]);
 
   return (
-    <div className="w-full h-full overflow-y-auto pb-20">
-      <div className="pt-5 px-6 mb-7">
+    <div className="h-full w-full overflow-y-auto pb-20">
+      <div className="mb-7 px-6 pt-5">
         <Header onClick={onBack} />
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-hana-bold text-text-primary !mb-0">
+          <h1 className="font-hana-bold text-text-primary !mb-0 text-3xl">
             {isMoneyBox ? '박스' : '주계좌'}
           </h1>
           {isMoneyBox && onViewBucket && box.bucketListId && (
             <Button
               intent="silver"
-              className="!text-base !font-hana-regular !text-text-secondary"
+              className="!font-hana-regular !text-text-secondary !text-base"
               onClick={() => box.bucketListId && onViewBucket(box.bucketListId)}
             >
               버킷리스트 보기
@@ -98,16 +99,16 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
       </div>
 
       {isMoneyBox && (
-        <div className="px-6 !mb-3">
+        <div className="!mb-3 px-6">
           {boxInfoLoading ? (
-            <div className="h-5 bg-gray-200 rounded animate-pulse w-64"></div>
+            <div className="h-5 w-64 animate-pulse rounded bg-gray-200"></div>
           ) : boxInfo?.nextTransferDay && boxInfo?.nextTransferAmount ? (
-            <p className="text-text-secondary text-base font-hana-regular !mb-0">
+            <p className="text-text-secondary font-hana-regular !mb-0 text-base">
               다음달에는 {boxInfo.nextTransferDay}일에{' '}
               {boxInfo.nextTransferAmount.toLocaleString()}원이 채워져요
             </p>
           ) : (
-            <p className="text-text-secondary text-base font-hana-regular !mb-0">
+            <p className="text-text-secondary font-hana-regular !mb-0 text-base">
               자동이체가 설정되어 있지 않아요
             </p>
           )}
@@ -115,21 +116,21 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
       )}
 
       <div className="px-6">
-        <div className="bg-theme-secondary rounded-2xl p-3 mb-7">
+        <div className="bg-theme-secondary mb-7 rounded-2xl p-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="ml-2 w-11 h-11 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+              <div className="ml-2 flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-sm">
                 <img
                   src="/images/box.png"
                   alt="박스 아이콘"
-                  className="w-7 h-7"
+                  className="h-7 w-7"
                 />
               </div>
               <div>
-                <h4 className="text-lg font-hana-regular text-text-secondary !mb-0">
+                <h4 className="font-hana-regular text-text-secondary !mb-0 text-lg">
                   {box.name}
                 </h4>
-                <p className="text-xl font-hana-bold text-text-secondary !mb-0">
+                <p className="font-hana-bold text-text-secondary !mb-0 text-xl">
                   {box.balance} 원
                 </p>
               </div>
@@ -144,18 +145,18 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
             {[1, 2, 3].map((i) => (
               <div key={i} className="space-y-3">
                 <div className="mb-3">
-                  <div className="h-5 bg-gray-200 rounded animate-pulse w-20"></div>
+                  <div className="h-5 w-20 animate-pulse rounded bg-gray-200"></div>
                 </div>
                 <div className="space-y-3">
                   {[1, 2].map((j) => (
                     <div key={j} className="flex items-center justify-between">
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
-                          <div className="h-6 bg-gray-200 rounded animate-pulse w-32"></div>
-                          <div className="h-6 bg-gray-200 rounded animate-pulse w-24"></div>
+                          <div className="h-6 w-32 animate-pulse rounded bg-gray-200"></div>
+                          <div className="h-6 w-24 animate-pulse rounded bg-gray-200"></div>
                         </div>
                         <div className="flex items-center justify-end">
-                          <div className="h-5 bg-gray-200 rounded animate-pulse w-20"></div>
+                          <div className="h-5 w-20 animate-pulse rounded bg-gray-200"></div>
                         </div>
                       </div>
                     </div>
@@ -169,7 +170,7 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
             {Object.entries(groupedTransactions).map(([date, txs]) => (
               <div key={date}>
                 <div className="mb-3">
-                  <span className="text-base text-text-secondary font-hana-regular">
+                  <span className="text-text-secondary font-hana-regular text-base">
                     {date}
                   </span>
                 </div>
@@ -182,7 +183,7 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
                     >
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
-                          <span className="text-xl text-text-secondary font-hana-bold">
+                          <span className="text-text-secondary font-hana-bold text-xl">
                             {tx.description || tx.transactionType}
                           </span>
                           {(() => {
@@ -193,7 +194,7 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
                               : 'text-red-400';
                             return (
                               <span
-                                className={`text-xl font-hana-bold ${colorClass}`}
+                                className={`font-hana-bold text-xl ${colorClass}`}
                               >
                                 {sign}
                                 {tx.amount.toLocaleString()}원
@@ -202,7 +203,7 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
                           })()}
                         </div>
                         <div className="flex items-center justify-end">
-                          <span className="text-base font-hana-regular text-text-secondary !mt-0 mb-2">
+                          <span className="font-hana-regular text-text-secondary !mt-0 mb-2 text-base">
                             {tx.balanceAfter.toLocaleString()}원
                           </span>
                         </div>
@@ -222,7 +223,7 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
               ) : hasNextPage ? (
                 <div className="h-3" /> // 관찰용 빈 공간
               ) : (
-                <div className="text-center py-4">
+                <div className="py-4 text-center">
                   <p className="text-text-secondary font-hana-regular text-base">
                     모든 거래내역을 불러왔습니다
                   </p>
@@ -231,7 +232,7 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
             </div>
           </div>
         ) : (
-          <div className="text-center py-8">
+          <div className="py-8 text-center">
             <p className="text-text-secondary font-hana-regular text-lg">
               거래내역이 없습니다.
             </p>

@@ -1,9 +1,4 @@
-export type BucketCategoryType =
-  | 'TRIP'
-  | 'HOBBY'
-  | 'HEALTH'
-  | 'FAMILY_SUPPORT'
-  | '';
+export type BucketCategoryType = 'TRIP' | 'HOBBY' | 'HEALTH' | 'FAMILY' | '';
 
 export interface CreateBucketPayload {
   type: BucketCategoryType;

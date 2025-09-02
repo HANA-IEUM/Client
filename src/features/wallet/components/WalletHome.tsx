@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+
+import HanaIcon from '@/assets/common/HanaIcon';
+import HanaIcon from '@/assets/common/HanaIcon';
 import Button from '@/components/button/Button';
+import EmptyStateMessage from '@/components/common/EmptyStateMessage';
 import FillBoxAmount from '@/features/wallet/components/FillBoxAmount';
 import FillBoxPassword from '@/features/wallet/components/FillBoxPassword';
-import type { Box } from '../types';
-import HanaIcon from '@/assets/common/HanaIcon';
 import {
   useMainAccount,
   useMoneyBoxes,
   useFillMoneyBox,
 } from '@/features/wallet/hooks/useMainAccount';
-import EmptyStateMessage from '@/components/common/EmptyStateMessage';
 import { showError, showSuccess } from '@/lib/toast';
+
+import type { Box } from '../types';
 
 interface WalletHomeProps {
   onFillBox: (box: Box) => void;
@@ -124,7 +127,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
       <>
         <div className="fixed inset-0 z-40 bg-black/50" onClick={handleBack} />
 
-        <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 p-6 flex flex-col">
+        <div className="fixed right-0 bottom-0 left-0 z-50 flex flex-col rounded-t-3xl bg-white p-6">
           {step === 'amount' && (
             <FillBoxAmount
               box={selectedBox}
@@ -147,47 +150,47 @@ const WalletHome: React.FC<WalletHomeProps> = ({
 
   return (
     <>
-      <div className="w-full h-full pt-12">
+      <div className="h-full w-full pt-12">
         <div className="px-6">
-          <h1 className="text-4xl font-hana-bold text-text-primary !mb-8">
+          <h1 className="font-hana-bold text-text-primary !mb-8 text-4xl">
             지갑
           </h1>
         </div>
 
         {accountLoading ? (
-          <div className="w-full px-6 mb-14">
+          <div className="mb-14 w-full px-6">
             <div className="bg-btn-default-bg rounded-2xl p-4 shadow-sm">
               <div className="flex items-center gap-5">
-                <div className="w-14 h-14 bg-theme-secondary rounded-full flex items-center justify-center">
+                <div className="bg-theme-secondary flex h-14 w-14 items-center justify-center rounded-full">
                   <HanaIcon />
                 </div>
                 <div className="flex-1">
-                  <div className="h-6 bg-gray-200 rounded animate-pulse mb-2"></div>
-                  <div className="h-5 bg-gray-200 rounded animate-pulse mb-2"></div>
-                  <div className="h-8 bg-gray-200 rounded animate-pulse"></div>
+                  <div className="mb-2 h-6 animate-pulse rounded bg-gray-200"></div>
+                  <div className="mb-2 h-5 animate-pulse rounded bg-gray-200"></div>
+                  <div className="h-8 animate-pulse rounded bg-gray-200"></div>
                 </div>
               </div>
             </div>
           </div>
         ) : mainAccount ? (
-          <div className="w-full px-6 mb-14">
+          <div className="mb-14 w-full px-6">
             <div
-              className="bg-btn-default-bg rounded-2xl p-4 shadow-sm cursor-pointer"
+              className="bg-btn-default-bg cursor-pointer rounded-2xl p-4 shadow-sm"
               onClick={onViewMainAccount}
             >
               <div className="flex items-center gap-5">
-                <div className="w-14 h-14 bg-theme-secondary rounded-full flex items-center justify-center">
+                <div className="bg-theme-secondary flex h-14 w-14 items-center justify-center rounded-full">
                   <HanaIcon />
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-lg font-hana-bold text-text-secondary !mb-0">
+                  <h2 className="font-hana-bold text-text-secondary !mb-0 text-lg">
                     {mainAccount.accountName}
                   </h2>
-                  <p className="text-base font-hana-regular text-text-secondary !mb-0">
+                  <p className="font-hana-regular text-text-secondary !mb-0 text-base">
                     {mainAccount.accountNumber}
                   </p>
                   <div className="text-left">
-                    <p className="text-2xl font-hana-bold text-text-primary !mb-0">
+                    <p className="font-hana-bold text-text-primary !mb-0 text-2xl">
                       {mainAccount.balance.toLocaleString()} 원
                     </p>
                   </div>
@@ -198,27 +201,27 @@ const WalletHome: React.FC<WalletHomeProps> = ({
         ) : null}
 
         <div className="px-6">
-          <h1 className="text-3xl font-hana-bold text-text-primary !mb-8">
+          <h1 className="font-hana-bold text-text-primary !mb-8 text-3xl">
             박스
           </h1>
 
           {boxesLoading ? (
             <div className="space-y-4">
               {[1, 2].map((i) => (
-                <div key={i} className="space-y-3 !mb-8">
-                  <div className="bg-theme-secondary rounded-2xl p-3 !mb-[5px]">
+                <div key={i} className="!mb-8 space-y-3">
+                  <div className="bg-theme-secondary !mb-[5px] rounded-2xl p-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="ml-2 w-11 h-11 bg-white rounded-2xl flex items-center justify-center shadow-sm">
-                          <div className="w-7 h-7 bg-gray-200 rounded animate-pulse"></div>
+                        <div className="ml-2 flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-sm">
+                          <div className="h-7 w-7 animate-pulse rounded bg-gray-200"></div>
                         </div>
                         <div className="flex-1">
-                          <div className="h-6 bg-gray-200 rounded animate-pulse mb-2"></div>
-                          <div className="h-6 bg-gray-200 rounded animate-pulse"></div>
+                          <div className="mb-2 h-6 animate-pulse rounded bg-gray-200"></div>
+                          <div className="h-6 animate-pulse rounded bg-gray-200"></div>
                         </div>
                       </div>
                       <div className="mr-2">
-                        <div className="w-20 h-12 bg-gray-200 rounded-xl animate-pulse"></div>
+                        <div className="h-12 w-20 animate-pulse rounded-xl bg-gray-200"></div>
                       </div>
                     </div>
                   </div>
@@ -226,7 +229,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
                     {[1, 2, 3].map((j) => (
                       <div
                         key={j}
-                        className="flex-1 h-12 bg-gray-200 rounded-xl animate-pulse"
+                        className="h-12 flex-1 animate-pulse rounded-xl bg-gray-200"
                       ></div>
                     ))}
                   </div>
@@ -236,22 +239,22 @@ const WalletHome: React.FC<WalletHomeProps> = ({
           ) : boxes.length > 0 ? (
             <div className="space-y-4">
               {boxes.map((box) => (
-                <div key={box.id} className="space-y-3 !mb-8">
-                  <div className="bg-theme-secondary rounded-2xl p-3 !mb-[5px]">
+                <div key={box.id} className="!mb-8 space-y-3">
+                  <div className="bg-theme-secondary !mb-[5px] rounded-2xl p-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="ml-2 w-11 h-11 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+                        <div className="ml-2 flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-sm">
                           <img
                             src="/images/box.png"
                             alt="박스 아이콘"
-                            className="w-7 h-7"
+                            className="h-7 w-7"
                           />
                         </div>
                         <div>
-                          <h4 className="text-lg font-hana-regular text-text-secondary !mb-0">
+                          <h4 className="font-hana-regular text-text-secondary !mb-0 text-lg">
                             {box.name}
                           </h4>
-                          <p className="text-xl font-hana-bold text-text-secondary !mb-0">
+                          <p className="font-hana-bold text-text-secondary !mb-0 text-xl">
                             {box.balance} 원
                           </p>
                         </div>
@@ -274,7 +277,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
                       intent="silver"
                       size="lg"
                       font="regular"
-                      className="!text-base flex-1"
+                      className="flex-1 !text-base"
                       onClick={() => onViewHistory(box)}
                     >
                       상세 보기
@@ -283,7 +286,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
                       intent="silver"
                       size="lg"
                       font="regular"
-                      className="!text-base flex-1"
+                      className="flex-1 !text-base"
                       onClick={() => onViewBucket(box.bucketListId)}
                     >
                       버킷 보기
@@ -292,7 +295,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
                       intent="silver"
                       size="lg"
                       font="regular"
-                      className="!text-base flex-1"
+                      className="flex-1 !text-base"
                       onClick={() => onEditBox(box)}
                     >
                       수정하기

@@ -1,12 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import {
   createAlbumPost,
   updateAlbumPost,
   deleteAlbumPost,
   uploadAlbumImage,
 } from '@/features/album/apis/albumApi';
-import { albumQK } from './useAlbums';
 import type { UpdateAlbumRequest } from '@/features/album/apis/albumApi';
+
+import { albumQK } from './useAlbums';
 
 export function useCreateAlbum() {
   const queryClient = useQueryClient();

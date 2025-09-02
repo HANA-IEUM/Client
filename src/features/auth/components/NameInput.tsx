@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
 import type { InputRef } from 'antd';
-import Input from '@/components/input/Input.tsx';
-import Button from '@/components/button/Button.tsx';
+import React, { useEffect, useRef } from 'react';
+
 import nameIcon from '@/assets/common/user/name.png';
+import Button from '@/components/button/Button.tsx';
+import Input from '@/components/input/Input.tsx';
 
 export type NameInputProps = {
   name: string;
@@ -18,12 +19,12 @@ export const NameInput = ({ name, onNameChange, onNext }: NameInputProps) => {
   }, []);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <div className="flex-grow space-y-6">
-        <div className="w-16 h-16 bg-theme-secondary rounded-full flex items-center justify-center mx-auto">
-          <img src={nameIcon} alt="message" className="w-10 h-10" />
+        <div className="bg-theme-secondary mx-auto flex h-16 w-16 items-center justify-center rounded-full">
+          <img src={nameIcon} alt="message" className="h-10 w-10" />
         </div>
-        <p className="text-3xl font-hana-regular text-left">
+        <p className="font-hana-regular text-left text-3xl">
           <span className="font-hana-bold">성함</span>을 입력해 주세요
         </p>
         <Input

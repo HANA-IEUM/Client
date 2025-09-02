@@ -1,11 +1,13 @@
 import { api } from '@/lib/axios.ts';
 import type {
+  CheckPhoneNumberResponse,
   LoginPayload,
   LoginResponse,
-  RegisterPayload,
+  PhoneNumberPayload,
   RefreshPayload,
-  VerificationPayload,
+  RegisterPayload,
   VerificationConfirmPayload,
+  VerificationPayload,
 } from '@/types/auth.ts';
 
 export const registerUser = async (payload: RegisterPayload) => {
@@ -20,6 +22,14 @@ export const loginUser = async (payload: LoginPayload) => {
 
 export const refreshToken = async (payload: RefreshPayload) => {
   const { data } = await api.post<LoginResponse>('/auth/refresh', payload);
+  return data;
+};
+
+export const checkPhoneNumber = async (payload: PhoneNumberPayload) => {
+  const { data } = await api.post<CheckPhoneNumberResponse>(
+    '/auth/check-phone',
+    payload
+  );
   return data;
 };
 
@@ -38,3 +48,8 @@ export const verificationPhoneNumberConfirm = async (
 export async function hideGroupPrompt(): Promise<void> {
   await api.put('/members/group-prompt/hide');
 }
+
+export const logoutUser = async () => {
+  const { data } = await api.post('/auth/logout');
+  return data;
+};

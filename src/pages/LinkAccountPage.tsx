@@ -1,16 +1,15 @@
-import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import AccountConnect from '@/features/link-account/components/AccountConnect';
 import AccountFetching from '@/features/link-account/components/AccountFetching';
 import AccountSelect from '@/features/link-account/components/AccountSelect';
 import TermOfUse from '@/features/link-account/components/TermOfUse';
-import type { MainAccount } from '@/types/account';
-
-import { useMainAccount } from '@/features/link-account/hooks/useMainAccount';
 import { useLinkMainAccount } from '@/features/link-account/hooks/useLinkMainAccount';
+import { useMainAccount } from '@/features/link-account/hooks/useMainAccount';
 import { showError, showSuccess } from '@/lib/toast';
+import type { MainAccount } from '@/types/account';
 
 const LinkAccountPage = () => {
   const navigate = useNavigate();
@@ -38,7 +37,7 @@ const LinkAccountPage = () => {
   };
 
   return (
-    <div className="relative w-full h-[100dvh] overflow-y-auto px-6">
+    <div className="relative h-[100dvh] w-full overflow-y-auto px-6">
       <AnimatePresence mode="sync" initial={false}>
         <motion.div
           key={step}
@@ -46,7 +45,7 @@ const LinkAccountPage = () => {
           animate={{ x: 0 }}
           exit={{ x: '-100%' }}
           transition={{ duration: 0.28, ease: 'easeInOut' }}
-          className="absolute inset-0 w-full h-full transform-gpu will-change-transform"
+          className="absolute inset-0 h-full w-full transform-gpu will-change-transform"
         >
           {step === 0 && (
             <AccountConnect

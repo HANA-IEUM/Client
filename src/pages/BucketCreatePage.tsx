@@ -1,23 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '@/components/Header';
+
 import Stepper from '@/components/common/Stepper.tsx';
-import { SelectCategory } from '@/features/bucket-create/components/SelectCategory.tsx';
-import { WhoAndWhat } from '@/features/bucket-create/components/WhoAndWhat';
-import { SelectGroupMember } from '@/features/bucket-create/components/SelectGroupMember';
-import { GoalAmountPeriod } from '@/features/bucket-create/components/GoalAmountPeriod.tsx';
-import { CreateBox } from '@/features/bucket-create/components/CreateBox.tsx';
-import { ConfirmBucket } from '@/features/bucket-create/components/ConfirmBucket.tsx';
+import Header from '@/components/Header';
 import { BoxInfo } from '@/features/bucket-create/components/BoxInfo.tsx';
+import { ConfirmBucket } from '@/features/bucket-create/components/ConfirmBucket.tsx';
+import { CreateBox } from '@/features/bucket-create/components/CreateBox.tsx';
+import { GoalAmountPeriod } from '@/features/bucket-create/components/GoalAmountPeriod.tsx';
+import { SelectCategory } from '@/features/bucket-create/components/SelectCategory.tsx';
+import { SelectGroupMember } from '@/features/bucket-create/components/SelectGroupMember';
+import { WhoAndWhat } from '@/features/bucket-create/components/WhoAndWhat';
 import { useCreateBucket } from '@/features/bucket-create/hooks/useCreateBucket.ts';
 import type {
   BucketCategoryType,
   CreateBucketPayload,
 } from '@/features/bucket-create/types/bucket.ts';
-import { useQuery } from '@tanstack/react-query';
-import { groupQK } from '@/features/group-join/hooks/useGroupInfo.ts';
 import { fetchGroupInfo } from '@/features/group-join/apis/groupApi.ts';
+import { groupQK } from '@/features/group-join/hooks/useGroupInfo.ts';
+import { useMonthlyLivingCost } from '@/hooks/useMonthlyLivingCost.ts';
 
 const variants = {
   enter: (direction: number) => ({
@@ -49,11 +51,10 @@ export default function BucketCreatePage() {
   const [period, setPeriod] = useState<number | null>(null);
   const [monthlyAmount, setMonthlyAmount] = useState(0);
   const [selectedMembersIds, setSelectedMembersIds] = useState<number[]>([]);
-  const [livingCost, setLivingCost] = useState(0);
   const [boxName, setBoxName] = useState('');
   const [automaticTransfer, setAutomaticTransfer] = useState(false);
   const [transferDay, setTransferDay] = useState(dayStr);
-
+  const { data: livingCost } = useMonthlyLivingCost();
   // 그룹정보 불러오기
   const { data: groupInfo } = useQuery({
     queryKey: groupQK.info,
@@ -61,11 +62,6 @@ export default function BucketCreatePage() {
   });
 
   const TOTAL_STEPS = 4;
-
-  useEffect(() => {
-    // TODO 실제 사용자의 월 생활비 데이터
-    setLivingCost(3000000);
-  }, []);
 
   const getNumberAmount = (str: string) => {
     return Number(str.replace(/,/g, ''));
@@ -170,7 +166,7 @@ export default function BucketCreatePage() {
             title={title}
             targetAmount={amount}
             period={period}
-            livingCost={livingCost}
+            livingCost={livingCost || 0}
             onNext={goNext}
           />
         );
@@ -196,7 +192,7 @@ export default function BucketCreatePage() {
   };
 
   return (
-    <div className="mx-6 flex flex-col h-screen">
+    <div className="mx-6 flex h-screen flex-col">
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0 }}
@@ -213,7 +209,7 @@ export default function BucketCreatePage() {
       ) : (
         <></>
       )}
-      <div className="flex-grow my-10 relative overflow-hidden">
+      <div className="relative my-10 flex-grow overflow-hidden">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={step}
@@ -223,7 +219,7 @@ export default function BucketCreatePage() {
             animate="center"
             exit="exit"
             transition={{ type: 'tween', ease: 'easeInOut', duration: 0.4 }}
-            className="absolute w-full h-full"
+            className="absolute h-full w-full"
           >
             {renderStepContent()}
           </motion.div>
