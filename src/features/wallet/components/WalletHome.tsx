@@ -8,8 +8,10 @@ import HanaIcon from '@/assets/common/HanaIcon';
 import {
   useMainAccount,
   useMoneyBoxes,
+  useFillMoneyBox,
 } from '@/features/wallet/hooks/useMainAccount';
 import EmptyStateMessage from '@/components/common/EmptyStateMessage';
+import { showError, showSuccess } from '@/lib/toast';
 
 interface WalletHomeProps {
   onFillBox: (box: Box) => void;
@@ -34,6 +36,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
     isLoading: boxesLoading,
     refetch: refetchMoneyBoxes,
   } = useMoneyBoxes();
+  const { mutate: fillMoneyBox } = useFillMoneyBox();
 
   // 페이지 포커스 시 박스 목록 새로고침
   useEffect(() => {
@@ -85,10 +88,33 @@ const WalletHome: React.FC<WalletHomeProps> = ({
     setStep('password');
   };
 
-  const handlePasswordConfirm = () => {
-    setStep(null); // 바텀시트 완전히 닫기
-    setSelectedBox(null); // 선택된 박스 초기화
-    setFillAmount(''); // 입력된 금액 초기화
+  const handlePasswordConfirm = (password: string) => {
+    if (!selectedBox) return;
+    const amountNumber = Number(fillAmount.replace(/,/g, ''));
+    if (!amountNumber || amountNumber <= 0) {
+      showError('금액을 확인해 주세요.');
+      return;
+    }
+
+    fillMoneyBox(
+      {
+        amount: amountNumber,
+        accountPassword: password,
+        moneyBoxAccountId: selectedBox.accountId ?? selectedBox.id,
+      },
+      {
+        onSuccess: () => {
+          showSuccess('박스에 금액을 채웠어요!');
+          setStep(null);
+          setSelectedBox(null);
+          setFillAmount('');
+          refetchMoneyBoxes();
+        },
+        onError: () => {
+          showError('충전에 실패했어요. 다시 시도해 주세요.');
+        },
+      }
+    );
   };
 
   const modal =

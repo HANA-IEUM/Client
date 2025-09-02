@@ -7,7 +7,11 @@ import FillBoxAmount from '@/features/wallet/components/FillBoxAmount';
 import FillBoxPassword from '@/features/wallet/components/FillBoxPassword';
 import BoxTransferHistory from '@/features/wallet/components/BoxTransferHistory';
 import BoxEdit from '@/features/wallet/components/BoxEdit';
-import { useMainAccount } from '@/features/wallet/hooks/useMainAccount';
+import {
+  useMainAccount,
+  useFillMoneyBox,
+} from '@/features/wallet/hooks/useMainAccount';
+import { showError, showSuccess } from '@/lib/toast';
 
 const WalletPage = () => {
   const [step, setStep] = useState(0);
@@ -16,6 +20,7 @@ const WalletPage = () => {
   const navigate = useNavigate();
 
   const { data: mainAccount } = useMainAccount();
+  const { mutate: fillMoneyBox, isPending: isFilling } = useFillMoneyBox();
 
   const handleFillBox = useCallback((box: Box) => {
     setSelectedBox(box);
@@ -27,10 +32,36 @@ const WalletPage = () => {
     setStep(2);
   }, []);
 
-  const handlePasswordConfirm = useCallback(() => {
-    // TODO: 실제 이체 API 호출
-    setStep(0);
-  }, []);
+  const handlePasswordConfirm = useCallback(
+    (password: string) => {
+      if (!selectedBox) return;
+      const amountNumber = Number(fillAmount.replace(/,/g, ''));
+      if (!amountNumber || amountNumber <= 0) {
+        showError('금액을 확인해 주세요.');
+        return;
+      }
+
+      fillMoneyBox(
+        {
+          amount: amountNumber,
+          accountPassword: password,
+          moneyBoxAccountId: selectedBox.accountId ?? selectedBox.id,
+        },
+        {
+          onSuccess: () => {
+            showSuccess('박스에 금액을 채웠어요!');
+            setStep(0);
+            setSelectedBox(null);
+            setFillAmount('');
+          },
+          onError: () => {
+            showError('충전에 실패했어요. 다시 시도해 주세요.');
+          },
+        }
+      );
+    },
+    [fillAmount, selectedBox, fillMoneyBox]
+  );
 
   const handleViewHistory = useCallback((box: Box) => {
     setSelectedBox(box);

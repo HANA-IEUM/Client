@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@/components/button/Button';
 import Input from '@/components/input/Input';
-import type { Box } from '../types';
+import type { Box } from '@/features/wallet/types';
 
 interface FillBoxAmountProps {
   box: Box;

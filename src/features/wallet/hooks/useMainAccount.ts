@@ -11,6 +11,9 @@ import {
   fetchMoneyBoxInfo,
   fetchMoneyBoxEditInfo,
   updateMoneyBox,
+  type MoneyBoxEditRequest,
+  fillMoneyBox,
+  type FillMoneyBoxRequest,
 } from '@/features/wallet/apis/walletApi';
 
 export const walletQK = {
@@ -84,7 +87,7 @@ export function useUpdateMoneyBox() {
       editData,
     }: {
       accountId: number;
-      editData: import('@/features/wallet/apis/walletApi').MoneyBoxEditRequest;
+      editData: MoneyBoxEditRequest;
     }) => updateMoneyBox(accountId, editData),
     onSuccess: () => {
       // 박스 정보 관련 쿼리 무효화
@@ -116,5 +119,17 @@ export function useInfiniteAccountTransactions(
     staleTime: 1000 * 60 * 3, // 3분
     refetchOnWindowFocus: false,
     enabled: !!accountId,
+  });
+}
+
+export function useFillMoneyBox() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: FillMoneyBoxRequest) => fillMoneyBox(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: walletQK.moneyBoxes });
+      queryClient.invalidateQueries({ queryKey: ['wallet', 'moneyBoxInfo'] });
+      queryClient.invalidateQueries({ queryKey: walletQK.mainAccount });
+    },
   });
 }

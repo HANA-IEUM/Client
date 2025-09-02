@@ -175,3 +175,21 @@ export async function updateMoneyBox(
 ): Promise<void> {
   await api.patch(`/money-box/${accountId}`, editData);
 }
+
+export interface FillMoneyBoxRequest {
+  amount: number;
+  accountPassword: string;
+  moneyBoxAccountId: number;
+}
+
+export interface FillMoneyBoxResponse {
+  status: string;
+  message: string;
+  code: number;
+}
+
+export async function fillMoneyBox(
+  payload: FillMoneyBoxRequest
+): Promise<void> {
+  await api.post<FillMoneyBoxResponse>('/money-box/fill', payload);
+}
