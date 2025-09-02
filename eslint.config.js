@@ -31,6 +31,27 @@ export default tseslint.config([
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
       'react-refresh/only-export-components': 'off',
+
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin', // fs, path 같은 node 기본 모듈
+            'external', // 외부 라이브러리 (react, lodash 등)
+            'internal', // 절대 경로 import (@/ 로 시작하는 경우 등)
+            ['parent', 'sibling', 'index'], // 상대 경로
+          ],
+          pathGroups: [
+            {
+              pattern: '@/**',
+              group: 'internal',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin'],
+          alphabetize: { order: 'asc', caseInsensitive: true },
+          'newlines-between': 'always',
+        },
+      ],
     },
   },
 ]);
