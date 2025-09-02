@@ -1,4 +1,4 @@
-import { api } from '@/lib/axios';
+import { api } from '@/lib/axios.ts';
 
 interface MonthlyLivingCostResponse {
   data: {
@@ -11,4 +11,11 @@ export const fetchMonthlyLivingCost = async (): Promise<number> => {
     '/members/monthly-living-cost'
   );
   return data.data.monthlyLivingCost;
+};
+
+export const updateMonthlyLivingCost = async (payload: {
+  monthlyLivingCost: number;
+}) => {
+  const { data } = await api.put('members/monthly-living-cost', payload);
+  return data;
 };

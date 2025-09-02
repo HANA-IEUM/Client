@@ -13,13 +13,13 @@ import { SelectCategory } from '@/features/bucket-create/components/SelectCatego
 import { SelectGroupMember } from '@/features/bucket-create/components/SelectGroupMember';
 import { WhoAndWhat } from '@/features/bucket-create/components/WhoAndWhat';
 import { useCreateBucket } from '@/features/bucket-create/hooks/useCreateBucket.ts';
-import { useMonthlyLivingCost } from '@/features/bucket-create/hooks/useMonthlyLivingCost.ts';
 import type {
   BucketCategoryType,
   CreateBucketPayload,
 } from '@/features/bucket-create/types/bucket.ts';
 import { fetchGroupInfo } from '@/features/group-join/apis/groupApi.ts';
 import { groupQK } from '@/features/group-join/hooks/useGroupInfo.ts';
+import { useMonthlyLivingCost } from '@/hooks/useMonthlyLivingCost.ts';
 
 const variants = {
   enter: (direction: number) => ({
