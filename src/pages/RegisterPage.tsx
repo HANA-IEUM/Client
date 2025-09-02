@@ -68,20 +68,6 @@ export default function RegisterPage() {
     }
     return Number(rawValue);
   };
-  // const goNext = () => {
-  //   if (step === TOTAL_STEPS) {
-  //     registerMutation.mutate({
-  //       phoneNumber: phoneNumber,
-  //       password: pw,
-  //       name: name,
-  //       birthDate: birthday,
-  //       gender: 'M',
-  //       monthlyLivingCost: costToNumber(),
-  //     });
-  //   }
-  //   setDirection(1);
-  //   setStep((prev) => prev + 1);
-  // };
 
   const goNext = () => {
     if (step === TOTAL_STEPS) {
