@@ -20,7 +20,7 @@ const WalletPage = () => {
   const navigate = useNavigate();
 
   const { data: mainAccount } = useMainAccount();
-  const { mutate: fillMoneyBox, isPending: isFilling } = useFillMoneyBox();
+  const { mutate: fillMoneyBox } = useFillMoneyBox();
 
   const handleFillBox = useCallback((box: Box) => {
     setSelectedBox(box);

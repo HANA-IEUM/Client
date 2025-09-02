@@ -29,7 +29,6 @@ const BoxEdit: React.FC<BoxEditProps> = ({ box, onBack, onSave }) => {
   const [monthlyAmount, setMonthlyAmount] = useState(0);
   const [transferDay, setTransferDay] = useState('');
   const [showPasswordInput, setShowPasswordInput] = useState(false);
-  const [password, setPassword] = useState('');
   const [initialized, setInitialized] = useState(false);
 
   const inputRef = useRef<InputRef>(null);
@@ -88,7 +87,6 @@ const BoxEdit: React.FC<BoxEditProps> = ({ box, onBack, onSave }) => {
       onSuccess: () => {
         showSuccess('박스 정보가 수정되었습니다.');
         setShowPasswordInput(false);
-        setPassword('');
         onSave({
           boxName,
           automaticTransfer,
@@ -99,7 +97,6 @@ const BoxEdit: React.FC<BoxEditProps> = ({ box, onBack, onSave }) => {
       onError: (error) => {
         showError('박스 정보 수정에 실패했습니다.');
         setShowPasswordInput(false);
-        setPassword('');
       },
     });
   };
