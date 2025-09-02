@@ -31,7 +31,7 @@ const variants = {
 };
 
 export default function RegisterPage() {
-  const [step, setStep] = useState(7);
+  const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1); // 1: next, -1: prev
   const [phoneNumber, setPhoneNumber] = useState('');
   const [pw, setPw] = useState('');
