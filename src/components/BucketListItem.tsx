@@ -43,9 +43,9 @@ const BucketListItem = ({
         </div>
       </div>
 
-      <div className="flex justify-center items-center">
+      {/* <div className="flex justify-center items-center">
         <BucketListCheckIcon completed={completed} />
-      </div>
+      </div> */}
     </div>
   );
 };
