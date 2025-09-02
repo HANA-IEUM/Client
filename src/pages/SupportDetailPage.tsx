@@ -20,6 +20,7 @@ const SupportDetailPage = () => {
 
       <div className="flex justify-center items-center px-12 mt-10">
         <CheerCard
+          id={supportDetail?.id ?? '1'}
           text={supportDetail?.message ?? ''}
           author={supportDetail?.supporterName ?? ''}
           color={supportDetail?.letterColor ?? 'PINK'}

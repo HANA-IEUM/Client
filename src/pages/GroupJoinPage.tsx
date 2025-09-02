@@ -99,7 +99,7 @@ const GroupJoinPage = () => {
     hidePrompt(undefined, {
       onSuccess: () => {
         showSuccess('그룹 안내를 숨겼어요.');
-        navigate('/home', { replace: true });
+        navigate(destination, { replace: true });
       },
       onError: () =>
         showError('설정에 실패했어요. 잠시 후 다시 시도해 주세요.'),
@@ -139,6 +139,10 @@ const GroupJoinPage = () => {
     }
   }, [navigate, destination, location.state]);
 
+  const handleLater = () => {
+    navigate(destination, { replace: true });
+  };
+
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden px-6">
       <AnimatePresence mode="sync" initial={false}>
@@ -155,6 +159,7 @@ const GroupJoinPage = () => {
               onInviteClick={() => setStep(1)}
               onCreateClick={() => setStep(2)}
               onHide={handleHide}
+              onDoLater={handleLater}
             />
           )}
 
