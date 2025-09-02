@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-
 import inviteSvg from '@/assets/group-join/invite.svg';
 import plusSvg from '@/assets/group-join/plus.svg';
 import Button from '@/components/button/Button';
@@ -9,15 +7,15 @@ type FamilyGroupEmptyStateCardProps = {
   onInviteClick: () => void;
   onCreateClick: () => void;
   onHide: () => void;
+  onDoLater: () => void;
 };
 
 const FamilyGroupEmptyStateCard = ({
   onInviteClick,
   onCreateClick,
   onHide,
+  onDoLater,
 }: FamilyGroupEmptyStateCardProps) => {
-  const navigate = useNavigate();
-  const goHome = () => navigate('/home');
   const { user } = useAuth();
 
   return (
@@ -62,7 +60,7 @@ const FamilyGroupEmptyStateCard = ({
             intent="gray"
             label="나중에 하기"
             size="full"
-            onClick={goHome}
+            onClick={onDoLater}
           />
           <div
             onClick={onHide}
