@@ -1,11 +1,12 @@
 import axios, { type InternalAxiosRequestConfig } from 'axios';
+
+import { refreshToken as refreshTokenAPI } from '@/features/auth/apis/auth';
 import {
   getAccessToken,
   getRefreshToken,
   setTokens,
   clearTokens,
 } from '@/lib/token';
-import { refreshToken as refreshTokenAPI } from '@/features/auth/apis/auth';
 
 let isRefreshing = false;
 let failedQueue: ((token: string) => void)[] = [];

@@ -1,6 +1,7 @@
-import Button from '@/components/button/Button';
 import Lottie from 'lottie-react';
+
 import success from '@/assets/bucket-edit/success.json';
+import Button from '@/components/button/Button';
 
 type BucketEditSummaryProps = {
   onConfirm: () => void;
@@ -8,8 +9,8 @@ type BucketEditSummaryProps = {
 
 const BucketEditSummary = ({ onConfirm }: BucketEditSummaryProps) => {
   return (
-    <div className="relative h-full flex flex-col items-center w-full pt-12 px-6 pb-5">
-      <div className="font-hana-regular text-3xl flex flex-col w-full">
+    <div className="relative flex h-full w-full flex-col items-center px-6 pt-12 pb-5">
+      <div className="font-hana-regular flex w-full flex-col text-3xl">
         <p>
           <br />
           버킷리스트가
@@ -18,17 +19,17 @@ const BucketEditSummary = ({ onConfirm }: BucketEditSummaryProps) => {
         </p>
       </div>
 
-      <div className="mt-8 flex justify-center items-center">
-        <Lottie animationData={success} loop={false} className="w-80 h-80" />
+      <div className="mt-8 flex items-center justify-center">
+        <Lottie animationData={success} loop={false} className="h-80 w-80" />
       </div>
 
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
+      <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
         <div className="flex gap-5">
           <Button
             onClick={onConfirm}
             intent="green"
             label="수정 완료"
-            className="cursor-pointer w-full"
+            className="w-full cursor-pointer"
           />
         </div>
       </div>

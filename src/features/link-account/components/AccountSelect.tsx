@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import Button from '@/components/button/Button';
+
 import AccountItem from '@/components/AccountItem';
+import Button from '@/components/button/Button';
 import type { MainAccount } from '@/types/account';
 import { formatAccountNumber } from '@/utils/formatAccountNumber';
 
@@ -26,8 +27,8 @@ const AccountSelect = ({
   };
 
   return (
-    <div className="relative h-full flex flex-col items-center w-full pt-28 px-6">
-      <div className="font-hana-regular text-3xl flex flex-col w-full">
+    <div className="relative flex h-full w-full flex-col items-center px-6 pt-28">
+      <div className="font-hana-regular flex w-full flex-col text-3xl">
         <p>
           서비스에서 사용할
           <br />
@@ -37,7 +38,7 @@ const AccountSelect = ({
         </p>
       </div>
 
-      <div className="w-full mt-6">
+      <div className="mt-6 w-full">
         <div className="flex justify-end">
           <p className="font-hana-regular text-text-secondary">
             {isLoading ? '로딩 중…' : account ? '총 1개' : '없음'}
@@ -56,7 +57,7 @@ const AccountSelect = ({
         )}
       </div>
 
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
+      <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
         <Button
           intent={selected ? 'green' : 'gray'}
           label="확인"

@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react';
-import type { Swiper as SwiperType } from 'swiper/types';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import type { Swiper as SwiperType } from 'swiper/types';
+
 import 'swiper/css';
 import 'swiper/css/pagination';
-import LandingPage from '@/pages/LandingPage';
 import Button from '@/components/button/Button';
+import LandingPage from '@/pages/LandingPage';
 
 const OnboardingWrapper = () => {
   const [showOnboarding, setShowOnboarding] = useState(true);
@@ -47,7 +48,7 @@ const OnboardingWrapper = () => {
         onTouchEnd={handleTouchEnd}
       >
         <SwiperSlide>
-          <div className="flex flex-col h-full items-center justify-center font-hana-bold">
+          <div className="font-hana-bold flex h-full flex-col items-center justify-center">
             <h1 className="text-3xl font-bold">
               하나이음에 오신 것을 환영합니다
             </h1>
@@ -56,14 +57,14 @@ const OnboardingWrapper = () => {
         </SwiperSlide>
 
         <SwiperSlide>
-          <div className="flex flex-col h-full items-center justify-center font-hana-bold">
+          <div className="font-hana-bold flex h-full flex-col items-center justify-center">
             <h1 className="text-3xl font-bold">버킷리스트와 함께하는 금융</h1>
             <p className="mt-4">당신의 목표를 응원합니다</p>
           </div>
         </SwiperSlide>
 
         <SwiperSlide>
-          <div className="flex flex-col h-full items-center justify-center px-6 text-center font-hana-bold">
+          <div className="font-hana-bold flex h-full flex-col items-center justify-center px-6 text-center">
             <h1 className="text-3xl font-bold">시작해 볼까요?</h1>
             <p className="mt-4">한 번 더 넘기면 로그인 화면으로 이동합니다</p>
 

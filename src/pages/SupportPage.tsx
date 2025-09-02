@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import SelectLetterType from '@/features/support/components/SelectLetterType';
-import { useNavigate } from 'react-router-dom';
 import WriteTextAndSupport from '@/features/support/components/WriteTextAndSupport';
-import { useParams } from 'react-router-dom';
 import { useSupport } from '@/features/support/hooks/useSupports';
 import { showError, showSuccess } from '@/lib/toast';
 
@@ -80,7 +80,7 @@ const SupportPage = () => {
   };
 
   return (
-    <div className="relative w-full h-[100dvh] overflow-hidden px-6">
+    <div className="relative h-[100dvh] w-full overflow-hidden px-6">
       <AnimatePresence mode="sync" initial={false}>
         <motion.div
           key={step}
@@ -88,7 +88,7 @@ const SupportPage = () => {
           animate={{ x: 0 }}
           exit={{ x: '-100%' }}
           transition={{ duration: 0.28, ease: 'easeInOut' }}
-          className="absolute inset-0 w-full h-full transform-gpu will-change-transform"
+          className="absolute inset-0 h-full w-full transform-gpu will-change-transform"
         >
           {step === 0 && (
             <SelectLetterType

@@ -1,7 +1,8 @@
 import { useState } from 'react';
+
 import Button from '@/components/button/Button';
-import Input from '@/components/input/Input';
 import Header from '@/components/Header';
+import Input from '@/components/input/Input';
 
 interface ContentInputPageProps {
   imagePreview: string;
@@ -37,21 +38,21 @@ const ContentInputPage = ({
   };
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="flex h-full w-full flex-col">
       <div className="flex-1">
-        <div className="px-6 !mb-8">
+        <div className="!mb-8 px-6">
           <Header onClick={onBack} />
-          <p className="text-3xl font-hana-bold text-text-primary !mt-2 !mb-0">
+          <p className="font-hana-bold text-text-primary !mt-2 !mb-0 text-3xl">
             한 줄 내용<span className="font-hana-regular">을 적어주세요</span>
           </p>
         </div>
 
         <div className="px-6">
-          <div className="w-full aspect-square rounded-2xl overflow-hidden mb-8">
+          <div className="mb-8 aspect-square w-full overflow-hidden rounded-2xl">
             <img
               src={imagePreview}
               alt="선택된 사진"
-              className="w-full h-full object-cover"
+              className="h-full w-full object-cover"
             />
           </div>
 
@@ -79,7 +80,7 @@ const ContentInputPage = ({
         <Button
           intent={!textContent.trim() || isOverLimit ? 'disable' : 'green'}
           size="lg"
-          className="w-full !py-4 !text-lg !font-hana-bold"
+          className="!font-hana-bold w-full !py-4 !text-lg"
           onClick={handleConfirm}
           disabled={!textContent.trim() || isOverLimit || isCreating}
         >

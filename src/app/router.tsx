@@ -1,22 +1,22 @@
 import { createBrowserRouter } from 'react-router-dom';
-import RootLayout from '@/layouts/RootLayout';
 
-import HomePage from '@/pages/HomePage';
-import FamilyPage from '@/pages/FamilyPage';
-import WalletPage from '@/pages/WalletPage';
+import FamilyMemberBucketList from '@/features/family/components/FamilyMemberBucketList';
+import OnboardingWrapper from '@/layouts/OnboardingWrapper';
+import RootLayout from '@/layouts/RootLayout';
 import AlbumPage from '@/pages/AlbumPage';
-import MyPage from '@/pages/MyPage';
-import RegisterPage from '@/pages/RegisterPage.tsx';
-import GroupJoinPage from '@/pages/GroupJoinPage';
-import LoginPage from '@/pages/LoginPage.tsx';
-import LinkAccountPage from '@/pages/LinkAccountPage';
+import BucketCreatePage from '@/pages/BucketCreatePage.tsx';
 import BucketDetailPage from '@/pages/BucketDetailPage';
 import BucketEditPage from '@/pages/BucketEditPage';
-import BucketCreatePage from '@/pages/BucketCreatePage.tsx';
-import SupportPage from '@/pages/SupportPage';
-import OnboardingWrapper from '@/layouts/OnboardingWrapper';
-import FamilyMemberBucketList from '@/features/family/components/FamilyMemberBucketList';
+import FamilyPage from '@/pages/FamilyPage';
+import GroupJoinPage from '@/pages/GroupJoinPage';
+import HomePage from '@/pages/HomePage';
+import LinkAccountPage from '@/pages/LinkAccountPage';
+import LoginPage from '@/pages/LoginPage.tsx';
+import MyPage from '@/pages/MyPage';
+import RegisterPage from '@/pages/RegisterPage.tsx';
 import SupportDetailPage from '@/pages/SupportDetailPage';
+import SupportPage from '@/pages/SupportPage';
+import WalletPage from '@/pages/WalletPage';
 
 export const router = createBrowserRouter([
   {

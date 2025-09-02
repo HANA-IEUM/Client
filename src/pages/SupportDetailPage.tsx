@@ -1,10 +1,11 @@
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+
+import moneyGif from '@/assets/support/money.gif';
+import Button from '@/components/button/Button';
 import Header from '@/components/Header';
 import { CheerCard } from '@/features/bucket-detail/components/SupportSlider';
-import { useNavigate } from 'react-router-dom';
-import Button from '@/components/button/Button';
-import moneyGif from '@/assets/support/money.gif';
 import { useSupportDetail } from '@/features/support/hooks/useSupportDetail';
-import { useParams } from 'react-router-dom';
 import { formatKoreanDateTime } from '@/utils/dateFormat';
 
 const SupportDetailPage = () => {
@@ -18,15 +19,16 @@ const SupportDetailPage = () => {
         <Header onClick={() => navigate(-1)} />
       </div>
 
-      <div className="flex justify-center items-center px-12 mt-10">
+      <div className="mt-10 flex items-center justify-center px-12">
         <CheerCard
+          id={supportDetail?.id ?? '1'}
           text={supportDetail?.message ?? ''}
           author={supportDetail?.supporterName ?? ''}
           color={supportDetail?.letterColor ?? 'PINK'}
         />
       </div>
 
-      <div className="px-6 mt-12">
+      <div className="mt-12 px-6">
         {supportDetail?.supportType === 'SPONSOR' && (
           <div>
             <p className="font-hana-regular text-3xl">
@@ -49,7 +51,7 @@ const SupportDetailPage = () => {
         </div>
       )}
 
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
+      <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
         <Button
           intent="green"
           label="확인"

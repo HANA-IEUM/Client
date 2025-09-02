@@ -1,4 +1,5 @@
 import toast, { type ToastOptions } from 'react-hot-toast';
+
 import ToastCard from '@/components/common/ToastCard';
 
 const base: ToastOptions = { position: 'bottom-center', duration: 2200 };
@@ -6,7 +7,7 @@ const base: ToastOptions = { position: 'bottom-center', duration: 2200 };
 export const showSuccess = (msg: string, opts?: ToastOptions) =>
   toast.custom(
     () => (
-      <div className="max-w-[400px] mx-auto mb-24">
+      <div className="mx-auto mb-24 max-w-[400px]">
         <ToastCard message={msg} variant="success" />
       </div>
     ),
@@ -16,7 +17,7 @@ export const showSuccess = (msg: string, opts?: ToastOptions) =>
 export const showError = (msg: string, opts?: ToastOptions) =>
   toast.custom(
     () => (
-      <div className="max-w-[400px] mx-auto mb-24">
+      <div className="mx-auto mb-24 max-w-[400px]">
         <ToastCard message={msg} variant="error" />
       </div>
     ),

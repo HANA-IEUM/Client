@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
-import Button from '@/components/button/Button';
+
 import CheckIcon from '@/assets/common/CheckIcon';
+import Button from '@/components/button/Button';
 
 type Term = { title: string; content: string };
 type TermOfUseProps = {
@@ -55,8 +56,8 @@ const TermOfUse = ({ onNext }: TermOfUseProps) => {
   };
 
   return (
-    <div className="grid h-full min-h-0 grid-rows-[auto,auto,1fr,auto] w-full pt-28 px-6">
-      <div className="font-hana-regular text-3xl mb-7">
+    <div className="grid h-full min-h-0 w-full grid-rows-[auto,auto,1fr,auto] px-6 pt-28">
+      <div className="font-hana-regular mb-7 text-3xl">
         <span>
           하나이음
           <br />
@@ -67,17 +68,17 @@ const TermOfUse = ({ onNext }: TermOfUseProps) => {
       <button
         type="button"
         onClick={() => toggleAll()}
-        className="rounded-md flex gap-3 w-full py-3 items-center pl-5 mb-4 shadow-md mt-7 bg-btn-default-bg cursor-pointer text-left"
+        className="bg-btn-default-bg mt-7 mb-4 flex w-full cursor-pointer items-center gap-3 rounded-md py-3 pl-5 text-left shadow-md"
       >
-        <div className="flex justify-center items-center">
+        <div className="flex items-center justify-center">
           <CheckIcon selected={allChecked} />
         </div>
         <div className="flex flex-col">
-          <span className="text-xl font-hana-bold">모두 동의합니다.</span>
+          <span className="font-hana-bold text-xl">모두 동의합니다.</span>
         </div>
       </button>
 
-      <div className="mt-5 scrollbar-hide overflow-y-auto min-h-0 pr-1 mb-5">
+      <div className="scrollbar-hide mt-5 mb-5 min-h-0 overflow-y-auto pr-1">
         {terms.map(({ title, content }, idx) => (
           <button
             key={`${title}-${idx}`}
@@ -85,13 +86,13 @@ const TermOfUse = ({ onNext }: TermOfUseProps) => {
             onClick={() => toggleItem(idx)}
             className="w-full cursor-pointer text-left"
           >
-            <div className="rounded-md flex gap-3 w-full py-2 pl-5 mb-7 shadow-md">
-              <div className="flex justify-center items-center">
+            <div className="mb-7 flex w-full gap-3 rounded-md py-2 pl-5 shadow-md">
+              <div className="flex items-center justify-center">
                 <CheckIcon selected={checked[idx]} />
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-hana-bold">{title}</span>
-                <span className="text-lg font-hana-regular">{content}</span>
+                <span className="font-hana-bold text-xl">{title}</span>
+                <span className="font-hana-regular text-lg">{content}</span>
               </div>
             </div>
           </button>

@@ -1,12 +1,13 @@
 import Lottie from 'lottie-react';
+
 import sandyLoading from '@/assets/common/json/SandyLoading.json';
 import { useAuth } from '@/hooks/useToken.ts';
 
 const AccountFetching = () => {
   const { user } = useAuth();
   return (
-    <div className="relative h-full flex flex-col items-center w-full pt-28 px-6">
-      <div className="font-hana-regular text-3xl flex flex-col w-full mb-28">
+    <div className="relative flex h-full w-full flex-col items-center px-6 pt-28">
+      <div className="font-hana-regular mb-28 flex w-full flex-col text-3xl">
         <p>
           <br />
           <span className="font-hana-bold">{user?.name || '고객'}</span>님의
