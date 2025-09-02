@@ -1,6 +1,6 @@
-import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
+import { createPortal } from 'react-dom';
 
 interface BottomSheetProps {
   isOpen: boolean;
@@ -32,10 +32,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="
-              fixed bottom-0 left-1/2 -translate-x-1/2 z-[60]
-              w-full max-w-md bg-white rounded-t-3xl p-6 flex flex-col
-            "
+            className="fixed bottom-0 left-1/2 z-[60] flex w-full max-w-md -translate-x-1/2 flex-col rounded-t-3xl bg-white p-6"
             style={{ maxHeight }}
           >
             {children}

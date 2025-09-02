@@ -1,22 +1,23 @@
+import { useQueryClient } from '@tanstack/react-query';
+import type { InputRef } from 'antd';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
-import type { InputRef } from 'antd';
-import { useQueryClient } from '@tanstack/react-query';
-import { fetchGroupInfo } from '@/features/group-join/apis/groupApi';
-import { fetchMainAccount } from '@/features/link-account/apis/accountApi';
-import { accountQK } from '@/features/link-account/hooks/useMainAccount';
-import { groupQK } from '@/features/group-join/hooks/useGroupInfo';
-import Header from '@/components/Header';
-import Input from '@/components/input/Input.tsx';
+
+import passwordIcon from '@/assets/common/user/password.png';
+import phoneIcon from '@/assets/common/user/phone.png';
 import Button from '@/components/button/Button.tsx';
 import BoxInput, {
   type BoxInputHandle,
 } from '@/components/common/BoxInput.tsx';
 import Stepper from '@/components/common/Stepper.tsx';
-import phoneIcon from '@/assets/common/user/phone.png';
-import passwordIcon from '@/assets/common/user/password.png';
+import Header from '@/components/Header';
+import Input from '@/components/input/Input.tsx';
 import { useLogin } from '@/features/auth/hooks/useLogin.ts';
+import { fetchGroupInfo } from '@/features/group-join/apis/groupApi';
+import { groupQK } from '@/features/group-join/hooks/useGroupInfo';
+import { fetchMainAccount } from '@/features/link-account/apis/accountApi';
+import { accountQK } from '@/features/link-account/hooks/useMainAccount';
 import { showError } from '@/lib/toast';
 
 const variants = {
@@ -51,12 +52,12 @@ const LoginStep1 = ({
   }, []);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <div className="flex-grow space-y-6">
-        <div className="w-16 h-16 bg-accent-secondary rounded-full flex items-center justify-center mx-auto">
-          <img src={phoneIcon} alt="phone" className="w-10 h-10" />
+        <div className="bg-accent-secondary mx-auto flex h-16 w-16 items-center justify-center rounded-full">
+          <img src={phoneIcon} alt="phone" className="h-10 w-10" />
         </div>
-        <p className="text-3xl font-hana-regular pt-4 text-left">
+        <p className="font-hana-regular pt-4 text-left text-3xl">
           <span className="font-hana-bold">전화번호</span>를 입력해주세요
         </p>
         <Input
@@ -96,12 +97,12 @@ const LoginStep2 = ({
   }, []);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <div className="flex-grow space-y-6">
-        <div className="w-16 h-16 bg-accent-secondary rounded-full flex items-center justify-center mx-auto">
-          <img src={passwordIcon} alt="password" className="w-10 h-10" />
+        <div className="bg-accent-secondary mx-auto flex h-16 w-16 items-center justify-center rounded-full">
+          <img src={passwordIcon} alt="password" className="h-10 w-10" />
         </div>
-        <p className="text-3xl font-hana-regular pt-4 text-left">
+        <p className="font-hana-regular pt-4 text-left text-3xl">
           <span className="font-hana-bold">비밀번호</span>를 입력해주세요
         </p>
         <BoxInput
@@ -205,12 +206,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="mx-6 flex flex-col h-full">
+    <div className="mx-6 flex h-full flex-col">
       <Header onClick={goBack} />
       <div className="pt-5">
         <Stepper totalSteps={2} currentStep={step} color="bg-accent-primary" />
       </div>
-      <div className="flex-grow my-10 relative overflow-hidden">
+      <div className="relative my-10 flex-grow overflow-hidden">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={step}
@@ -220,7 +221,7 @@ export default function LoginPage() {
             animate="center"
             exit="exit"
             transition={{ type: 'tween', ease: 'easeInOut', duration: 0.4 }}
-            className="absolute w-full h-full"
+            className="absolute h-full w-full"
           >
             {renderStepContent()}
           </motion.div>

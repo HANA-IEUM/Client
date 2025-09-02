@@ -7,6 +7,7 @@ import { globalIgnores } from 'eslint/config';
 
 import prettier from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
+import importPlugin from 'eslint-plugin-import';
 
 export default tseslint.config([
   globalIgnores(['dist', 'coverage', 'dev-dist']),
@@ -25,6 +26,7 @@ export default tseslint.config([
     },
     plugins: {
       prettier: prettierPlugin,
+      import: importPlugin,
     },
     rules: {
       'prettier/prettier': 'off',
@@ -33,7 +35,7 @@ export default tseslint.config([
       'react-refresh/only-export-components': 'off',
 
       'import/order': [
-        'error',
+        'warn',
         {
           groups: [
             'builtin', // fs, path 같은 node 기본 모듈

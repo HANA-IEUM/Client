@@ -1,6 +1,7 @@
-import ReactQueryProvider from './app/providers/ReactQueryProvider';
-import AppRouter from './app/AppRouter';
 import { Toaster } from 'react-hot-toast';
+
+import AppRouter from './app/AppRouter';
+import ReactQueryProvider from './app/providers/ReactQueryProvider';
 
 function App() {
   return (

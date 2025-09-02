@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
 import type { InputRef } from 'antd';
-import Input from '@/components/input/Input.tsx';
-import Button from '@/components/button/Button.tsx';
+import React, { useEffect, useRef } from 'react';
+
 import coinIcon from '@/assets/common/user/coin.png';
+import Button from '@/components/button/Button.tsx';
+import Input from '@/components/input/Input.tsx';
 
 export type MonthlyCostInputProps = {
   cost: string;
@@ -33,12 +34,12 @@ export const MonthlyCostInput = ({
   }, []);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <div className="flex-grow space-y-6">
-        <div className="w-16 h-16 bg-theme-secondary rounded-full flex items-center justify-center mx-auto">
-          <img src={coinIcon} alt="wallet" className="w-10 h-10" />
+        <div className="bg-theme-secondary mx-auto flex h-16 w-16 items-center justify-center rounded-full">
+          <img src={coinIcon} alt="wallet" className="h-10 w-10" />
         </div>
-        <p className="text-3xl font-hana-regular text-left">
+        <p className="font-hana-regular text-left text-3xl">
           <span className="font-hana-bold">월 생활비</span>를 입력해 주세요
         </p>
         <div className="flex items-center gap-2">
@@ -49,7 +50,7 @@ export const MonthlyCostInput = ({
             value={cost}
             onChange={handleChange}
           />
-          <span className="text-3xl font-hana-regular">원</span>
+          <span className="font-hana-regular text-3xl">원</span>
         </div>
       </div>
       <div className="mb-4">

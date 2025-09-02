@@ -1,13 +1,13 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
 
 import BucketEditBasicInfo from '@/features/bucket-edit/components/BucketEditBasicInfo';
 import BucketEditFamily from '@/features/bucket-edit/components/BucketEditFamily';
 import BucketEditSummary from '@/features/bucket-edit/components/BucketEditSummary';
 import { useUpdateBucket } from '@/features/bucket-edit/hooks/useUpdateBucket';
-import { showError } from '@/lib/toast';
 import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
+import { showError } from '@/lib/toast';
 
 type EditInfo = {
   title: string;
@@ -59,7 +59,7 @@ const BucketEditPage = () => {
   };
 
   return (
-    <div className="relative w-full h-[100dvh] overflow-hidden px-6">
+    <div className="relative h-[100dvh] w-full overflow-hidden px-6">
       <div className="mt-5"></div>
 
       <AnimatePresence mode="sync" initial={false}>
@@ -69,7 +69,7 @@ const BucketEditPage = () => {
           animate={{ x: 0 }}
           exit={{ x: '-100%' }}
           transition={{ duration: 0.28, ease: 'easeInOut' }}
-          className="absolute inset-0 w-full h-full transform-gpu will-change-transform"
+          className="absolute inset-0 h-full w-full transform-gpu will-change-transform"
         >
           {step === 0 && (
             <BucketEditBasicInfo
