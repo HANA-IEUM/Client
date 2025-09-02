@@ -1,6 +1,7 @@
 import type { InputRef } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 import rightIcon from '@/assets/common/chevron-right.png';
 import couponIcon from '@/assets/common/coupon.png';
@@ -21,7 +22,7 @@ const MyPage = () => {
   const [newLivingCost, setNewLivingCost] = useState('');
   const logoutMutation = useLogout();
   const { data: livingCost } = useMonthlyLivingCost();
-
+  const navigate = useNavigate();
   const updateCostMutation = useUpdateMonthlyLivingCost(
     () => {
       setVisible(false);
@@ -88,7 +89,10 @@ const MyPage = () => {
             <h1 className="font-hana-bold text-text-primary !mb-8 text-2xl">
               쿠폰함
             </h1>
-            <div className="bg-accent-secondary !mb-[5px] rounded-2xl p-3 shadow-sm">
+            <div
+              className="bg-accent-secondary !mb-[5px] cursor-pointer rounded-2xl p-3 shadow-sm"
+              onClick={() => navigate('/coupon')}
+            >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="ml-2 flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-sm">
@@ -146,24 +150,26 @@ const MyPage = () => {
         </div>
       </div>
       <BottomSheet isOpen={visible} onClose={() => setVisible(false)}>
-        <div className="flex h-full flex-col items-center">
-          <p className="font-hana-regular !mb-0 w-full text-left text-3xl">
-            수정할 <span className="font-hana-bold"> 월 생활비</span>를
-            <br />
-            입력해 주세요
-          </p>
-        </div>
+        <div className="mb-20">
+          <div className="mb-4 flex h-full flex-col items-center">
+            <p className="font-hana-regular !mb-0 w-full text-left text-3xl">
+              수정할 <span className="font-hana-bold"> 월 생활비</span>를
+              <br />
+              입력해 주세요
+            </p>
+          </div>
 
-        <div className="flex items-center gap-2">
-          <Input
-            ref={inputRef}
-            type="text"
-            inputMode="numeric"
-            intent="green"
-            value={newLivingCost}
-            onChange={handleCostChange}
-          />
-          <span className="font-hana-regular text-3xl">원</span>
+          <div className="flex items-center gap-2">
+            <Input
+              ref={inputRef}
+              type="text"
+              inputMode="numeric"
+              intent="green"
+              value={newLivingCost}
+              onChange={handleCostChange}
+            />
+            <span className="font-hana-regular text-3xl">원</span>
+          </div>
         </div>
         <div className="flex w-full gap-2">
           <Button
