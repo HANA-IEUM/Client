@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import type { Box } from '@/features/wallet/types';
 
 import WalletHome from '@/features/wallet/components/WalletHome';
@@ -13,6 +14,7 @@ const WalletPage = () => {
   const [step, setStep] = useState(0);
   const [selectedBox, setSelectedBox] = useState<Box | null>(null);
   const [fillAmount, setFillAmount] = useState<string>('');
+  const navigate = useNavigate();
 
   const { data: mainAccount } = useMainAccount();
 
@@ -41,10 +43,12 @@ const WalletPage = () => {
     setStep(4);
   }, []);
 
-  const handleViewBucket = useCallback(() => {
-    // TODO: 버킷리스트 페이지로 이동
-    console.log('버킷리스트 보기');
-  }, []);
+  const handleViewBucket = useCallback(
+    (bucketId: number) => {
+      navigate(`/bucket/${bucketId}`);
+    },
+    [navigate]
+  );
 
   return (
     <div className="relative w-full h-full">

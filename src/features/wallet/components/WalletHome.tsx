@@ -14,7 +14,7 @@ interface WalletHomeProps {
   onFillBox: (box: Box) => void;
   onViewHistory: (box: Box) => void;
   onEditBox: (box: Box) => void;
-  onViewBucket: () => void;
+  onViewBucket: (bucketId: number) => void;
 }
 
 const WalletHome: React.FC<WalletHomeProps> = ({
@@ -238,7 +238,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
                       size="lg"
                       font="regular"
                       className="!text-base flex-1"
-                      onClick={() => onViewBucket()}
+                      onClick={() => onViewBucket(box.bucketListId)}
                     >
                       버킷 보기
                     </Button>

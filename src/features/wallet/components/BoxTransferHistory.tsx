@@ -1,8 +1,8 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import { Spin } from 'antd';
 import Button from '@/components/button/Button';
 import Header from '@/components/Header';
-import type { Box } from '../types';
+import type { Box } from '@/features/wallet/types';
 import {
   useInfiniteAccountTransactions,
   useMoneyBoxInfo,
@@ -12,7 +12,7 @@ import { formatKoreanDateTime } from '@/utils/dateFormat';
 interface BoxTransferHistoryProps {
   box: Box;
   onBack: () => void;
-  onViewBucket: () => void;
+  onViewBucket: (bucketId: number) => void;
 }
 
 const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
@@ -85,7 +85,8 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
           <Button
             intent="silver"
             className="!text-base !font-hana-regular !text-text-secondary"
-            onClick={onViewBucket}
+            onClick={() => box.bucketListId && onViewBucket(box.bucketListId)}
+            disabled={!box.bucketListId}
           >
             버킷리스트 보기
           </Button>
