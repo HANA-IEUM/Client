@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { toast } from 'react-hot-toast';
 
 import Button from '@/components/button/Button';
 import BoxInput, { type BoxInputHandle } from '@/components/common/BoxInput';
-import type { Box } from '@/features/wallet/types';
+
+import type { Box } from '../types';
 
 interface FillBoxPasswordProps {
   box: Box;

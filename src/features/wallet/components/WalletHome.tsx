@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 import HanaIcon from '@/assets/common/HanaIcon';
-import HanaIcon from '@/assets/common/HanaIcon';
 import Button from '@/components/button/Button';
 import EmptyStateMessage from '@/components/common/EmptyStateMessage';
 import FillBoxAmount from '@/features/wallet/components/FillBoxAmount';
