@@ -149,8 +149,12 @@ const MyPage = () => {
           </div>
         </div>
       </div>
-      <BottomSheet isOpen={visible} onClose={() => setVisible(false)}>
-        <div className="mb-20">
+      <BottomSheet
+        isOpen={visible}
+        onClose={() => setVisible(false)}
+        maxHeight="90vh"
+      >
+        <div className="min-h-[475px]">
           <div className="mb-4 flex h-full flex-col items-center">
             <p className="font-hana-regular !mb-0 w-full text-left text-3xl">
               수정할 <span className="font-hana-bold"> 월 생활비</span>를
