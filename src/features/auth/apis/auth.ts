@@ -1,12 +1,12 @@
 import { api } from '@/lib/axios.ts';
 import type {
+  CheckPhoneNumberResponse,
   LoginPayload,
   LoginResponse,
-  RegisterPayload,
-  RefreshPayload,
   PhoneNumberPayload,
+  RefreshPayload,
+  RegisterPayload,
   VerificationConfirmPayload,
-  CheckPhoneNumberResponse,
   VerificationPayload,
 } from '@/types/auth.ts';
 
@@ -48,3 +48,8 @@ export const verificationPhoneNumberConfirm = async (
 export async function hideGroupPrompt(): Promise<void> {
   await api.put('/members/group-prompt/hide');
 }
+
+export const logoutUser = async () => {
+  const { data } = await api.post('/auth/logout');
+  return data;
+};
