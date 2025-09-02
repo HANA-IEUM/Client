@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import Button from '@/components/button/Button';
 import FillBoxAmount from '@/features/wallet/components/FillBoxAmount';
@@ -9,6 +9,7 @@ import {
   useMainAccount,
   useMoneyBoxes,
 } from '@/features/wallet/hooks/useMainAccount';
+import EmptyStateMessage from '@/components/common/EmptyStateMessage';
 
 interface WalletHomeProps {
   onFillBox: (box: Box) => void;
@@ -28,7 +29,21 @@ const WalletHome: React.FC<WalletHomeProps> = ({
   const [fillAmount, setFillAmount] = useState('');
 
   const { data: mainAccount, isLoading: accountLoading } = useMainAccount();
-  const { data: moneyBoxes, isLoading: boxesLoading } = useMoneyBoxes();
+  const {
+    data: moneyBoxes,
+    isLoading: boxesLoading,
+    refetch: refetchMoneyBoxes,
+  } = useMoneyBoxes();
+
+  // 페이지 포커스 시 박스 목록 새로고침
+  useEffect(() => {
+    const handleFocus = () => {
+      refetchMoneyBoxes();
+    };
+
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, [refetchMoneyBoxes]);
 
   // MoneyBox를 Box 형식으로 변환
   const boxes =
@@ -256,13 +271,8 @@ const WalletHome: React.FC<WalletHomeProps> = ({
               ))}
             </div>
           ) : (
-            <div className="text-center py-8">
-              <p className="text-text-secondary text-lg">
-                등록된 박스가 없습니다.
-              </p>
-              <p className="text-text-secondary text-base">
-                새로운 박스를 만들어보세요!
-              </p>
+            <div className="text-center">
+              <EmptyStateMessage title="등록된 박스가 없습니다" />
             </div>
           )}
         </div>

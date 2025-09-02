@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import type { Box } from '@/features/wallet/types';
 
@@ -52,58 +51,47 @@ const WalletPage = () => {
 
   return (
     <div className="relative w-full h-full">
-      <AnimatePresence mode="sync" initial={false}>
-        <motion.div
-          key={step}
-          initial={{ x: '100%' }}
-          animate={{ x: 0 }}
-          exit={{ x: '-100%' }}
-          transition={{ duration: 0.28, ease: 'easeInOut' }}
-          className="absolute top-0 left-0 right-0 w-full transform-gpu will-change-transform"
-        >
-          {step === 0 && (
-            <WalletHome
-              onFillBox={handleFillBox}
-              onViewHistory={handleViewHistory}
-              onEditBox={handleEditBox}
-              onViewBucket={handleViewBucket}
-            />
-          )}
+      {step === 0 && (
+        <WalletHome
+          onFillBox={handleFillBox}
+          onViewHistory={handleViewHistory}
+          onEditBox={handleEditBox}
+          onViewBucket={handleViewBucket}
+        />
+      )}
 
-          {step === 1 && selectedBox && (
-            <FillBoxAmount
-              box={selectedBox}
-              onBack={() => setStep(0)}
-              onConfirm={handleAmountConfirm}
-            />
-          )}
+      {step === 1 && selectedBox && (
+        <FillBoxAmount
+          box={selectedBox}
+          onBack={() => setStep(0)}
+          onConfirm={handleAmountConfirm}
+        />
+      )}
 
-          {step === 2 && selectedBox && (
-            <FillBoxPassword
-              box={selectedBox}
-              amount={fillAmount}
-              onBack={() => setStep(1)}
-              onConfirm={handlePasswordConfirm}
-            />
-          )}
+      {step === 2 && selectedBox && (
+        <FillBoxPassword
+          box={selectedBox}
+          amount={fillAmount}
+          onBack={() => setStep(1)}
+          onConfirm={handlePasswordConfirm}
+        />
+      )}
 
-          {step === 3 && selectedBox && (
-            <BoxTransferHistory
-              box={selectedBox}
-              onBack={() => setStep(0)}
-              onViewBucket={handleViewBucket}
-            />
-          )}
+      {step === 3 && selectedBox && (
+        <BoxTransferHistory
+          box={selectedBox}
+          onBack={() => setStep(0)}
+          onViewBucket={handleViewBucket}
+        />
+      )}
 
-          {step === 4 && selectedBox && (
-            <BoxEdit
-              box={selectedBox}
-              onBack={() => setStep(0)}
-              onSave={() => setStep(0)}
-            />
-          )}
-        </motion.div>
-      </AnimatePresence>
+      {step === 4 && selectedBox && (
+        <BoxEdit
+          box={selectedBox}
+          onBack={() => setStep(0)}
+          onSave={() => setStep(0)}
+        />
+      )}
     </div>
   );
 };

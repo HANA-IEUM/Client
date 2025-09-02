@@ -133,3 +133,45 @@ export async function fetchMoneyBoxInfo(
   const res = await api.get<MoneyBoxInfoResponse>(`/money-box/${boxId}/info`);
   return (res.data?.data ?? null) as MoneyBoxInfo | null;
 }
+
+export interface MoneyBoxEditInfo {
+  boxId: number;
+  boxName: string;
+  autoTransferEnabled: boolean;
+  currentMonthlyAmount: number | null;
+  currentTransferDay: number | null;
+  nextAutoTransferEnabled: boolean;
+  nextMonthlyAmount: number | null;
+  nextTransferDay: number | null;
+}
+
+export interface MoneyBoxEditInfoResponse {
+  status: string;
+  message: string;
+  data: MoneyBoxEditInfo;
+  code: number;
+}
+
+export interface MoneyBoxEditRequest {
+  boxName: string;
+  autoTransferEnabled: boolean;
+  monthlyAmount: number | null;
+  transferDay: number | null;
+  accountPassword: string;
+}
+
+export async function fetchMoneyBoxEditInfo(
+  boxId: number
+): Promise<MoneyBoxEditInfo | null> {
+  const res = await api.get<MoneyBoxEditInfoResponse>(
+    `/money-box/${boxId}/edit`
+  );
+  return (res.data?.data ?? null) as MoneyBoxEditInfo | null;
+}
+
+export async function updateMoneyBox(
+  accountId: number,
+  editData: MoneyBoxEditRequest
+): Promise<void> {
+  await api.patch(`/money-box/${accountId}`, editData);
+}

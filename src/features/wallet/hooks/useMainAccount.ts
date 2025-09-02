@@ -1,9 +1,16 @@
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
+import {
+  useQuery,
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import {
   fetchMainAccount,
   fetchMoneyBoxes,
   fetchAccountTransactions,
   fetchMoneyBoxInfo,
+  fetchMoneyBoxEditInfo,
+  updateMoneyBox,
 } from '@/features/wallet/apis/walletApi';
 
 export const walletQK = {
@@ -12,6 +19,8 @@ export const walletQK = {
   accountTransactions: (accountId: number, page: number, size: number) =>
     ['wallet', 'accountTransactions', accountId, page, size] as const,
   moneyBoxInfo: (boxId: number) => ['wallet', 'moneyBoxInfo', boxId] as const,
+  moneyBoxEditInfo: (boxId: number) =>
+    ['wallet', 'moneyBoxEditInfo', boxId] as const,
 };
 
 export function useMainAccount() {
@@ -28,7 +37,7 @@ export function useMoneyBoxes() {
     queryKey: walletQK.moneyBoxes,
     queryFn: fetchMoneyBoxes,
     staleTime: 1000 * 60 * 3, // 3분
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
   });
 }
 
@@ -53,6 +62,38 @@ export function useMoneyBoxInfo(boxId: number) {
     staleTime: 1000 * 60 * 3, // 3분
     refetchOnWindowFocus: false,
     enabled: !!boxId,
+  });
+}
+
+export function useMoneyBoxEditInfo(boxId: number) {
+  return useQuery({
+    queryKey: walletQK.moneyBoxEditInfo(boxId),
+    queryFn: () => fetchMoneyBoxEditInfo(boxId),
+    staleTime: 1000 * 60 * 3, // 3분
+    refetchOnWindowFocus: false,
+    enabled: !!boxId,
+  });
+}
+
+export function useUpdateMoneyBox() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      accountId,
+      editData,
+    }: {
+      accountId: number;
+      editData: import('@/features/wallet/apis/walletApi').MoneyBoxEditRequest;
+    }) => updateMoneyBox(accountId, editData),
+    onSuccess: () => {
+      // 박스 정보 관련 쿼리 무효화
+      queryClient.invalidateQueries({ queryKey: ['wallet', 'moneyBoxes'] });
+      queryClient.invalidateQueries({ queryKey: ['wallet', 'moneyBoxInfo'] });
+      queryClient.invalidateQueries({
+        queryKey: ['wallet', 'moneyBoxEditInfo'],
+      });
+    },
   });
 }
 
