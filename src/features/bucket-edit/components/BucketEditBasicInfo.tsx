@@ -77,7 +77,7 @@ const BucketEditBasicInfo = ({
               selected={withWho === '혼자'}
               onClick={() => setWithWho('혼자')}
             />
-            <div className={familyCount > 1 ? '' : 'invisible w-full'}>
+            <div className={familyCount > 1 ? 'w-full' : 'invisible w-full'}>
               <SelectItem
                 text="함께"
                 selected={withWho === '함께'}
