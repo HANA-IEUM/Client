@@ -33,6 +33,7 @@ const variants = {
     opacity: 0,
   }),
 };
+
 type LoginStep1Props = {
   phoneNumber: string;
   onPhoneNumberChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
