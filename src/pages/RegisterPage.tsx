@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import Stepper from '@/components/common/Stepper.tsx';
@@ -10,6 +11,7 @@ import { NameInput } from '@/features/auth/components/NameInput.tsx';
 import { PasswordInput } from '@/features/auth/components/PasswordInput.tsx';
 import { PhoneInput } from '@/features/auth/components/PhoneInput.tsx';
 import { PhoneVerification } from '@/features/auth/components/PhoneVerification.tsx';
+import RegisterCom from '@/features/auth/components/RegisterCom';
 import { useRegister } from '@/features/auth/hooks/useRegister.ts';
 
 // 슬라이드 애니메이션을 위한 variants
@@ -39,28 +41,34 @@ export default function RegisterPage() {
 
   const navigate = useNavigate();
 
-  const TOTAL_STEPS = 7; // Stepper에 표시될 전체 단계 수
+  const TOTAL_STEPS = 6;
 
   // 회원가입 훅
   const registerMutation = useRegister(
+    () => {},
     () => {
-      //TODO UI 변경 필요
-      alert('회원가입 성공');
-      navigate('/login');
-    },
-    (error) => {
-      alert(error.message);
+      setStep(1);
+      toast.error('회원가입에 실패했어요');
     }
   );
+  const costToNumber = () => {
+    // 입력값에서 숫자만 추출
+    const rawValue = cost.replace(/[^0-9]/g, '');
+    if (!rawValue) {
+      setCost('');
+      return 0;
+    }
+    return Number(rawValue);
+  };
   const goNext = () => {
-    if (step == TOTAL_STEPS - 1) {
+    if (step === TOTAL_STEPS) {
       registerMutation.mutate({
         phoneNumber: phoneNumber,
         password: pw,
         name: name,
         birthDate: birthday,
         gender: 'M',
-        monthlyLivingCost: Number(cost),
+        monthlyLivingCost: costToNumber(),
       });
     }
     setDirection(1);
@@ -112,8 +120,10 @@ export default function RegisterPage() {
         return (
           <MonthlyCostInput cost={cost} setCost={setCost} onNext={goNext} />
         );
+      case 7:
+        return <RegisterCom />;
       default:
-        return <div>완료!</div>; // 마지막 단계 이후
+        return null;
     }
   };
 
@@ -126,13 +136,19 @@ export default function RegisterPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <Header onClick={goBack} />
+            <Header onClick={goBack} isVisible={step !== TOTAL_STEPS + 1} />
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="pt-5">
-        <Stepper totalSteps={TOTAL_STEPS} currentStep={step} />
-      </div>
+      {step < 6 ? (
+        <>
+          <div className="pt-5">
+            <Stepper totalSteps={TOTAL_STEPS} currentStep={step} />
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
       <div className="relative my-10 flex-grow overflow-hidden">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
