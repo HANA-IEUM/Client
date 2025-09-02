@@ -2,6 +2,7 @@ import inviteSvg from '@/assets/group-join/invite.svg';
 import plusSvg from '@/assets/group-join/plus.svg';
 import Button from '@/components/button/Button';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useToken.ts';
 
 type FamilyGroupEmptyStateCardProps = {
   onInviteClick: () => void;
@@ -16,13 +17,14 @@ const FamilyGroupEmptyStateCard = ({
 }: FamilyGroupEmptyStateCardProps) => {
   const navigate = useNavigate();
   const goHome = () => navigate('/home');
+  const { user } = useAuth();
 
   return (
     <div className="relative h-full flex flex-col items-center w-full pt-28 px-6">
       <div className="font-hana-regular text-3xl flex flex-col w-full">
         <p>
-          <span className="font-hana-bold">승희</span>님은 아직 가족 그룹에{' '}
-          <br />
+          <span className="font-hana-bold">{user?.name || '고객'}</span>님은
+          아직 가족 그룹에 <br />
           속해있지 않아요
         </p>
       </div>
