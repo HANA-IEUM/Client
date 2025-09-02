@@ -2,10 +2,10 @@ import axios, { type InternalAxiosRequestConfig } from 'axios';
 
 import { refreshToken as refreshTokenAPI } from '@/features/auth/apis/auth';
 import {
+  clearTokens,
   getAccessToken,
   getRefreshToken,
   setTokens,
-  clearTokens,
 } from '@/lib/token';
 
 let isRefreshing = false;
@@ -43,6 +43,9 @@ api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+    if (originalRequest.url === '/auth/logout') {
+      return Promise.reject(error);
+    }
 
     if (error.response?.status === 403 && !originalRequest._retry) {
       if (isRefreshing) {
@@ -62,6 +65,7 @@ api.interceptors.response.use(
         if (!currentRefreshToken) {
           // 재발급에 사용할 토큰이 없으면 로그인 페이지로 보냅니다.
           clearTokens();
+          alert('세션이 만료되어 다시 로그인이 필요합니다.');
           window.location.href = '/login';
           return Promise.reject(error);
         }
@@ -79,6 +83,7 @@ api.interceptors.response.use(
         return api(originalRequest);
       } catch (refreshError) {
         clearTokens();
+        alert('세션이 만료되어 다시 로그인이 필요합니다.');
         window.location.href = '/login';
         return Promise.reject(refreshError);
       } finally {
