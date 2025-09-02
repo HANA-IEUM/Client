@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
+
+import HanaIcon from '@/assets/common/HanaIcon';
 import Button from '@/components/button/Button';
 import FillBoxAmount from '@/features/wallet/components/FillBoxAmount';
 import FillBoxPassword from '@/features/wallet/components/FillBoxPassword';
+
 import type { Box } from '../types';
-import HanaIcon from '@/assets/common/HanaIcon';
 
 interface WalletHomeProps {
   onFillBox: (box: Box) => void;
@@ -67,7 +69,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
       <>
         <div className="fixed inset-0 z-40 bg-black/50" onClick={handleBack} />
 
-        <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 p-6 flex flex-col">
+        <div className="fixed right-0 bottom-0 left-0 z-50 flex flex-col rounded-t-3xl bg-white p-6">
           {step === 'amount' && (
             <FillBoxAmount
               box={selectedBox}
@@ -90,28 +92,28 @@ const WalletHome: React.FC<WalletHomeProps> = ({
 
   return (
     <>
-      <div className="w-full h-full pt-12">
+      <div className="h-full w-full pt-12">
         <div className="px-6">
-          <h1 className="text-4xl font-hana-bold text-text-primary !mb-8">
+          <h1 className="font-hana-bold text-text-primary !mb-8 text-4xl">
             지갑
           </h1>
         </div>
 
-        <div className="w-full px-6 mb-14">
+        <div className="mb-14 w-full px-6">
           <div className="bg-btn-default-bg rounded-2xl p-4 shadow-sm">
             <div className="flex items-center gap-5">
-              <div className="w-14 h-14 bg-theme-secondary rounded-full flex items-center justify-center">
+              <div className="bg-theme-secondary flex h-14 w-14 items-center justify-center rounded-full">
                 <HanaIcon />
               </div>
               <div className="flex-1">
-                <h2 className="text-lg font-hana-bold text-text-secondary !mb-0">
+                <h2 className="font-hana-bold text-text-secondary !mb-0 text-lg">
                   {mainAccount.name}
                 </h2>
-                <p className="text-base font-hana-regular text-text-secondary !mb-0">
+                <p className="font-hana-regular text-text-secondary !mb-0 text-base">
                   {mainAccount.number}
                 </p>
                 <div className="text-left">
-                  <p className="text-2xl font-hana-bold text-text-primary !mb-0">
+                  <p className="font-hana-bold text-text-primary !mb-0 text-2xl">
                     {mainAccount.balance} 원
                   </p>
                 </div>
@@ -121,27 +123,27 @@ const WalletHome: React.FC<WalletHomeProps> = ({
         </div>
 
         <div className="px-6">
-          <h1 className="text-3xl font-hana-bold text-text-primary !mb-8">
+          <h1 className="font-hana-bold text-text-primary !mb-8 text-3xl">
             박스
           </h1>
           <div className="space-y-4">
             {boxes.map((box) => (
-              <div key={box.id} className="space-y-3 !mb-8">
-                <div className="bg-theme-secondary rounded-2xl p-3 !mb-[5px]">
+              <div key={box.id} className="!mb-8 space-y-3">
+                <div className="bg-theme-secondary !mb-[5px] rounded-2xl p-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="ml-2 w-11 h-11 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+                      <div className="ml-2 flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-sm">
                         <img
                           src="/images/box.png"
                           alt="박스 아이콘"
-                          className="w-7 h-7"
+                          className="h-7 w-7"
                         />
                       </div>
                       <div>
-                        <h4 className="text-lg font-hana-regular text-text-secondary !mb-0">
+                        <h4 className="font-hana-regular text-text-secondary !mb-0 text-lg">
                           {box.name}
                         </h4>
-                        <p className="text-xl font-hana-bold text-text-secondary !mb-0">
+                        <p className="font-hana-bold text-text-secondary !mb-0 text-xl">
                           {box.balance} 원
                         </p>
                       </div>
@@ -164,7 +166,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
                     intent="silver"
                     size="lg"
                     font="regular"
-                    className="!text-base flex-1"
+                    className="flex-1 !text-base"
                     onClick={() => onViewHistory(box)}
                   >
                     상세 보기
@@ -173,7 +175,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
                     intent="silver"
                     size="lg"
                     font="regular"
-                    className="!text-base flex-1"
+                    className="flex-1 !text-base"
                     onClick={() => onViewBucket()}
                   >
                     버킷 보기
@@ -182,7 +184,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
                     intent="silver"
                     size="lg"
                     font="regular"
-                    className="!text-base flex-1"
+                    className="flex-1 !text-base"
                     onClick={() => onEditBox(box)}
                   >
                     수정하기

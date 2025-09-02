@@ -1,7 +1,8 @@
 import { useState } from 'react';
+
+import Button from '@/components/button/Button';
 import Header from '@/components/Header';
 import Input from '@/components/input/Input';
-import Button from '@/components/button/Button';
 
 type GroupNameFormProps = {
   onBack: () => void;
@@ -22,8 +23,8 @@ const GroupNameForm = ({ onBack, onSubmit, loading }: GroupNameFormProps) => {
     <div className="relative h-full px-6">
       <Header onClick={onBack} />
 
-      <div className="flex flex-col justify-center items-center w-full pt-5">
-        <div className="font-hana-regular text-3xl flex flex-col w-full mb-5">
+      <div className="flex w-full flex-col items-center justify-center pt-5">
+        <div className="font-hana-regular mb-5 flex w-full flex-col text-3xl">
           <p>
             <span className="font-hana-bold">그룹명</span>을 입력해 주세요
           </p>
@@ -39,7 +40,7 @@ const GroupNameForm = ({ onBack, onSubmit, loading }: GroupNameFormProps) => {
         />
       </div>
 
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
+      <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
         <Button
           intent={hasText ? 'green' : 'gray'}
           label={loading ? '생성 중...' : '확인'}

@@ -1,6 +1,8 @@
 import React from 'react';
+
 import Button from '@/components/button/Button';
 import Header from '@/components/Header';
+
 import type { Box } from '../types';
 
 interface BoxTransferHistoryProps {
@@ -60,16 +62,16 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
   );
 
   return (
-    <div className="w-full h-full">
-      <div className="pt-5 px-6 mb-7">
+    <div className="h-full w-full">
+      <div className="mb-7 px-6 pt-5">
         <Header onClick={onBack} />
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-hana-bold text-text-primary !mb-0">
+          <h1 className="font-hana-bold text-text-primary !mb-0 text-3xl">
             박스
           </h1>
           <Button
             intent="silver"
-            className="!text-base !font-hana-regular !text-text-secondary"
+            className="!font-hana-regular !text-text-secondary !text-base"
             onClick={onViewBucket}
           >
             버킷리스트 보기
@@ -77,28 +79,28 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
         </div>
       </div>
 
-      <div className="px-6 !mb-3">
-        <p className="text-text-secondary text-base font-hana-regular !mb-0">
+      <div className="!mb-3 px-6">
+        <p className="text-text-secondary font-hana-regular !mb-0 text-base">
           매월 5일 100,000원씩 채우고 있어요
         </p>
       </div>
 
       <div className="px-6">
-        <div className="bg-theme-secondary rounded-2xl p-3 mb-7">
+        <div className="bg-theme-secondary mb-7 rounded-2xl p-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="ml-2 w-11 h-11 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+              <div className="ml-2 flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-sm">
                 <img
                   src="/images/box.png"
                   alt="박스 아이콘"
-                  className="w-7 h-7"
+                  className="h-7 w-7"
                 />
               </div>
               <div>
-                <h4 className="text-lg font-hana-regular text-text-secondary !mb-0">
+                <h4 className="font-hana-regular text-text-secondary !mb-0 text-lg">
                   {box.name}
                 </h4>
-                <p className="text-xl font-hana-bold text-text-secondary !mb-0">
+                <p className="font-hana-bold text-text-secondary !mb-0 text-xl">
                   {box.balance} 원
                 </p>
               </div>
@@ -112,7 +114,7 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
           {Object.entries(groupedTransactions).map(([date, txs]) => (
             <div key={date}>
               <div className="mb-3">
-                <span className="text-base text-text-secondary font-hana-regular">
+                <span className="text-text-secondary font-hana-regular text-base">
                   {date}
                 </span>
               </div>
@@ -125,15 +127,15 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
                   >
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <span className="text-xl text-text-secondary font-hana-bold">
+                        <span className="text-text-secondary font-hana-bold text-xl">
                           {tx.type}
                         </span>
-                        <span className="text-xl font-hana-bold text-text-secondary">
+                        <span className="font-hana-bold text-text-secondary text-xl">
                           {tx.amount}
                         </span>
                       </div>
                       <div className="flex items-center justify-end">
-                        <span className="text-base font-hana-regular text-theme-primary !mt-0 mb-2">
+                        <span className="font-hana-regular text-theme-primary !mt-0 mb-2 text-base">
                           {tx.balance}
                         </span>
                       </div>

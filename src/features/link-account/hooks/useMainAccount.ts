@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchMainAccount } from '../apis/accountApi';
+
 import type { MainAccount } from '@/types/account';
+
+import { fetchMainAccount } from '../apis/accountApi';
 
 export const accountQK = {
   main: ['accounts', 'main'] as const,

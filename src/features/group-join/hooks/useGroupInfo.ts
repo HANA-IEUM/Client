@@ -1,6 +1,8 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchGroupInfo } from '../apis/groupApi';
+
 import type { GroupInfo } from '@/types/group';
+
+import { fetchGroupInfo } from '../apis/groupApi';
 
 export const groupQK = {
   info: ['group', 'info'] as const,

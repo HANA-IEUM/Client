@@ -1,7 +1,9 @@
 import React, { useRef, useState } from 'react';
+import { toast } from 'react-hot-toast';
+
 import Button from '@/components/button/Button';
 import BoxInput, { type BoxInputHandle } from '@/components/common/BoxInput';
-import { toast } from 'react-hot-toast';
+
 import type { Box } from '../types';
 
 interface FillBoxPasswordProps {
@@ -29,7 +31,7 @@ const FillBoxPassword: React.FC<FillBoxPasswordProps> = ({
 
   return (
     <>
-      <p className="text-3xl font-hana-regular text-text-primary !mb-9 !mt-3">
+      <p className="font-hana-regular text-text-primary !mt-3 !mb-9 text-3xl">
         계좌 <span className="font-hana-bold">비밀번호</span>를<br /> 입력해
         주세요
       </p>

@@ -1,7 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createGroup } from '../apis/groupApi';
-import { groupQK } from './useGroupInfo';
+
 import type { GroupInfo } from '@/types/group';
+
+import { groupQK } from './useGroupInfo';
+import { createGroup } from '../apis/groupApi';
 
 export function useCreateGroup() {
   const qc = useQueryClient();

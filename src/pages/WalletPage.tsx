@@ -1,12 +1,13 @@
-import { useState, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useState, useCallback } from 'react';
+
 import type { Box } from '@/features/wallet/types';
 
-import WalletHome from '../features/wallet/components/WalletHome';
+import BoxEdit from '../features/wallet/components/BoxEdit';
+import BoxTransferHistory from '../features/wallet/components/BoxTransferHistory';
 import FillBoxAmount from '../features/wallet/components/FillBoxAmount';
 import FillBoxPassword from '../features/wallet/components/FillBoxPassword';
-import BoxTransferHistory from '../features/wallet/components/BoxTransferHistory';
-import BoxEdit from '../features/wallet/components/BoxEdit';
+import WalletHome from '../features/wallet/components/WalletHome';
 
 const WalletPage = () => {
   const [step, setStep] = useState(0);
@@ -44,7 +45,7 @@ const WalletPage = () => {
   }, []);
 
   return (
-    <div className="relative w-full h-full overflow-hidden">
+    <div className="relative h-full w-full overflow-hidden">
       <AnimatePresence mode="sync" initial={false}>
         <motion.div
           key={step}
@@ -52,7 +53,7 @@ const WalletPage = () => {
           animate={{ x: 0 }}
           exit={{ x: '-100%' }}
           transition={{ duration: 0.28, ease: 'easeInOut' }}
-          className="absolute top-0 left-0 right-0 w-full transform-gpu will-change-transform"
+          className="absolute top-0 right-0 left-0 w-full transform-gpu will-change-transform"
         >
           {step === 0 && (
             <WalletHome

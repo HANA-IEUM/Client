@@ -1,15 +1,14 @@
-import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
-import { useState, useCallback, useMemo, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 
+import { useHideGroupPrompt } from '@/features/auth/hooks/useHideGroupPrompt';
 import FamilyGroupEmptyStateCard from '@/features/group-join/components/FamilyGroupEmptyStateCard';
 import GroupNameForm from '@/features/group-join/components/GroupNameForm';
 import InviteCodeForm from '@/features/group-join/components/InviteCodeForm';
 import InviteCodeSharePanel from '@/features/group-join/components/InviteCodeSharePanel';
-
 import { useCreateGroup } from '@/features/group-join/hooks/useCreateGroup';
 import { useJoinGroup } from '@/features/group-join/hooks/useJoinGroup';
-import { useHideGroupPrompt } from '@/features/auth/hooks/useHideGroupPrompt';
 import { useMainAccountLinked } from '@/features/link-account/hooks/useMainAccountLinked';
 import { showSuccess, showError } from '@/lib/toast';
 
@@ -144,7 +143,7 @@ const GroupJoinPage = () => {
   };
 
   return (
-    <div className="relative w-full h-[100dvh] overflow-hidden px-6">
+    <div className="relative h-[100dvh] w-full overflow-hidden px-6">
       <AnimatePresence mode="sync" initial={false}>
         <motion.div
           key={step}
@@ -152,7 +151,7 @@ const GroupJoinPage = () => {
           animate={{ x: 0 }}
           exit={{ x: '-100%' }}
           transition={{ duration: 0.28, ease: 'easeInOut' }}
-          className="absolute inset-0 w-full h-full transform-gpu will-change-transform"
+          className="absolute inset-0 h-full w-full transform-gpu will-change-transform"
         >
           {step === 0 && (
             <FamilyGroupEmptyStateCard
