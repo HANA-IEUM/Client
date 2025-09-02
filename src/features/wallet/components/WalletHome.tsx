@@ -18,6 +18,7 @@ interface WalletHomeProps {
   onViewHistory: (box: Box) => void;
   onEditBox: (box: Box) => void;
   onViewBucket: (bucketId: number) => void;
+  onViewMainAccount: () => void;
 }
 
 const WalletHome: React.FC<WalletHomeProps> = ({
@@ -25,6 +26,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
   onViewHistory,
   onEditBox,
   onViewBucket,
+  onViewMainAccount,
 }) => {
   const [step, setStep] = useState<'amount' | 'password' | null>(null);
   const [selectedBox, setSelectedBox] = useState<Box | null>(null);
@@ -169,7 +171,10 @@ const WalletHome: React.FC<WalletHomeProps> = ({
           </div>
         ) : mainAccount ? (
           <div className="w-full px-6 mb-14">
-            <div className="bg-btn-default-bg rounded-2xl p-4 shadow-sm">
+            <div
+              className="bg-btn-default-bg rounded-2xl p-4 shadow-sm cursor-pointer"
+              onClick={onViewMainAccount}
+            >
               <div className="flex items-center gap-5">
                 <div className="w-14 h-14 bg-theme-secondary rounded-full flex items-center justify-center">
                   <HanaIcon />

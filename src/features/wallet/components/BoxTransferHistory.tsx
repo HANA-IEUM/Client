@@ -12,13 +12,15 @@ import { formatKoreanDateTime } from '@/utils/dateFormat';
 interface BoxTransferHistoryProps {
   box: Box;
   onBack: () => void;
-  onViewBucket: (bucketId: number) => void;
+  onViewBucket?: (bucketId: number) => void;
+  isMoneyBox?: boolean; // 주계좌 화면에서는 false
 }
 
 const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
   box,
   onBack,
   onViewBucket,
+  isMoneyBox = true,
 }) => {
   const pageSize = 7;
 
@@ -30,9 +32,10 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
     fetchNextPage,
   } = useInfiniteAccountTransactions(box.accountId || 0, pageSize);
 
-  const { data: boxInfo, isLoading: boxInfoLoading } = useMoneyBoxInfo(
-    box.accountId || 0
-  );
+  // 머니박스가 아닌 경우(주계좌)에는 박스 정보 조회를 비활성화
+  const infoBoxId = isMoneyBox ? box.accountId || 0 : 0;
+  const { data: boxInfo, isLoading: boxInfoLoading } =
+    useMoneyBoxInfo(infoBoxId);
 
   const allTransactions =
     transactionPages?.pages.flatMap((page) => page.content) || [];
@@ -80,33 +83,36 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
         <Header onClick={onBack} />
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-hana-bold text-text-primary !mb-0">
-            박스
+            {isMoneyBox ? '박스' : '주계좌'}
           </h1>
-          <Button
-            intent="silver"
-            className="!text-base !font-hana-regular !text-text-secondary"
-            onClick={() => box.bucketListId && onViewBucket(box.bucketListId)}
-            disabled={!box.bucketListId}
-          >
-            버킷리스트 보기
-          </Button>
+          {isMoneyBox && onViewBucket && box.bucketListId && (
+            <Button
+              intent="silver"
+              className="!text-base !font-hana-regular !text-text-secondary"
+              onClick={() => box.bucketListId && onViewBucket(box.bucketListId)}
+            >
+              버킷리스트 보기
+            </Button>
+          )}
         </div>
       </div>
 
-      <div className="px-6 !mb-3">
-        {boxInfoLoading ? (
-          <div className="h-5 bg-gray-200 rounded animate-pulse w-64"></div>
-        ) : boxInfo?.nextTransferDay && boxInfo?.nextTransferAmount ? (
-          <p className="text-text-secondary text-base font-hana-regular !mb-0">
-            다음달에는 {boxInfo.nextTransferDay}일에{' '}
-            {boxInfo.nextTransferAmount.toLocaleString()}원이 채워져요
-          </p>
-        ) : (
-          <p className="text-text-secondary text-base font-hana-regular !mb-0">
-            자동이체가 설정되어 있지 않아요
-          </p>
-        )}
-      </div>
+      {isMoneyBox && (
+        <div className="px-6 !mb-3">
+          {boxInfoLoading ? (
+            <div className="h-5 bg-gray-200 rounded animate-pulse w-64"></div>
+          ) : boxInfo?.nextTransferDay && boxInfo?.nextTransferAmount ? (
+            <p className="text-text-secondary text-base font-hana-regular !mb-0">
+              다음달에는 {boxInfo.nextTransferDay}일에{' '}
+              {boxInfo.nextTransferAmount.toLocaleString()}원이 채워져요
+            </p>
+          ) : (
+            <p className="text-text-secondary text-base font-hana-regular !mb-0">
+              자동이체가 설정되어 있지 않아요
+            </p>
+          )}
+        </div>
+      )}
 
       <div className="px-6">
         <div className="bg-theme-secondary rounded-2xl p-3 mb-7">
@@ -179,16 +185,21 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
                           <span className="text-xl text-text-secondary font-hana-bold">
                             {tx.description || tx.transactionType}
                           </span>
-                          <span
-                            className={`text-xl font-hana-bold ${
-                              tx.amount > 0
-                                ? 'text-theme-primary'
-                                : 'text-red-600'
-                            }`}
-                          >
-                            {tx.amount > 0 ? '+' : ''}
-                            {tx.amount.toLocaleString()}원
-                          </span>
+                          {(() => {
+                            const isDeposit = tx.transactionType === 'DEPOSIT';
+                            const sign = isDeposit ? '+' : '-';
+                            const colorClass = isDeposit
+                              ? 'text-blue-400'
+                              : 'text-red-400';
+                            return (
+                              <span
+                                className={`text-xl font-hana-bold ${colorClass}`}
+                              >
+                                {sign}
+                                {tx.amount.toLocaleString()}원
+                              </span>
+                            );
+                          })()}
                         </div>
                         <div className="flex items-center justify-end">
                           <span className="text-base font-hana-regular text-text-secondary !mt-0 mb-2">

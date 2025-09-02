@@ -73,6 +73,20 @@ const WalletPage = () => {
     setStep(4);
   }, []);
 
+  const handleViewMainAccount = useCallback(() => {
+    setSelectedBox(
+      mainAccount
+        ? ({
+            id: mainAccount.accountId,
+            name: mainAccount.accountName,
+            balance: mainAccount.balance.toLocaleString(),
+            accountId: mainAccount.accountId,
+          } as Box)
+        : null
+    );
+    setStep(5);
+  }, [mainAccount]);
+
   const handleViewBucket = useCallback(
     (bucketId: number) => {
       navigate(`/bucket/${bucketId}`);
@@ -88,6 +102,7 @@ const WalletPage = () => {
           onViewHistory={handleViewHistory}
           onEditBox={handleEditBox}
           onViewBucket={handleViewBucket}
+          onViewMainAccount={handleViewMainAccount}
         />
       )}
 
@@ -121,6 +136,14 @@ const WalletPage = () => {
           box={selectedBox}
           onBack={() => setStep(0)}
           onSave={() => setStep(0)}
+        />
+      )}
+
+      {step === 5 && selectedBox && (
+        <BoxTransferHistory
+          box={selectedBox}
+          onBack={() => setStep(0)}
+          isMoneyBox={false}
         />
       )}
     </div>
