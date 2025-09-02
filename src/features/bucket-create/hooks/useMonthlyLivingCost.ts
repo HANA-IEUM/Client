@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { fetchMonthlyLivingCost } from '@/features/bucket-create/apis/memberApis.ts';
 
 export const memberQK = {

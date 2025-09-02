@@ -1,17 +1,18 @@
-import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+
 import Stepper from '@/components/common/Stepper.tsx';
 import Header from '@/components/Header';
-import { useNavigate } from 'react-router-dom';
-import { useRegister } from '@/features/auth/hooks/useRegister.ts';
-import { PhoneInput } from '@/features/auth/components/PhoneInput.tsx';
-import { PasswordInput } from '@/features/auth/components/PasswordInput.tsx';
-import { PhoneVerification } from '@/features/auth/components/PhoneVerification.tsx';
-import { NameInput } from '@/features/auth/components/NameInput.tsx';
 import { BirthdayInput } from '@/features/auth/components/BirthdayInput';
 import { MonthlyCostInput } from '@/features/auth/components/MonthlyCostInput.tsx';
+import { NameInput } from '@/features/auth/components/NameInput.tsx';
+import { PasswordInput } from '@/features/auth/components/PasswordInput.tsx';
+import { PhoneInput } from '@/features/auth/components/PhoneInput.tsx';
+import { PhoneVerification } from '@/features/auth/components/PhoneVerification.tsx';
 import RegisterCom from '@/features/auth/components/RegisterCom';
-import toast from 'react-hot-toast';
+import { useRegister } from '@/features/auth/hooks/useRegister.ts';
 
 // 슬라이드 애니메이션을 위한 variants
 const variants = {
@@ -127,7 +128,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="mx-6 flex flex-col h-screen">
+    <div className="mx-6 flex h-screen flex-col">
       <AnimatePresence>
         {step > 0 && (
           <motion.div
@@ -148,7 +149,7 @@ export default function RegisterPage() {
       ) : (
         <></>
       )}
-      <div className="flex-grow my-10 relative overflow-hidden">
+      <div className="relative my-10 flex-grow overflow-hidden">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={step}
@@ -158,7 +159,7 @@ export default function RegisterPage() {
             animate="center"
             exit="exit"
             transition={{ type: 'tween', ease: 'easeInOut', duration: 0.4 }}
-            className="absolute w-full h-full"
+            className="absolute h-full w-full"
           >
             {renderStepContent()}
           </motion.div>

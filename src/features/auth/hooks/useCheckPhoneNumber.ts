@@ -1,9 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
-import { checkPhoneNumber } from '../apis/auth';
+
 import type {
   CheckPhoneNumberResponse,
   PhoneNumberPayload,
 } from '@/types/auth';
+
+import { checkPhoneNumber } from '../apis/auth';
 
 export const useCheckPhoneNumber = (
   onSuccess?: (data: CheckPhoneNumberResponse) => void,
