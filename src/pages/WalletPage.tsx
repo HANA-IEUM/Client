@@ -2,16 +2,19 @@ import { useState, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { Box } from '@/features/wallet/types';
 
-import WalletHome from '../features/wallet/components/WalletHome';
-import FillBoxAmount from '../features/wallet/components/FillBoxAmount';
-import FillBoxPassword from '../features/wallet/components/FillBoxPassword';
-import BoxTransferHistory from '../features/wallet/components/BoxTransferHistory';
-import BoxEdit from '../features/wallet/components/BoxEdit';
+import WalletHome from '@/features/wallet/components/WalletHome';
+import FillBoxAmount from '@/features/wallet/components/FillBoxAmount';
+import FillBoxPassword from '@/features/wallet/components/FillBoxPassword';
+import BoxTransferHistory from '@/features/wallet/components/BoxTransferHistory';
+import BoxEdit from '@/features/wallet/components/BoxEdit';
+import { useMainAccount } from '@/features/wallet/hooks/useMainAccount';
 
 const WalletPage = () => {
   const [step, setStep] = useState(0);
   const [selectedBox, setSelectedBox] = useState<Box | null>(null);
   const [fillAmount, setFillAmount] = useState<string>('');
+
+  const { data: mainAccount } = useMainAccount();
 
   const handleFillBox = useCallback((box: Box) => {
     setSelectedBox(box);
@@ -44,7 +47,7 @@ const WalletPage = () => {
   }, []);
 
   return (
-    <div className="relative w-full h-full overflow-hidden">
+    <div className="relative w-full h-full">
       <AnimatePresence mode="sync" initial={false}>
         <motion.div
           key={step}

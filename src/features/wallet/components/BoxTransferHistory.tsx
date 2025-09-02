@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { Spin } from 'antd';
 import Button from '@/components/button/Button';
 import Header from '@/components/Header';
 import type { Box } from '../types';
+import {
+  useInfiniteAccountTransactions,
+  useMoneyBoxInfo,
+} from '@/features/wallet/hooks/useMainAccount';
+import { formatKoreanDateTime } from '@/utils/dateFormat';
 
 interface BoxTransferHistoryProps {
   box: Box;
@@ -14,53 +20,62 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
   onBack,
   onViewBucket,
 }) => {
-  const transactions = [
-    {
-      date: '08월 24일',
-      type: '자동 이체',
-      amount: '+20,000원',
-      balance: '260,000원',
-    },
-    {
-      date: '08월 24일',
-      type: '원윤서님의 후원',
-      amount: '+20,000원',
-      balance: '240,000원',
-    },
-    {
-      date: '08월 24일',
-      type: '자동 이체',
-      amount: '+20,000원',
-      balance: '220,000원',
-    },
-    {
-      date: '08월 25일',
-      type: '자동 이체',
-      amount: '+20,000원',
-      balance: '220,000원',
-    },
-    {
-      date: '08월 26일',
-      type: '자동 이체',
-      amount: '+20,000원',
-      balance: '220,000원',
-    },
-  ];
+  const pageSize = 7;
 
-  // 날짜별로 거래 내역 그룹화
-  const groupedTransactions = transactions.reduce(
-    (groups, tx) => {
-      if (!groups[tx.date]) {
-        groups[tx.date] = [];
-      }
-      groups[tx.date].push(tx);
-      return groups;
-    },
-    {} as Record<string, typeof transactions>
+  const {
+    data: transactionPages,
+    isLoading: transactionsLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteAccountTransactions(box.accountId || 0, pageSize);
+
+  const { data: boxInfo, isLoading: boxInfoLoading } = useMoneyBoxInfo(
+    box.accountId || 0
   );
 
+  const allTransactions =
+    transactionPages?.pages.flatMap((page) => page.content) || [];
+
+  const groupedTransactions = allTransactions.reduce(
+    (groups, tx) => {
+      const dateKey = formatKoreanDateTime(tx.date, false); // 날짜만 표시
+      if (!groups[dateKey]) {
+        groups[dateKey] = [];
+      }
+      groups[dateKey].push(tx);
+      return groups;
+    },
+    {} as Record<string, typeof allTransactions>
+  );
+
+  const observerRef = useRef<HTMLDivElement>(null);
+
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const target = entries[0];
+      if (target.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    },
+    [fetchNextPage, hasNextPage, isFetchingNextPage]
+  );
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleObserver, {
+      threshold: 0.1,
+      rootMargin: '100px', // 100px 전에 트리거
+    });
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [handleObserver]);
+
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full overflow-y-auto pb-20">
       <div className="pt-5 px-6 mb-7">
         <Header onClick={onBack} />
         <div className="flex items-center justify-between">
@@ -78,9 +93,18 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
       </div>
 
       <div className="px-6 !mb-3">
-        <p className="text-text-secondary text-base font-hana-regular !mb-0">
-          매월 5일 100,000원씩 채우고 있어요
-        </p>
+        {boxInfoLoading ? (
+          <div className="h-5 bg-gray-200 rounded animate-pulse w-64"></div>
+        ) : boxInfo?.nextTransferDay && boxInfo?.nextTransferAmount ? (
+          <p className="text-text-secondary text-base font-hana-regular !mb-0">
+            다음달에는 {boxInfo.nextTransferDay}일에{' '}
+            {boxInfo.nextTransferAmount.toLocaleString()}원이 채워져요
+          </p>
+        ) : (
+          <p className="text-text-secondary text-base font-hana-regular !mb-0">
+            자동이체가 설정되어 있지 않아요
+          </p>
+        )}
       </div>
 
       <div className="px-6">
@@ -108,42 +132,99 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
       </div>
 
       <div className="px-6">
-        <div className="space-y-4">
-          {Object.entries(groupedTransactions).map(([date, txs]) => (
-            <div key={date}>
-              <div className="mb-3">
-                <span className="text-base text-text-secondary font-hana-regular">
-                  {date}
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                {txs.map((tx, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xl text-text-secondary font-hana-bold">
-                          {tx.type}
-                        </span>
-                        <span className="text-xl font-hana-bold text-text-secondary">
-                          {tx.amount}
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-end">
-                        <span className="text-base font-hana-regular text-theme-primary !mt-0 mb-2">
-                          {tx.balance}
-                        </span>
+        {transactionsLoading ? (
+          <div className="space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="space-y-3">
+                <div className="mb-3">
+                  <div className="h-5 bg-gray-200 rounded animate-pulse w-20"></div>
+                </div>
+                <div className="space-y-3">
+                  {[1, 2].map((j) => (
+                    <div key={j} className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <div className="h-6 bg-gray-200 rounded animate-pulse w-32"></div>
+                          <div className="h-6 bg-gray-200 rounded animate-pulse w-24"></div>
+                        </div>
+                        <div className="flex items-center justify-end">
+                          <div className="h-5 bg-gray-200 rounded animate-pulse w-20"></div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
+            ))}
+          </div>
+        ) : Object.keys(groupedTransactions).length > 0 ? (
+          <div className="space-y-4">
+            {Object.entries(groupedTransactions).map(([date, txs]) => (
+              <div key={date}>
+                <div className="mb-3">
+                  <span className="text-base text-text-secondary font-hana-regular">
+                    {date}
+                  </span>
+                </div>
+
+                <div className="space-y-3">
+                  {txs.map((tx) => (
+                    <div
+                      key={tx.transactionId}
+                      className="flex items-center justify-between"
+                    >
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xl text-text-secondary font-hana-bold">
+                            {tx.description || tx.transactionType}
+                          </span>
+                          <span
+                            className={`text-xl font-hana-bold ${
+                              tx.amount > 0
+                                ? 'text-theme-primary'
+                                : 'text-red-600'
+                            }`}
+                          >
+                            {tx.amount > 0 ? '+' : ''}
+                            {tx.amount.toLocaleString()}원
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-end">
+                          <span className="text-base font-hana-regular text-text-secondary !mt-0 mb-2">
+                            {tx.balanceAfter.toLocaleString()}원
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* 무한스크롤을 위한 Intersection Observer */}
+            <div ref={observerRef} className="py-4">
+              {isFetchingNextPage ? (
+                <div className="text-center">
+                  <Spin size="small" />
+                </div>
+              ) : hasNextPage ? (
+                <div className="h-3" /> // 관찰용 빈 공간
+              ) : (
+                <div className="text-center py-4">
+                  <p className="text-text-secondary font-hana-regular text-base">
+                    모든 거래내역을 불러왔습니다
+                  </p>
+                </div>
+              )}
             </div>
-          ))}
-        </div>
+          </div>
+        ) : (
+          <div className="text-center py-8">
+            <p className="text-text-secondary font-hana-regular text-lg">
+              거래내역이 없습니다.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
