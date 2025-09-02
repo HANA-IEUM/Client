@@ -19,7 +19,7 @@ export interface CouponResponse {
 }
 
 export async function fetchCoupons(): Promise<Coupon[]> {
-  const res = await api.get<CouponResponse>('/api/coupons');
+  const res = await api.get<CouponResponse>('/coupons');
   return res.data.data;
 }
 
