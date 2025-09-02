@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 
+import EmptyStateMessage from '@/components/common/EmptyStateMessage.tsx';
 import Header from '@/components/Header';
 import Coupon from '@/features/coupon/components/Coupon';
 import { useCoupons } from '@/features/coupon/hooks/useCoupons';
 
 const CouponPage = () => {
   const navigate = useNavigate();
-  const { data: coupons } = useCoupons();
+  const { data: coupons, isLoading } = useCoupons();
 
   return (
     <div className="px-6">
@@ -15,8 +16,10 @@ const CouponPage = () => {
         <p className="font-hana-bold text-3xl">쿠폰함</p>
       </div>
 
-      <div className="flex flex-col gap-5">
-        {coupons?.map((coupon) => (
+      {isLoading ? (
+        <div className="flex h-64 items-center justify-center"></div>
+      ) : coupons && coupons.length > 0 ? (
+        coupons.map((coupon) => (
           <Coupon
             key={coupon.couponId}
             id={coupon.couponId}
@@ -28,8 +31,10 @@ const CouponPage = () => {
             couponCode={coupon.couponCode}
             expireDate={coupon.expireDate}
           />
-        ))}
-      </div>
+        ))
+      ) : (
+        <EmptyStateMessage title="보유한 쿠폰이 없어요" />
+      )}
     </div>
   );
 };
