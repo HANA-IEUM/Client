@@ -1,6 +1,8 @@
 import { Outlet, useLocation } from 'react-router-dom';
 
 import BottomTab from '@/components/BottomTab';
+import { usePageStayTime } from '@/hooks/usePageStayTime';
+import { usePageTracking } from '@/hooks/usePageTracking';
 
 export default function RootLayout() {
   const location = useLocation();
@@ -14,6 +16,9 @@ export default function RootLayout() {
   const shouldShowBottomTab = showBottomTabPaths.some((path) =>
     location.pathname.startsWith(path)
   );
+
+  usePageTracking();
+  usePageStayTime();
 
   return (
     <div className="bg-background flex min-h-screen justify-center">

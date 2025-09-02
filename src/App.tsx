@@ -2,13 +2,8 @@ import { Toaster } from 'react-hot-toast';
 
 import AppRouter from './app/AppRouter';
 import ReactQueryProvider from './app/providers/ReactQueryProvider';
-import { usePageStayTime } from './hooks/usePageStayTime';
-import { usePageTracking } from './hooks/usePageTracking';
 
 function App() {
-  usePageTracking();
-  usePageStayTime();
-
   return (
     <ReactQueryProvider>
       <Toaster
