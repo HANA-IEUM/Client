@@ -5,11 +5,10 @@ import starBoyIcon from '@/assets/common/header/starBoy.png';
 import BucketListItem from '@/components/BucketListItem';
 import EmptyStateMessage from '@/components/common/EmptyStateMessage';
 import Header from '@/components/Header';
+import { useMemberBucketLists } from '@/features/family/hooks/useMemberBucketLists';
 import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
 import { FilterTabs, type Tab } from '@/features/home/components/FilterTabs';
 import { formatKoreanDateTime } from '@/utils/dateFormat';
-
-import { useMemberBucketLists } from '../hooks/useMemberBucketLists';
 
 const FamilyMemberBucketList = () => {
   const [selected, setSelected] = useState('IN_PROGRESS');
@@ -23,7 +22,7 @@ const FamilyMemberBucketList = () => {
 
   const tabs: Tab[] = [
     { id: 'IN_PROGRESS', label: '진행중' },
-    { id: 'COMPLETED', label: '달성' },
+    { id: 'COMPLETED', label: '완료' },
   ];
 
   const { data: bucketLists, isLoading } = useMemberBucketLists(
@@ -115,7 +114,11 @@ const FamilyMemberBucketList = () => {
 
             <div className="flex-1">
               <EmptyStateMessage
-                title={`${member.name}님이 작성한 버킷리스트가 없어요`}
+                title={
+                  selected === 'IN_PROGRESS'
+                    ? `${member.name}님이 진행중인 버킷리스트가 없어요`
+                    : `${member.name}님이 완료한 버킷리스트가 없어요`
+                }
               />
             </div>
           </div>
