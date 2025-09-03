@@ -51,13 +51,7 @@ const BucketManageButtons = ({
           className="w-full !px-2"
         />
       ) : (
-        <Button
-          label="완료"
-          intent="green"
-          size="xl"
-          disabled
-          className="w-full !px-2"
-        />
+        <Button label="완료" intent="mint" size="xl" className="w-full !px-2" />
       )}
     </div>
   );

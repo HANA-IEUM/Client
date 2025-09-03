@@ -14,16 +14,6 @@ type Participant = {
   isActive: boolean;
 };
 
-// export type BucketDetail = {
-//   title: string;
-//   togetherFlag: boolean;
-//   publicFlag: boolean;
-//   targetAmount: number;
-//   targetDate: string;
-//   moneyBoxInfo: MoneyBoxInfo;
-//   participants: Participant[];
-// };
-
 export type BucketDetail = {
   title: string;
   togetherFlag: boolean;
@@ -45,4 +35,9 @@ export async function fetchBucketDetail(
 
 export async function deleteBucket(bucketListId: number): Promise<void> {
   await api.delete(`/bucket-lists/my/${bucketListId}`);
+}
+
+export async function completeBucket(bucketListId: number) {
+  const res = await api.patch(`/bucket-lists/${bucketListId}/complete`);
+  return res.data.data;
 }
