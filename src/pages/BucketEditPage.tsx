@@ -38,7 +38,7 @@ const BucketEditPage = () => {
     if (bucketDetail) {
       setEditInfo({
         title: bucketDetail.title ?? '',
-        publicFlag: false,
+        publicFlag: bucketDetail.publicFlag ?? false,
         shareFlag: bucketDetail.togetherFlag,
         selectedMemberIds: [],
       });
@@ -93,6 +93,9 @@ const BucketEditPage = () => {
         >
           {step === 0 && (
             <BucketEditBasicInfo
+              initialTitle={editInfo.title}
+              initialShareFlag={editInfo.shareFlag}
+              initialPublicFlag={editInfo.publicFlag}
               onNext={() => {
                 trackBucketEditEvent(
                   'bucket_edit_basic_done',
@@ -105,7 +108,7 @@ const BucketEditPage = () => {
                   handleConfirm();
                 }
               }}
-              onBack={() => navigate(-1)}
+              onBack={() => navigate('/home')}
               onChangeTitle={handleChangeTitle}
               onChangeShareFlag={handleChangeShareFlag}
               onChangePublicFlag={handleChangePublicFlag}

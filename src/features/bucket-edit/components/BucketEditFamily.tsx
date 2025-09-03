@@ -4,6 +4,7 @@ import Button from '@/components/button/Button';
 import Header from '@/components/Header';
 import SelectItem from '@/components/SelectItem';
 import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
+import { useAuthStore } from '@/stores/authStore';
 
 type BucketEditFamilyProps = {
   onNext: () => void;
@@ -18,6 +19,7 @@ const BucketEditFamily = ({
 }: BucketEditFamilyProps) => {
   const { data: groupInfo } = useGroupInfo();
   const [selectedMemberIds, setSelectedMemberIds] = useState<number[]>([]);
+  const user = useAuthStore((state) => state.user);
 
   const toggleMember = (id: number) => {
     let updated: number[];
@@ -31,6 +33,7 @@ const BucketEditFamily = ({
   };
 
   const members = groupInfo?.members ?? [];
+  const myMemberId = user?.sub ? Number(user.sub) : undefined;
 
   return (
     <div className="relative flex h-full w-full flex-col items-center px-6 pb-5">
@@ -46,14 +49,16 @@ const BucketEditFamily = ({
 
       <div className="scrollbar-hide mb-5 min-h-0 w-full overflow-y-auto pr-1 pb-24">
         <div className="mt-6 grid grid-cols-2 gap-3">
-          {members.map((member) => (
-            <SelectItem
-              key={member.memberId}
-              text={member.name}
-              selected={selectedMemberIds.includes(member.memberId)}
-              onClick={() => toggleMember(member.memberId)}
-            />
-          ))}
+          {members
+            .filter((member) => member.memberId !== myMemberId)
+            .map((member) => (
+              <SelectItem
+                key={member.memberId}
+                text={member.name}
+                selected={selectedMemberIds.includes(member.memberId)}
+                onClick={() => toggleMember(member.memberId)}
+              />
+            ))}
         </div>
       </div>
 

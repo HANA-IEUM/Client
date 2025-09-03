@@ -11,6 +11,7 @@ import { useCreateCoupon } from '@/features/coupon/hooks/useCreateCoupon';
 import { showError, showSuccess } from '@/lib/toast';
 import type { SupportHistory } from '@/types/supportHistory';
 
+import BucketManageButtons from './BucketManageButtons';
 import ProgressBar from './ProgressBar';
 import SupportSlider from './SupportSlider';
 import type { MoneyBoxInfo } from '../apis/bucketDetail';
@@ -21,6 +22,8 @@ type BucketDetailBoxProps = {
   bucketId: string;
   targetAmount: number;
   supportHistory?: SupportHistory[];
+  bucketListStatus: 'IN_PROGRESS' | 'COMPLETED';
+  canComplete: boolean;
 };
 
 type Cheer = { id: string; text: string; author: string; color: string };
@@ -39,6 +42,8 @@ const BucketDetailBox = ({
   bucketId,
   targetAmount,
   supportHistory,
+  bucketListStatus,
+  canComplete,
 }: BucketDetailBoxProps) => {
   const navigate = useNavigate();
   const { mutate: createCoupon } = useCreateCoupon(Number(bucketId));
@@ -48,11 +53,29 @@ const BucketDetailBox = ({
     setIsAchieveSheetOpen(false);
     navigate('/home');
   };
-  const onHandleCompleted = () => {
-    createCoupon(undefined, {
-      onSuccess: (couponCode) => {
-        setIsAchieveSheetOpen(true);
+
+  // 수정
+  const handleEdit = () => {
+    navigate(`/bucket-edit/${bucketId}`);
+  };
+
+  // 삭제
+  const handleDelete = () => {
+    deleteBucket(undefined, {
+      onSuccess: () => {
+        showSuccess('버킷이 삭제되었습니다.');
+        navigate('/home');
       },
+      onError: () => {
+        showError('삭제 중 오류가 발생했습니다.');
+      },
+    });
+  };
+
+  // 달성 완료
+  const handleComplete = () => {
+    createCoupon(undefined, {
+      onSuccess: () => setIsAchieveSheetOpen(true),
       onError: () => {
         showError('달성 완료 처리 중 오류가 발생했어요.');
       },
@@ -90,39 +113,14 @@ const BucketDetailBox = ({
 
       <div>
         <p className="font-hana-bold text-2xl text-white">관리</p>
-        <div className="grid grid-cols-3 gap-2">
-          <Button
-            onClick={() => navigate(`/bucket-edit/${bucketId}`)}
-            label="버킷 수정"
-            intent="gray"
-            size="xl"
-            className="w-full !px-2"
-          />
-          <Button
-            label={isPending ? '삭제 중입니다...' : '버킷 삭제'}
-            onClick={() => {
-              deleteBucket(undefined, {
-                onSuccess: () => {
-                  showSuccess('버킷이 삭제되었습니다.');
-                  navigate('/home');
-                },
-                onError: () => {
-                  showError('삭제 중 오류가 발생했습니다.');
-                },
-              });
-            }}
-            intent="gray"
-            size="xl"
-            className="w-full !px-2"
-          />
-          <Button
-            onClick={onHandleCompleted}
-            label="달성 완료"
-            intent="yellow"
-            size="xl"
-            className="w-full !px-2"
-          />
-        </div>
+        <BucketManageButtons
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          onComplete={handleComplete}
+          isDeleting={isPending}
+          canComplete={canComplete}
+          bucketListStatus={bucketListStatus}
+        />
       </div>
 
       <div>
