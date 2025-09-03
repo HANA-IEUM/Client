@@ -8,6 +8,7 @@ import BucketCreatePage from '@/pages/BucketCreatePage.tsx';
 import BucketDetailPage from '@/pages/BucketDetailPage';
 import BucketEditPage from '@/pages/BucketEditPage';
 import CouponPage from '@/pages/CouponPage';
+import FamilyMemberBucketListDetailPage from '@/pages/FamilyMemberBucketListDetailPage';
 import FamilyPage from '@/pages/FamilyPage';
 import GroupJoinPage from '@/pages/GroupJoinPage';
 import HomePage from '@/pages/HomePage';
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: 'family/member/:memberId/bucket',
         element: <FamilyMemberBucketList />,
+      },
+      {
+        path: 'family/member/:memberId/bucket/:id',
+        element: <FamilyMemberBucketListDetailPage />,
       },
       { path: 'wallet', element: <WalletPage /> },
       { path: 'album', element: <AlbumPage /> },

@@ -1,9 +1,4 @@
-type Participant = {
-  memberId: number;
-  memberName: string;
-  joinedAt: string;
-  isActive: boolean;
-};
+import type { Participant } from '@/features/family/apis/familyApi';
 
 type BucketInfoProps = {
   withWho: string;

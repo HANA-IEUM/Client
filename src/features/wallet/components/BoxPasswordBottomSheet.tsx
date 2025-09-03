@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import BottomSheet from '@/components/common/BottomSheet';
+
 import Button from '@/components/button/Button';
+import BottomSheet from '@/components/common/BottomSheet';
 import BoxInput from '@/components/common/BoxInput';
 import type { BoxInputHandle } from '@/components/common/BoxInput';
 
@@ -31,8 +32,8 @@ const BoxPasswordBottomSheet = ({
 
   return (
     <BottomSheet isOpen={open} onClose={onClose} maxHeight="90vh">
-      <div className="flex flex-col gap-4 min-h-[675px] p-6">
-        <div className="font-hana-regular text-3xl w-full mb-6">
+      <div className="flex min-h-[675px] flex-col gap-4 p-6">
+        <div className="font-hana-regular mb-6 w-full text-3xl">
           <p className="!mb-0">
             계좌 <span className="font-hana-bold">비밀번호</span>를
             <br />
@@ -50,8 +51,8 @@ const BoxPasswordBottomSheet = ({
           align="start"
         />
 
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
-          <div className="w-full flex gap-3">
+        <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
+          <div className="flex w-full gap-3">
             <Button
               intent="silver"
               size="lg"
