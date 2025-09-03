@@ -29,7 +29,6 @@ const BucketManageButtons = ({
 }: BucketManageButtonsProps) => {
   return (
     <div className="grid grid-cols-3 gap-2">
-      {/* 버킷 수정 */}
       <Button
         onClick={onEdit}
         label="버킷 수정"
@@ -38,7 +37,6 @@ const BucketManageButtons = ({
         className="w-full !px-2"
       />
 
-      {/* 버킷 삭제 */}
       <Button
         onClick={onDelete}
         label={isDeleting ? '삭제 중입니다...' : '버킷 삭제'}
@@ -47,7 +45,6 @@ const BucketManageButtons = ({
         className="w-full !px-2"
       />
 
-      {/* 달성 완료 / 진행 중 / 완료 */}
       {canComplete ? (
         <Button
           onClick={onComplete}

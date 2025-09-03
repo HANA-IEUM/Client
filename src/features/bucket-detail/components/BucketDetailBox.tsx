@@ -82,17 +82,6 @@ const BucketDetailBox = ({
     });
   };
 
-  // const onHandleCompleted = () => {
-  //   createCoupon(undefined, {
-  //     onSuccess: (couponCode) => {
-  //       setIsAchieveSheetOpen(true);
-  //     },
-  //     onError: () => {
-  //       showError('달성 완료 처리 중 오류가 발생했어요.');
-  //     },
-  //   });
-  // };
-
   const percent =
     targetAmount > 0
       ? Number(((moneyBoxInfo.balance / targetAmount) * 100).toFixed(1))
@@ -124,39 +113,6 @@ const BucketDetailBox = ({
 
       <div>
         <p className="font-hana-bold text-2xl text-white">관리</p>
-        {/* <div className="grid grid-cols-3 gap-2">
-          <Button
-            onClick={() => navigate(`/bucket-edit/${bucketId}`)}
-            label="버킷 수정"
-            intent="gray"
-            size="xl"
-            className="w-full !px-2"
-          />
-          <Button
-            label={isPending ? '삭제 중입니다...' : '버킷 삭제'}
-            onClick={() => {
-              deleteBucket(undefined, {
-                onSuccess: () => {
-                  showSuccess('버킷이 삭제되었습니다.');
-                  navigate('/home');
-                },
-                onError: () => {
-                  showError('삭제 중 오류가 발생했습니다.');
-                },
-              });
-            }}
-            intent="gray"
-            size="xl"
-            className="w-full !px-2"
-          />
-          <Button
-            onClick={onHandleCompleted}
-            label="달성 완료"
-            intent="yellow"
-            size="xl"
-            className="w-full !px-2"
-          />
-        </div> */}
         <BucketManageButtons
           onEdit={handleEdit}
           onDelete={handleDelete}
