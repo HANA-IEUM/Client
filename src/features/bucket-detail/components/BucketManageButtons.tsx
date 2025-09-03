@@ -1,14 +1,4 @@
-import Lottie from 'lottie-react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import giftJson from '@/assets/bucket-detail/gift.json';
 import Button from '@/components/button/Button';
-import BottomSheet from '@/components/common/BottomSheet';
-import { useCreateCoupon } from '@/features/coupon/hooks/useCreateCoupon';
-import { showError, showSuccess } from '@/lib/toast';
-
-import { useDeleteBucket } from '../hooks/useDeleteBucket';
 
 type BucketManageButtonsProps = {
   onEdit: () => void;
