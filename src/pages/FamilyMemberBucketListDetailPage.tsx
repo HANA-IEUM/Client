@@ -97,6 +97,7 @@ const FamilyMemberBucketListDetailPage = () => {
           bucketDetail?.targetAmount ?? dummyBucketDetail.targetAmount
         }
         targetPeriod={bucketDetail?.targetDate ?? dummyBucketDetail.targetDate}
+        participants={bucketDetail?.participants}
       />
       <div className="bg-theme-secondary mt-7 flex flex-1 flex-col rounded-t-3xl p-6 pt-11">
         <div>

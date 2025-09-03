@@ -1,7 +1,10 @@
+import type { Participant } from '@/features/family/apis/familyApi';
+
 type BucketInfoProps = {
   withWho: string;
   targetAmount: number;
   targetPeriod: string;
+  participants?: Participant[];
 };
 
 const BucketInfo = ({
@@ -10,7 +13,7 @@ const BucketInfo = ({
   targetPeriod,
 }: BucketInfoProps) => {
   return (
-    <div className="bg-btn-default-bg mx-6 rounded-md py-5 pl-5 mt-10">
+    <div className="bg-btn-default-bg mx-6 mt-10 rounded-md py-5 pl-5">
       <div className="text-text-secondary">
         <span className="font-hana-bold text-2xl">누구와 &nbsp;|</span>
         <span className="font-hana-regular text-2xl"> &nbsp;{withWho}</span>
