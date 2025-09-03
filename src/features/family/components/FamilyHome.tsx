@@ -76,17 +76,24 @@ const FamilyHome = () => {
           </h1>
 
           <div className="space-y-3">
-            {groupInfo?.members?.map((member) => (
-              <MemberItem
-                key={member.memberId}
-                name={member.name}
-                onSupportClick={
-                  member.name === user?.name
-                    ? undefined
-                    : () => handleSupportClick(member.memberId.toString())
-                }
-              />
-            ))}
+            {groupInfo?.members
+              ?.sort((a, b) => {
+                // 현재 사용자를 제일 위에 표시
+                if (a.name === user?.name) return -1;
+                if (b.name === user?.name) return 1;
+                return 0;
+              })
+              .map((member) => (
+                <MemberItem
+                  key={member.memberId}
+                  name={member.name}
+                  onSupportClick={
+                    member.name === user?.name
+                      ? undefined
+                      : () => handleSupportClick(member.memberId.toString())
+                  }
+                />
+              ))}
           </div>
         </div>
       </div>
