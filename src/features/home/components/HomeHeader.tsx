@@ -1,14 +1,17 @@
-import { useNavigate } from 'react-router-dom';
-
 import starBoyIcon from '@/assets/common/header/starBoy.png';
 import Button from '@/components/button/Button.tsx';
+import { useCheckCreationAvailability } from '@/features/home/hooks/useCheckCreationAvailability.ts';
 
 export type HomeHeaderProps = {
   name: string;
 };
 
 export const HomeHeader = ({ name }: HomeHeaderProps) => {
-  const navigate = useNavigate();
+  const checkCreationMutation = useCheckCreationAvailability();
+
+  const handleRegisterClick = () => {
+    checkCreationMutation.mutate();
+  };
   return (
     <header className="bg-theme-primary relative z-0 mb-[-50px] w-full px-6 pt-8 text-white">
       <div className="flex items-start justify-between">
@@ -22,7 +25,8 @@ export const HomeHeader = ({ name }: HomeHeaderProps) => {
             intent="yellow"
             size="lg"
             font="regular"
-            onClick={() => navigate('/bucket-create')}
+            onClick={handleRegisterClick}
+            loading={checkCreationMutation.isPending}
           />
         </div>
         <img src={starBoyIcon} alt="캐릭터" className="h-60 w-36" />
