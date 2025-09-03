@@ -17,8 +17,9 @@ const FamilyHome = () => {
     navigate(`/family/member/${memberId}/bucket`);
   };
 
-  // 페이지 포커스 시 데이터 새로고침
+  // 컴포넌트 마운트 시 및 페이지 포커스 시 데이터 새로고침
   useEffect(() => {
+    refetch();
     const handleFocus = () => {
       refetch();
     };
@@ -27,8 +28,28 @@ const FamilyHome = () => {
     return () => window.removeEventListener('focus', handleFocus);
   }, [refetch]);
 
+  if (isLoading) {
+    return (
+      <div className="h-full w-full pt-12">
+        <div className="px-6">
+          <h1 className="font-hana-bold text-text-primary !mb-8 text-4xl">
+            가족
+          </h1>
+        </div>
+
+        <div className="w-full px-6">
+          <div className="flex flex-col items-center justify-center py-20">
+            <div className="font-hana-regular text-text-secondary text-lg">
+              가족 정보를 불러오는 중...
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // 가족 그룹에 속해있지 않은 경우
-  if (!isLoading && !groupInfo) {
+  if (!groupInfo) {
     return <FamilyGroupEmptyStateCard />;
   }
 
@@ -55,17 +76,24 @@ const FamilyHome = () => {
           </h1>
 
           <div className="space-y-3">
-            {groupInfo?.members?.map((member) => (
-              <MemberItem
-                key={member.memberId}
-                name={member.name}
-                onSupportClick={
-                  member.name === user?.name
-                    ? undefined
-                    : () => handleSupportClick(member.memberId.toString())
-                }
-              />
-            ))}
+            {groupInfo?.members
+              ?.sort((a, b) => {
+                // 현재 사용자를 제일 위에 표시
+                if (a.name === user?.name) return -1;
+                if (b.name === user?.name) return 1;
+                return 0;
+              })
+              .map((member) => (
+                <MemberItem
+                  key={member.memberId}
+                  name={member.name}
+                  onSupportClick={
+                    member.name === user?.name
+                      ? undefined
+                      : () => handleSupportClick(member.memberId.toString())
+                  }
+                />
+              ))}
           </div>
         </div>
       </div>

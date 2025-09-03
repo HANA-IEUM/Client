@@ -14,6 +14,9 @@ type BucketEditBasicInfoProps = {
   onChangePublicFlag: (flag: boolean) => void;
   onChangeShareFlag: (flag: boolean) => void;
   familyCount: number;
+  initialTitle: string;
+  initialShareFlag: boolean;
+  initialPublicFlag: boolean;
 };
 
 const BucketEditBasicInfo = ({
@@ -23,10 +26,15 @@ const BucketEditBasicInfo = ({
   onChangePublicFlag,
   onChangeShareFlag,
   familyCount,
+  initialTitle,
+  initialShareFlag,
+  initialPublicFlag,
 }: BucketEditBasicInfoProps) => {
-  const [withWho, setWithWho] = useState<'혼자' | '함께'>('혼자');
-  const [what, setWhat] = useState<string>('');
-  const [checked, setChecked] = useState<boolean>(false);
+  const [withWho, setWithWho] = useState<'혼자' | '함께'>(
+    initialShareFlag ? '함께' : '혼자'
+  );
+  const [what, setWhat] = useState<string>(initialTitle);
+  const [checked, setChecked] = useState<boolean>(initialPublicFlag);
 
   useEffect(() => {
     onChangeTitle(what);
@@ -39,6 +47,18 @@ const BucketEditBasicInfo = ({
   useEffect(() => {
     onChangeShareFlag(withWho === '함께');
   }, [withWho]);
+
+  useEffect(() => {
+    setWhat(initialTitle);
+  }, [initialTitle]);
+
+  useEffect(() => {
+    setWithWho(initialShareFlag ? '함께' : '혼자');
+  }, [initialShareFlag]);
+
+  useEffect(() => {
+    setChecked(initialPublicFlag);
+  }, [initialPublicFlag]);
 
   const onChange: SwitchChangeEventHandler = (
     checked: boolean,

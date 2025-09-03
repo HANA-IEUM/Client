@@ -23,6 +23,7 @@ const BucketDetailPage = () => {
         withWho={bucketDetail?.togetherFlag ? '함께' : '혼자'}
         targetAmount={bucketDetail?.targetAmount ?? 0}
         targetPeriod={bucketDetail?.targetDate ?? ''}
+        participants={bucketDetail?.participants ?? []}
       />
       {bucketDetail?.moneyBoxInfo && (
         <BucketDetailBox
@@ -30,6 +31,8 @@ const BucketDetailPage = () => {
           targetAmount={bucketDetail.targetAmount}
           moneyBoxInfo={bucketDetail.moneyBoxInfo}
           supportHistory={supportHistory}
+          bucketListStatus={bucketDetail.bucketListStatus}
+          canComplete={bucketDetail.canComplete}
         />
       )}
     </div>

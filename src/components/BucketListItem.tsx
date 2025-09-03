@@ -38,7 +38,9 @@ const BucketListItem = ({
         )}
         <div className="flex flex-col">
           <span className="font-hana-bold text-primary text-xl">{text}</span>
-          <span className="font-hana-regular text-base">{date}</span>
+          <span className="font-hana-regular text-base">
+            목표 일자 - {date}
+          </span>
         </div>
       </div>
 

@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-type Cheer = { id: string; text: string; author: string };
+type Cheer = { id: string; text: string; author: string; color: string };
 
 interface SupportSliderProps {
   items?: Cheer[];
@@ -49,7 +49,7 @@ export default function SupportSlider({ items }: SupportSliderProps) {
               id={c.id}
               text={c.text}
               author={c.author}
-              color={'green'}
+              color={c.color}
             />
           </SwiperSlide>
         ))}

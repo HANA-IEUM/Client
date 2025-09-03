@@ -5,12 +5,13 @@ import starBoyIcon from '@/assets/common/header/starBoy.png';
 import BucketListItem from '@/components/BucketListItem';
 import EmptyStateMessage from '@/components/common/EmptyStateMessage';
 import Header from '@/components/Header';
-import type { BucketCategoryType } from '@/features/bucket-create/types/bucket';
+import { useMemberBucketLists } from '@/features/family/hooks/useMemberBucketLists';
 import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
 import { FilterTabs, type Tab } from '@/features/home/components/FilterTabs';
+import { formatKoreanDateTime } from '@/utils/dateFormat';
 
 const FamilyMemberBucketList = () => {
-  const [selected, setSelected] = useState('ALL');
+  const [selected, setSelected] = useState('IN_PROGRESS');
   const { memberId } = useParams<{ memberId: string }>();
   const navigate = useNavigate();
 
@@ -20,21 +21,14 @@ const FamilyMemberBucketList = () => {
   );
 
   const tabs: Tab[] = [
-    { id: 'ALL', label: '전체' },
     { id: 'IN_PROGRESS', label: '진행중' },
-    { id: 'COMPLETED', label: '달성' },
-    { id: 'PARTICIPATING', label: '참여' },
+    { id: 'COMPLETED', label: '완료' },
   ];
 
-  // 임시로 빈 배열 사용 (실제로는 특정 사용자의 버킷리스트 API 호출 필요)
-  const bucketLists: Array<{
-    id: string;
-    title: string;
-    targetDate: string;
-    type: BucketCategoryType;
-    status: string;
-  }> = [];
-  const isLoading = false;
+  const { data: bucketLists, isLoading } = useMemberBucketLists(
+    memberId || '',
+    selected
+  );
 
   const handleBack = () => {
     navigate('/family');
@@ -52,7 +46,7 @@ const FamilyMemberBucketList = () => {
 
   return (
     <div className="bg-theme-secondary mx-auto flex h-full w-full max-w-md flex-col">
-      <header className="relative z-0 mb-[-50px] flex-shrink-0 px-6 pt-8 text-white">
+      <header className="relative z-0 mb-[-50px] flex-shrink-0 px-6 text-white">
         {/* 뒤로가기 버튼 */}
         <div className="mb-4">
           <Header onClick={handleBack} />
@@ -99,10 +93,12 @@ const FamilyMemberBucketList = () => {
                   <BucketListItem
                     key={item.id}
                     text={item.title}
-                    date={item.targetDate}
-                    category={item.type}
+                    date={formatKoreanDateTime(item.createdAt, false)}
+                    category={item.type === 'FAMILY' ? 'FAMILY' : item.type}
                     completed={item.status === 'COMPLETED'}
-                    onClick={() => navigate(`/bucket/${item.id}`)}
+                    onClick={() =>
+                      navigate(`/family/member/${memberId}/bucket/${item.id}`)
+                    }
                   />
                 ))}
               </div>
@@ -120,7 +116,11 @@ const FamilyMemberBucketList = () => {
 
             <div className="flex-1">
               <EmptyStateMessage
-                title={`${member.name}님이 작성한 버킷리스트가 없어요`}
+                title={
+                  selected === 'IN_PROGRESS'
+                    ? `${member.name}님이 진행중인 버킷리스트가 없어요`
+                    : `${member.name}님이 완료한 버킷리스트가 없어요`
+                }
               />
             </div>
           </div>

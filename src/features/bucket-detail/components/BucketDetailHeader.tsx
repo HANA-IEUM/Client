@@ -3,13 +3,15 @@ import type { BucketDetailHeaderProps } from '@/types/common';
 
 const BucketDetailHeader = ({ onClick, title }: BucketDetailHeaderProps) => {
   return (
-    <div className="w-full pt-7 px-6 pb-5 flex items-center">
+    <div className="relative flex w-full items-center px-6 pt-7 pb-5">
       <img
         src={backIconSvg}
-        className="cursor-pointer mr-9"
+        className="absolute left-6 cursor-pointer"
         onClick={onClick}
       />
-      <span className="text-text-primary text-3xl font-hana-bold">{title}</span>
+      <span className="text-text-primary font-hana-bold w-full text-center text-3xl">
+        {title}
+      </span>
     </div>
   );
 };
