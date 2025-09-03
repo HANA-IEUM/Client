@@ -1,19 +1,40 @@
+type Participant = {
+  memberId: number;
+  memberName: string;
+  joinedAt: string;
+  isActive: boolean;
+};
+
 type BucketInfoProps = {
   withWho: string;
   targetAmount: number;
   targetPeriod: string;
+  participants: Participant[];
 };
 
 const BucketInfo = ({
   withWho,
   targetAmount,
   targetPeriod,
+  participants,
 }: BucketInfoProps) => {
   return (
-    <div className="bg-btn-default-bg mx-6 rounded-md py-5 pl-5 mt-10">
+    <div className="bg-btn-default-bg mx-6 mt-10 rounded-md py-5 pl-5">
       <div className="text-text-secondary">
         <span className="font-hana-bold text-2xl">누구와 &nbsp;|</span>
-        <span className="font-hana-regular text-2xl"> &nbsp;{withWho}</span>
+        {withWho === '혼자' ? (
+          <span className="font-hana-regular text-2xl">&nbsp;혼자</span>
+        ) : (
+          <span className="font-hana-regular text-2xl">
+            &nbsp;
+            {participants.map((p, i) => (
+              <span key={p.memberId}>
+                {p.memberName}
+                {i < participants.length - 1 && ', '}
+              </span>
+            ))}
+          </span>
+        )}
       </div>
 
       <div className="text-text-secondary">
