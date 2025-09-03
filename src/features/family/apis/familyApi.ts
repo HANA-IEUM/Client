@@ -34,6 +34,22 @@ export interface MemberBucketListResponse {
   data: MemberBucketListItem[];
 }
 
+export interface FamilyBucketDetail {
+  title: string;
+  targetAmount: number;
+  targetDate: string;
+  togetherFlag: boolean;
+  bucketListStatus: 'IN_PROGRESS' | 'COMPLETED';
+  participants: Participant[];
+}
+
+export interface FamilyBucketDetailResponse {
+  code: number;
+  status: string;
+  message: string;
+  data: FamilyBucketDetail;
+}
+
 export async function fetchMemberBucketLists(
   memberId: string,
   filter: string = 'IN_PROGRESS'
@@ -50,4 +66,13 @@ export async function fetchMemberBucketLists(
 
   const res = await api.get<MemberBucketListResponse>(endpoint);
   return res.data.data || [];
+}
+
+export async function fetchFamilyBucketDetail(
+  bucketListId: string
+): Promise<FamilyBucketDetail> {
+  const res = await api.get<FamilyBucketDetailResponse>(
+    `/bucket-lists/group/${bucketListId}`
+  );
+  return res.data.data;
 }

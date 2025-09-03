@@ -7,6 +7,9 @@ interface EmptyStateMessageProps {
   subtitle?: string;
   iconSize?: 'sm' | 'md' | 'lg';
   iconColor?: string;
+  titleColor?: string;
+  subtitleColor?: string;
+  subtitleFont?: 'regular' | 'bold';
 }
 
 const EmptyStateMessage = ({
@@ -16,6 +19,9 @@ const EmptyStateMessage = ({
   subtitle,
   iconSize = 'md',
   iconColor = 'brightness(0) saturate(100%) invert(85%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)',
+  titleColor = 'text-line',
+  subtitleColor = 'text-line',
+  subtitleFont = 'bold',
 }: EmptyStateMessageProps) => {
   const iconSizeClasses = {
     sm: 'w-24 h-20',
@@ -26,22 +32,26 @@ const EmptyStateMessage = ({
   return (
     <div className="flex flex-col items-center justify-center py-20">
       <div
-        className={`${iconSizeClasses[iconSize]} flex items-center justify-center mb-6`}
+        className={`${iconSizeClasses[iconSize]} mb-6 flex items-center justify-center`}
       >
         <img
           src={iconSrc}
           alt={iconAlt}
-          className="w-full h-full object-contain"
+          className="h-full w-full object-contain"
           style={{
             filter: iconColor,
           }}
         />
       </div>
 
-      <div className="text-center space-y-2">
-        <p className="text-2xl font-hana-bold text-line !mb-0">{title}</p>
+      <div className="space-y-2 text-center">
+        <p className={`font-hana-bold !mb-0 text-2xl ${titleColor}`}>{title}</p>
         {subtitle && (
-          <p className="text-2xl font-hana-bold text-line !mb-0">{subtitle}</p>
+          <p
+            className={`font-hana-${subtitleFont} !mb-0 text-2xl ${subtitleColor}`}
+          >
+            {subtitle}
+          </p>
         )}
       </div>
     </div>
