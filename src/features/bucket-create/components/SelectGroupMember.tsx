@@ -2,6 +2,7 @@
 import Button from '@/components/button/Button.tsx';
 import SelectItem from '@/components/SelectItem.tsx';
 import type { SelectGroupMemberProps } from '@/features/bucket-create/types/props.ts';
+import { useAuth } from '@/hooks/useToken.ts';
 
 export const SelectGroupMember = ({
   selectedNames,
@@ -16,6 +17,7 @@ export const SelectGroupMember = ({
         : [...prev, memberId]
     );
   };
+  const { user } = useAuth();
   return (
     <div className="flex h-full flex-col">
       <div className="flex-grow space-y-6 text-left">
@@ -26,14 +28,16 @@ export const SelectGroupMember = ({
         </p>
         <div className="scrollbar-hide mb-5 min-h-0 w-full overflow-y-auto pr-1 pb-24">
           <div className="mt-6 grid grid-cols-2 gap-3">
-            {groupMemberInfo.map((data) => (
-              <SelectItem
-                key={data.memberId}
-                text={data.name}
-                selected={selectedNames.includes(data.memberId)}
-                onClick={() => toggleName(data.memberId)}
-              />
-            ))}
+            {groupMemberInfo
+              .filter((member) => member.memberId !== Number(user?.sub))
+              .map((data) => (
+                <SelectItem
+                  key={data.memberId}
+                  text={data.name}
+                  selected={selectedNames.includes(data.memberId)}
+                  onClick={() => toggleName(data.memberId)}
+                />
+              ))}
           </div>
         </div>
       </div>
