@@ -112,7 +112,9 @@ const FamilyMemberBucketListDetailPage = () => {
                 size="lg"
                 className="!font-hana-bold !h-10 !w-32 !text-xl"
                 onClick={() =>
-                  navigate(`/bucket-support/${memberId}/${bucketId}`)
+                  navigate(
+                    `/bucket-support/${memberId}/${bucketId}/${encodeURIComponent(bucketDetail?.title ?? '')}`
+                  )
                 }
               />
             )}

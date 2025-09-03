@@ -21,9 +21,14 @@ const SupportPage = () => {
   const navigate = useNavigate();
   const trackSupportEvent = useGAEvent('support');
   const [step, setStep] = useState(0);
-  const { memberId: memberId, id: bucketId } = useParams<{
+  const {
+    memberId: memberId,
+    id: bucketId,
+    title: title,
+  } = useParams<{
     id: string;
     memberId: string;
+    title: string;
   }>();
   const { mutate: support } = useSupport(Number(bucketId));
   const [supportInfo, setSupportInfo] = useState<SupportInfo>({
@@ -130,6 +135,7 @@ const SupportPage = () => {
               handleChangeSupportType={handleChangeSupportType}
               handleChangeSupportAmount={handleChangeSupportAmount}
               onSubmit={handleSupportSubmit}
+              title={title}
             />
           )}
         </motion.div>
