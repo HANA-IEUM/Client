@@ -89,7 +89,7 @@ const FamilyMemberBucketListDetailPage = () => {
       />
       <BucketInfo
         withWho={
-          (bucketDetail?.togetherFlag ?? dummyBucketDetail.togetherFlag)
+          bucketDetail?.participants && bucketDetail.participants.length > 1
             ? '함께'
             : '혼자'
         }
@@ -97,7 +97,7 @@ const FamilyMemberBucketListDetailPage = () => {
           bucketDetail?.targetAmount ?? dummyBucketDetail.targetAmount
         }
         targetPeriod={bucketDetail?.targetDate ?? dummyBucketDetail.targetDate}
-        participants={bucketDetail?.participants}
+        participants={bucketDetail?.participants ?? []}
       />
       <div className="bg-theme-secondary mt-7 flex flex-1 flex-col rounded-t-3xl p-6 pt-11">
         <div>
