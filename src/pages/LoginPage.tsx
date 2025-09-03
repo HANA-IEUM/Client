@@ -140,12 +140,18 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  // const goNext = () => {
+  //   if (step >= 2) return;
+  //   setDirection(1);
+  //   setStep(2);
+  // };
+
   const goNext = () => {
     if (step >= 2) return;
     setDirection(1);
     setStep(2);
 
-    trackAuthEvent('login_step1_done', 'phone_input');
+    trackAuthEvent('login_phone_entered', 'phone_input');
   };
 
   const goBack = () => {
