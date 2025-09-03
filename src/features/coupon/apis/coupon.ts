@@ -31,6 +31,6 @@ export type CreateCouponResponse = {
 };
 
 export async function createCoupon(bucketId: number): Promise<string> {
-  const res = await api.post<CreateCouponResponse>(`/api/coupons/${bucketId}`);
+  const res = await api.post<CreateCouponResponse>(`/coupons/${bucketId}`);
   return res.data.data;
 }
