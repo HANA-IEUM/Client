@@ -15,6 +15,7 @@ import BucketManageButtons from './BucketManageButtons';
 import ProgressBar from './ProgressBar';
 import SupportSlider from './SupportSlider';
 import type { MoneyBoxInfo } from '../apis/bucketDetail';
+import { useCompleteBucket } from '../hooks/useCompleteBucket';
 import { useDeleteBucket } from '../hooks/useDeleteBucket';
 
 type BucketDetailBoxProps = {
@@ -46,9 +47,11 @@ const BucketDetailBox = ({
   canComplete,
 }: BucketDetailBoxProps) => {
   const navigate = useNavigate();
-  const { mutate: createCoupon } = useCreateCoupon(Number(bucketId));
+
+  const { mutate: completeBucket } = useCompleteBucket(Number(bucketId));
   const { mutate: deleteBucket, isPending } = useDeleteBucket(Number(bucketId));
   const [isAchieveSheetOpen, setIsAchieveSheetOpen] = useState(false);
+
   const onClose = () => {
     setIsAchieveSheetOpen(false);
     navigate('/home');
@@ -74,11 +77,8 @@ const BucketDetailBox = ({
 
   // 달성 완료
   const handleComplete = () => {
-    createCoupon(undefined, {
+    completeBucket(undefined, {
       onSuccess: () => setIsAchieveSheetOpen(true),
-      onError: () => {
-        showError('달성 완료 처리 중 오류가 발생했어요.');
-      },
     });
   };
 
