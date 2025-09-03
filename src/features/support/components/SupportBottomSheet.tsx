@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import BottomSheet from '@/components/common/BottomSheet';
-import Button from '@/components/button/Button';
-import Input from '@/components/input/Input';
+
 import billPng from '@/assets/support/bill.png';
+import Button from '@/components/button/Button';
+import BottomSheet from '@/components/common/BottomSheet';
 import BoxInput from '@/components/common/BoxInput';
 import type { BoxInputHandle } from '@/components/common/BoxInput';
+import Input from '@/components/input/Input';
 
 type Step = 'confirm' | 'amount' | 'pin';
 
@@ -13,7 +14,7 @@ export interface SupportBottomSheetProps {
   onClose: () => void;
   messageText: string;
   bucketTitle?: string;
-  onSubmit: (payload: { amount: number; pin: string }) => void;
+  onSubmit: (payload: { amount: number | null; pin: string | null }) => void;
 }
 
 const SupportBottomSheet = ({
@@ -56,8 +57,8 @@ const SupportBottomSheet = ({
   return (
     <BottomSheet isOpen={open} onClose={onClose} maxHeight="90vh">
       {step === 'confirm' && (
-        <div className="flex flex-col gap-4 min-h-[675px]">
-          <div className="font-hana-regular text-3xl w-full mb-6">
+        <div className="flex min-h-[675px] flex-col gap-4">
+          <div className="font-hana-regular mb-6 w-full text-3xl">
             <p>
               <span className="font-hana-bold">{bucketTitle}</span> 버킷을
               <br />
@@ -66,16 +67,19 @@ const SupportBottomSheet = ({
             </p>
           </div>
 
-          <div className="w-full flex justify-center items-center my-20">
+          <div className="my-20 flex w-full items-center justify-center">
             <img src={billPng} width={180} height={180} />
           </div>
 
-          <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
-            <div className="w-full flex gap-3">
+          <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
+            <div className="flex w-full gap-3">
               <Button
                 intent="gray"
                 label="아니요"
-                onClick={onClose}
+                onClick={() => {
+                  onSubmit({ amount: null, pin: null });
+                  onClose();
+                }}
                 className="w-1/3"
               />
               <Button
@@ -90,16 +94,16 @@ const SupportBottomSheet = ({
       )}
 
       {step === 'amount' && (
-        <div className="flex flex-col gap-4 min-h-[675px]">
-          <div className="font-hana-regular text-3xl w-full mb-6">
+        <div className="flex min-h-[675px] flex-col gap-4">
+          <div className="font-hana-regular mb-6 w-full text-3xl">
             <p>
               <span className="font-hana-bold">금액</span>을 입력해 주세요
             </p>
           </div>
 
-          <div className="w-full flex items-center gap-2">
+          <div className="flex w-full items-center gap-2">
             <Input
-              placeholder="4,000,000"
+              placeholder="응원하는 마음을 꾹꾹 담아"
               inputMode="numeric"
               value={amount}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -107,11 +111,11 @@ const SupportBottomSheet = ({
               }
               className="flex-1"
             />
-            <span className="text-xl font-hana-bold">원</span>
+            <span className="font-hana-bold text-xl">원</span>
           </div>
 
-          <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
-            <div className="w-full flex gap-3">
+          <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
+            <div className="flex w-full gap-3">
               <Button
                 intent="gray"
                 label="뒤로"
@@ -131,8 +135,8 @@ const SupportBottomSheet = ({
       )}
 
       {step === 'pin' && (
-        <div className="flex flex-col gap-4 min-h-[675px]">
-          <div className="font-hana-regular text-3xl w-full mb-6">
+        <div className="flex min-h-[675px] flex-col gap-4">
+          <div className="font-hana-regular mb-6 w-full text-3xl">
             <p>
               계좌 <span className="font-hana-bold">비밀번호</span>를
               <br />
@@ -150,8 +154,8 @@ const SupportBottomSheet = ({
             align="start"
           />
 
-          <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
-            <div className="w-full flex gap-3">
+          <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
+            <div className="flex w-full gap-3">
               <Button
                 intent="gray"
                 label="뒤로"

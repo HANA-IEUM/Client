@@ -1,11 +1,10 @@
-import type { BucketListItemProps } from '@/types/common';
-import BucketListCheckIcon from '@/assets/common/BucketListCheckIcon';
-
-import tripImg from '@/assets/common/bucketlist-category/trip.svg';
-import hobbyImg from '@/assets/common/bucketlist-category/hobby.svg';
-import healthImg from '@/assets/common/bucketlist-category/health.svg';
 import familySupportImg from '@/assets/common/bucketlist-category/familySupport.svg';
+import healthImg from '@/assets/common/bucketlist-category/health.svg';
+import hobbyImg from '@/assets/common/bucketlist-category/hobby.svg';
+import tripImg from '@/assets/common/bucketlist-category/trip.svg';
+import BucketListCheckIcon from '@/assets/common/BucketListCheckIcon';
 import type { BucketCategoryType } from '@/features/bucket-create/types/bucket.ts';
+import type { BucketListItemProps } from '@/types/common';
 
 const BucketListItem = ({
   text = '유럽여행 가기',
@@ -17,7 +16,7 @@ const BucketListItem = ({
   const IMG_MAP: Record<BucketCategoryType, string> = {
     TRIP: tripImg,
     HOBBY: hobbyImg,
-    FAMILY_SUPPORT: familySupportImg,
+    FAMILY: familySupportImg,
     HEALTH: healthImg,
     '': '',
   };
@@ -25,10 +24,10 @@ const BucketListItem = ({
 
   return (
     <div
-      className="w-full h-[66px] flex justify-between items-center cursor-pointer py-2 pl-3 pr-4 shadow-sm rounded-md transition-colors bg-btn-default-bg"
+      className="bg-btn-default-bg flex h-[66px] w-full cursor-pointer items-center justify-between rounded-md py-2 pr-4 pl-3 shadow-sm transition-colors"
       onClick={onClick}
     >
-      <div className="flex justify-center items-center gap-4">
+      <div className="flex items-center justify-center gap-4">
         {imgSrc && (
           <img
             src={imgSrc}
@@ -43,7 +42,7 @@ const BucketListItem = ({
         </div>
       </div>
 
-      <div className="flex justify-center items-center">
+      <div className="flex items-center justify-center">
         <BucketListCheckIcon completed={completed} />
       </div>
     </div>

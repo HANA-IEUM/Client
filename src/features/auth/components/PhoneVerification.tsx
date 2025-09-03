@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
+
+import checkCircleSvg from '@/assets/common/toast/checkCircle.svg';
+import messageIcon from '@/assets/common/user/message.png';
+import Button from '@/components/button/Button.tsx';
 import BoxInput, {
   type BoxInputHandle,
 } from '@/components/common/BoxInput.tsx';
 import { useVerification } from '@/features/auth/hooks/useVerification.ts';
-import toast from 'react-hot-toast';
-import checkCircleSvg from '@/assets/common/toast/checkCircle.svg';
 import { useVerificationConfirm } from '@/features/auth/hooks/useVerificationConfirm.ts';
-import messageIcon from '@/assets/common/user/message.png';
-import Button from '@/components/button/Button.tsx';
 
 export type PhoneVerificationProps = {
   phoneNumber: string;
@@ -25,8 +26,8 @@ export const PhoneVerification = ({
     () => {
       toast.custom(
         () => (
-          <div className="max-w-[400px] mx-auto mb-16">
-            <div className="bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.08)] ring-1 ring-black/5 px-4 py-3 flex items-center gap-2">
+          <div className="mx-auto mb-16 max-w-[400px]">
+            <div className="flex items-center gap-2 rounded-xl bg-white px-4 py-3 shadow-[0_2px_10px_rgba(0,0,0,0.08)] ring-1 ring-black/5">
               <img
                 src={checkCircleSvg}
                 className="inline-block size-5"
@@ -76,12 +77,12 @@ export const PhoneVerification = ({
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <div className="flex-grow space-y-6">
-        <div className="w-16 h-16 bg-theme-secondary rounded-full flex items-center justify-center mx-auto">
-          <img src={messageIcon} alt="message" className="w-10 h-10" />
+        <div className="bg-theme-secondary mx-auto flex h-16 w-16 items-center justify-center rounded-full">
+          <img src={messageIcon} alt="message" className="h-10 w-10" />
         </div>
-        <p className="text-3xl font-hana-regular text-left">
+        <p className="font-hana-regular text-left text-3xl">
           <span className="font-hana-bold">{phoneNumber}</span>로 받은 <br />
           <span className="font-hana-bold">인증번호</span>를 입력해 주세요
         </p>

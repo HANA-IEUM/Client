@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import Button from '@/components/button/Button';
 import Header from '@/components/Header';
 import ContentInputPage from '@/features/album/components/ContentInputPage';
@@ -89,45 +90,45 @@ const PhotoUploadPage = ({ onBack }: PhotoUploadPageProps) => {
   }
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="flex h-full w-full flex-col">
       <div className="flex-1">
-        <div className="px-6 !mb-8">
+        <div className="!mb-8 px-6">
           <Header onClick={handleClose} />
-          <p className="text-3xl font-hana-bold text-text-primary !mt-2 !mb-0">
+          <p className="font-hana-bold text-text-primary !mt-2 !mb-0 text-3xl">
             사진<span className="font-hana-regular">을 선택해 주세요</span>
           </p>
         </div>
 
         <div className="px-6">
-          <div className="w-full aspect-square border-2 border-dashed border-gray-300 rounded-2xl flex items-center justify-center bg-gray-50 overflow-hidden">
+          <div className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-gray-300 bg-gray-50">
             {imagePreview ? (
-              <div className="w-full h-full relative">
+              <div className="relative h-full w-full">
                 <img
                   src={imagePreview}
                   alt="선택된 사진"
-                  className="w-full h-full object-cover rounded-2xl"
+                  className="h-full w-full rounded-2xl object-cover"
                 />
                 <button
                   onClick={() => {
                     setSelectedImage(null);
                     setImagePreview(null);
                   }}
-                  className="absolute top-2 right-2 w-8 h-8 bg-accent-primary !text-white rounded-full flex items-center justify-center text-sm font-hana-bold shadow-lg"
+                  className="bg-accent-primary font-hana-bold absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full text-sm !text-white shadow-lg"
                   style={{ color: 'white' }}
                 >
                   ×
                 </button>
               </div>
             ) : (
-              <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer">
+              <label className="flex h-full w-full cursor-pointer flex-col items-center justify-center">
                 <input
                   type="file"
                   accept="image/*"
                   onChange={handleImageSelect}
                   className="hidden"
                 />
-                <div className="text-6xl text-line font-hana-bold mb-4">+</div>
-                <p className="text-lg font-hana-regular text-text-secondary">
+                <div className="text-line font-hana-bold mb-4 text-6xl">+</div>
+                <p className="font-hana-regular text-text-secondary text-lg">
                   사진을 선택하세요
                 </p>
               </label>
@@ -140,7 +141,7 @@ const PhotoUploadPage = ({ onBack }: PhotoUploadPageProps) => {
         <Button
           intent={!selectedImage ? 'disable' : 'green'}
           size="lg"
-          className="w-full !py-4 !text-lg !font-hana-bold"
+          className="!font-hana-bold w-full !py-4 !text-lg"
           onClick={handlePhotoConfirm}
           disabled={!selectedImage || uploading}
         >

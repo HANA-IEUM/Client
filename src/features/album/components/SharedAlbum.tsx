@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
-import Button from '@/components/button/Button';
+
 import BucketStateItem from '@/components/BucketStateItem';
-import PhotoUploadPage from '@/features/album/components/PhotoUploadPage';
-import AlbumDetailPage from '@/features/album/components/AlbumDetailPage';
+import Button from '@/components/button/Button';
 import EmptyStateMessage from '@/components/common/EmptyStateMessage';
-import FamilyRegistrationBottomSheet from './FamilyRegistrationBottomSheet';
+import type { Photo } from '@/features/album/apis/albumApi';
+import AlbumDetailPage from '@/features/album/components/AlbumDetailPage';
+import PhotoUploadPage from '@/features/album/components/PhotoUploadPage';
 import { useAlbums } from '@/features/album/hooks/useAlbums';
 import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
-import type { Photo } from '@/features/album/apis/albumApi';
+
+import FamilyRegistrationBottomSheet from './FamilyRegistrationBottomSheet';
 
 type FilterType = 'all' | string;
 
@@ -95,18 +97,18 @@ const SharedAlbum = () => {
   }
 
   return (
-    <div className="w-full h-full">
+    <div className="h-full w-full">
       {/* 앨범 페이지 내용 */}
-      <div className="w-full bg-theme-primary pt-12 pb-12 rounded-b-2xl mb-4">
+      <div className="bg-theme-primary mb-4 w-full rounded-b-2xl pt-12 pb-12">
         <div className="px-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-4xl font-hana-bold text-white !mb-0">
+          <div className="flex items-center justify-between">
+            <h1 className="font-hana-bold !mb-0 text-4xl text-white">
               공유 앨범
             </h1>
             <Button
               intent={groupInfo ? 'yellow' : 'disable'}
               size="md"
-              className="!px-6 !py-3 !text-base !font-hana-bold"
+              className="!font-hana-bold !px-6 !py-3 !text-base"
               onClick={handleWriteClick}
               disabled={!groupInfo}
             >
@@ -116,7 +118,7 @@ const SharedAlbum = () => {
         </div>
       </div>
 
-      <div className="px-6 mb-6">
+      <div className="mb-6 px-6">
         <div className="flex gap-3">
           {filters.map((filter) => (
             <BucketStateItem
@@ -133,14 +135,14 @@ const SharedAlbum = () => {
         {isLoading ? (
           // 로딩 상태
           <div className="flex flex-col items-center justify-center py-20">
-            <div className="text-lg font-hana-regular text-text-secondary">
+            <div className="font-hana-regular text-text-secondary text-lg">
               앨범을 불러오는 중...
             </div>
           </div>
         ) : error ? (
           // 에러 상태
           <div className="flex flex-col items-center justify-center py-20">
-            <div className="text-lg font-hana-regular text-accent-primary mb-4">
+            <div className="font-hana-regular text-accent-primary mb-4 text-lg">
               앨범을 불러오는데 실패했습니다
             </div>
             <Button
@@ -157,14 +159,14 @@ const SharedAlbum = () => {
             {filteredEntries.map((entry) => (
               <div
                 key={entry.photoId}
-                className="space-y-2 cursor-pointer"
+                className="cursor-pointer space-y-2"
                 onClick={() => handleAlbumClick(entry)}
               >
-                <div className="aspect-square bg-theme-secondary rounded-2xl overflow-hidden">
+                <div className="bg-theme-secondary aspect-square overflow-hidden rounded-2xl">
                   <img
                     src={entry.imgUrl}
                     alt={entry.caption}
-                    className="w-full h-full object-cover"
+                    className="h-full w-full object-cover"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.style.display = 'none';
@@ -178,9 +180,9 @@ const SharedAlbum = () => {
                 </div>
                 <div className="text-center">
                   <p className="!mb-0">
-                    <span className="text-base font-hana-regular text-text-primary">
+                    <span className="font-hana-regular text-text-primary text-base">
                       {entry.caption}
-                      <span className="text-base font-hana-regular text-text-secondary">
+                      <span className="font-hana-regular text-text-secondary text-base">
                         {' '}
                         | {entry.name}
                       </span>

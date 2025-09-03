@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+
 import type { BucketListCategoryItemProps } from '@/types/common';
 
 const BG_MAP = {
@@ -18,12 +19,12 @@ const BucketListCategoryItem = ({
     <div
       onClick={onClick}
       className={clsx(
-        'w-40 h-40 rounded-2xl cursor-pointer flex items-center justify-center select-none',
+        'flex h-40 w-40 cursor-pointer items-center justify-center rounded-2xl select-none',
         BG_MAP[color],
         className
       )}
     >
-      <span className="font-hana-bold text-4xl text-primary">{text}</span>
+      <span className="font-hana-bold text-primary text-4xl">{text}</span>
     </div>
   );
 };

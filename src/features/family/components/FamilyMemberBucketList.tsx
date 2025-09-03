@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FilterTabs, type Tab } from '@/features/home/components/FilterTabs';
+
+import starBoyIcon from '@/assets/common/header/starBoy.png';
 import BucketListItem from '@/components/BucketListItem';
 import EmptyStateMessage from '@/components/common/EmptyStateMessage';
-import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
-import { useMemberBucketLists } from '../hooks/useMemberBucketLists';
 import Header from '@/components/Header';
-import starBoyIcon from '@/assets/common/header/starBoy.png';
+import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
+import { FilterTabs, type Tab } from '@/features/home/components/FilterTabs';
+
+import { useMemberBucketLists } from '../hooks/useMemberBucketLists';
 
 const FamilyMemberBucketList = () => {
   const [selected, setSelected] = useState('ALL');
@@ -36,8 +38,8 @@ const FamilyMemberBucketList = () => {
 
   if (!member) {
     return (
-      <div className="w-full h-full flex items-center justify-center">
-        <div className="text-lg font-hana-regular text-text-secondary">
+      <div className="flex h-full w-full items-center justify-center">
+        <div className="font-hana-regular text-text-secondary text-lg">
           구성원을 찾을 수 없습니다
         </div>
       </div>
@@ -45,41 +47,41 @@ const FamilyMemberBucketList = () => {
   }
 
   return (
-    <div className="w-full h-full max-w-md mx-auto bg-theme-secondary flex flex-col">
-      <header className="relative px-6 pt-8 text-white flex-shrink-0 mb-[-50px] z-0">
+    <div className="bg-theme-secondary mx-auto flex h-full w-full max-w-md flex-col">
+      <header className="relative z-0 mb-[-50px] flex-shrink-0 px-6 pt-8 text-white">
         {/* 뒤로가기 버튼 */}
         <div className="mb-4">
           <Header onClick={handleBack} />
         </div>
 
         <div className="flex items-start justify-between">
-          <div className="w-1/2 mt-2">
-            <p className="text-3xl text-text-secondary font-hana-regular !mb-0">
+          <div className="mt-2 w-1/2">
+            <p className="text-text-secondary font-hana-regular !mb-0 text-3xl">
               <span className="font-hana-bold">{member.name}</span>님의 <br />
               <span className="font-hana-bold">버킷리스트</span>
             </p>
           </div>
-          <div className="w-36 h-60 -mt-4 flex items-center justify-center">
+          <div className="-mt-4 flex h-60 w-36 items-center justify-center">
             <img
               src={starBoyIcon}
               alt="Star Boy"
-              className="w-full h-full object-contain"
+              className="h-full w-full object-contain"
             />
           </div>
         </div>
       </header>
 
       {/* 메인 콘텐츠 */}
-      <div className="relative bg-white z-20 rounded-tl-3xl rounded-tr-3xl flex-1 shadow-[0px_-4px_2px_0px_rgba(0,0,0,0.09)] overflow-hidden">
+      <div className="relative z-20 flex-1 overflow-hidden rounded-tl-3xl rounded-tr-3xl bg-white shadow-[0px_-4px_2px_0px_rgba(0,0,0,0.09)]">
         {isLoading ? (
-          <div className="flex justify-center items-center h-40">
-            <div className="text-lg font-hana-regular text-text-secondary">
+          <div className="flex h-40 items-center justify-center">
+            <div className="font-hana-regular text-text-secondary text-lg">
               버킷리스트를 불러오는 중...
             </div>
           </div>
         ) : bucketLists && bucketLists.length > 0 ? (
-          <div className="h-full flex flex-col">
-            <div className="pt-6 flex-shrink-0">
+          <div className="flex h-full flex-col">
+            <div className="flex-shrink-0 pt-6">
               <FilterTabs
                 tabs={tabs}
                 selected={selected}
@@ -88,15 +90,13 @@ const FamilyMemberBucketList = () => {
             </div>
 
             <div className="flex-1 overflow-y-auto">
-              <div className="px-4 mt-6 space-y-3 pb-6">
+              <div className="mt-6 space-y-3 px-4 pb-6">
                 {bucketLists.map((item) => (
                   <BucketListItem
                     key={item.id}
                     text={item.title}
                     date={item.targetDate}
-                    category={
-                      item.type === 'FAMILY' ? 'FAMILY_SUPPORT' : item.type
-                    }
+                    category={item.type === 'FAMILY' ? 'FAMILY' : item.type}
                     completed={item.status === 'COMPLETED'}
                     onClick={() => navigate(`/bucket/${item.id}`)}
                   />
@@ -105,8 +105,8 @@ const FamilyMemberBucketList = () => {
             </div>
           </div>
         ) : (
-          <div className="h-full flex flex-col">
-            <div className="pt-6 flex-shrink-0">
+          <div className="flex h-full flex-col">
+            <div className="flex-shrink-0 pt-6">
               <FilterTabs
                 tabs={tabs}
                 selected={selected}

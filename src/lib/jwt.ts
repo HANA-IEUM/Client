@@ -1,4 +1,5 @@
 import { jwtDecode } from 'jwt-decode';
+
 import { getAccessToken } from './token';
 
 export interface DecodedToken {

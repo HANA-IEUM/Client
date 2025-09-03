@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+
+import HanaIcon from '@/assets/common/HanaIcon';
 import Button from '@/components/button/Button';
+import EmptyStateMessage from '@/components/common/EmptyStateMessage';
 import FillBoxAmount from '@/features/wallet/components/FillBoxAmount';
 import FillBoxPassword from '@/features/wallet/components/FillBoxPassword';
+import {
+  useMainAccount,
+  useMoneyBoxes,
+  useFillMoneyBox,
+} from '@/features/wallet/hooks/useMainAccount';
+import { showError, showSuccess } from '@/lib/toast';
+
 import type { Box } from '../types';
-import HanaIcon from '@/assets/common/HanaIcon';
 
 interface WalletHomeProps {
   onFillBox: (box: Box) => void;
   onViewHistory: (box: Box) => void;
   onEditBox: (box: Box) => void;
-  onViewBucket: () => void;
+  onViewBucket: (bucketId: number) => void;
+  onViewMainAccount: () => void;
 }
 
 const WalletHome: React.FC<WalletHomeProps> = ({
@@ -18,22 +28,48 @@ const WalletHome: React.FC<WalletHomeProps> = ({
   onViewHistory,
   onEditBox,
   onViewBucket,
+  onViewMainAccount,
 }) => {
   const [step, setStep] = useState<'amount' | 'password' | null>(null);
   const [selectedBox, setSelectedBox] = useState<Box | null>(null);
   const [fillAmount, setFillAmount] = useState('');
 
-  // 데모 데이터
-  const mainAccount = {
-    name: '달달 하나 통장',
-    number: '352-1022-1234-12',
-    balance: '7,500,000',
-  };
+  const { data: mainAccount, isLoading: accountLoading } = useMainAccount();
+  const {
+    data: moneyBoxes,
+    isLoading: boxesLoading,
+    refetch: refetchMoneyBoxes,
+  } = useMoneyBoxes();
+  const { mutate: fillMoneyBox } = useFillMoneyBox();
 
-  const boxes = [
-    { id: 1, name: '유럽 꿈 박스', balance: '260,000' },
-    { id: 2, name: '유럽 꿈 박스', balance: '260,000' },
-  ];
+  // 페이지 포커스 시 박스 목록 새로고침
+  useEffect(() => {
+    const handleFocus = () => {
+      refetchMoneyBoxes();
+    };
+
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, [refetchMoneyBoxes]);
+
+  // MoneyBox를 Box 형식으로 변환
+  const boxes =
+    moneyBoxes?.map((moneyBox) => ({
+      id: moneyBox.accountId,
+      name: moneyBox.boxName,
+      balance: moneyBox.balance.toLocaleString(),
+      // MoneyBox의 원본 데이터는 별도 속성으로 저장
+      originalBalance: moneyBox.balance,
+      accountId: moneyBox.accountId,
+      accountNumber: moneyBox.accountNumber,
+      accountName: moneyBox.accountName,
+      bankName: moneyBox.bankName,
+      bucketListId: moneyBox.bucketListId,
+      bucketListTitle: moneyBox.bucketListTitle,
+      targetAmount: moneyBox.targetAmount,
+      createdAt: moneyBox.createdAt,
+      updatedAt: moneyBox.updatedAt,
+    })) || [];
 
   const handleFillBox = (box: Box) => {
     setSelectedBox(box);
@@ -56,10 +92,33 @@ const WalletHome: React.FC<WalletHomeProps> = ({
     setStep('password');
   };
 
-  const handlePasswordConfirm = () => {
-    setStep(null); // 바텀시트 완전히 닫기
-    setSelectedBox(null); // 선택된 박스 초기화
-    setFillAmount(''); // 입력된 금액 초기화
+  const handlePasswordConfirm = (password: string) => {
+    if (!selectedBox) return;
+    const amountNumber = Number(fillAmount.replace(/,/g, ''));
+    if (!amountNumber || amountNumber <= 0) {
+      showError('금액을 확인해 주세요.');
+      return;
+    }
+
+    fillMoneyBox(
+      {
+        amount: amountNumber,
+        accountPassword: password,
+        moneyBoxAccountId: selectedBox.accountId ?? selectedBox.id,
+      },
+      {
+        onSuccess: () => {
+          showSuccess('박스에 금액을 채웠어요!');
+          setStep(null);
+          setSelectedBox(null);
+          setFillAmount('');
+          refetchMoneyBoxes();
+        },
+        onError: () => {
+          showError('충전에 실패했어요. 다시 시도해 주세요.');
+        },
+      }
+    );
   };
 
   const modal =
@@ -67,7 +126,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
       <>
         <div className="fixed inset-0 z-40 bg-black/50" onClick={handleBack} />
 
-        <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 p-6 flex flex-col">
+        <div className="fixed right-0 bottom-0 left-0 z-50 flex flex-col rounded-t-3xl bg-white p-6">
           {step === 'amount' && (
             <FillBoxAmount
               box={selectedBox}
@@ -90,107 +149,165 @@ const WalletHome: React.FC<WalletHomeProps> = ({
 
   return (
     <>
-      <div className="w-full h-full pt-12">
+      <div className="h-full w-full pt-12">
         <div className="px-6">
-          <h1 className="text-4xl font-hana-bold text-text-primary !mb-8">
+          <h1 className="font-hana-bold text-text-primary !mb-8 text-4xl">
             지갑
           </h1>
         </div>
 
-        <div className="w-full px-6 mb-14">
-          <div className="bg-btn-default-bg rounded-2xl p-4 shadow-sm">
-            <div className="flex items-center gap-5">
-              <div className="w-14 h-14 bg-theme-secondary rounded-full flex items-center justify-center">
-                <HanaIcon />
-              </div>
-              <div className="flex-1">
-                <h2 className="text-lg font-hana-bold text-text-secondary !mb-0">
-                  {mainAccount.name}
-                </h2>
-                <p className="text-base font-hana-regular text-text-secondary !mb-0">
-                  {mainAccount.number}
-                </p>
-                <div className="text-left">
-                  <p className="text-2xl font-hana-bold text-text-primary !mb-0">
-                    {mainAccount.balance} 원
-                  </p>
+        {accountLoading ? (
+          <div className="mb-14 w-full px-6">
+            <div className="bg-btn-default-bg rounded-2xl p-4 shadow-sm">
+              <div className="flex items-center gap-5">
+                <div className="bg-theme-secondary flex h-14 w-14 items-center justify-center rounded-full">
+                  <HanaIcon />
+                </div>
+                <div className="flex-1">
+                  <div className="mb-2 h-6 animate-pulse rounded bg-gray-200"></div>
+                  <div className="mb-2 h-5 animate-pulse rounded bg-gray-200"></div>
+                  <div className="h-8 animate-pulse rounded bg-gray-200"></div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="px-6">
-          <h1 className="text-3xl font-hana-bold text-text-primary !mb-8">
-            박스
-          </h1>
-          <div className="space-y-4">
-            {boxes.map((box) => (
-              <div key={box.id} className="space-y-3 !mb-8">
-                <div className="bg-theme-secondary rounded-2xl p-3 !mb-[5px]">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="ml-2 w-11 h-11 bg-white rounded-2xl flex items-center justify-center shadow-sm">
-                        <img
-                          src="/images/box.png"
-                          alt="박스 아이콘"
-                          className="w-7 h-7"
-                        />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-hana-regular text-text-secondary !mb-0">
-                          {box.name}
-                        </h4>
-                        <p className="text-xl font-hana-bold text-text-secondary !mb-0">
-                          {box.balance} 원
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mr-2">
-                      <Button
-                        intent="pink"
-                        size="lg"
-                        font="bold"
-                        radius="xl"
-                        label="채우기"
-                        onClick={() => handleFillBox(box)}
-                      />
-                    </div>
+        ) : mainAccount ? (
+          <div className="mb-14 w-full px-6">
+            <div
+              className="bg-btn-default-bg cursor-pointer rounded-2xl p-4 shadow-sm"
+              onClick={onViewMainAccount}
+            >
+              <div className="flex items-center gap-5">
+                <div className="bg-theme-secondary flex h-14 w-14 items-center justify-center rounded-full">
+                  <HanaIcon />
+                </div>
+                <div className="flex-1">
+                  <h2 className="font-hana-bold text-text-secondary !mb-0 text-lg">
+                    {mainAccount.accountName}
+                  </h2>
+                  <p className="font-hana-regular text-text-secondary !mb-0 text-base">
+                    {mainAccount.accountNumber}
+                  </p>
+                  <div className="text-left">
+                    <p className="font-hana-bold text-text-primary !mb-0 text-2xl">
+                      {mainAccount.balance.toLocaleString()} 원
+                    </p>
                   </div>
                 </div>
-
-                <div className="flex gap-[5px]">
-                  <Button
-                    intent="silver"
-                    size="lg"
-                    font="regular"
-                    className="!text-base flex-1"
-                    onClick={() => onViewHistory(box)}
-                  >
-                    상세 보기
-                  </Button>
-                  <Button
-                    intent="silver"
-                    size="lg"
-                    font="regular"
-                    className="!text-base flex-1"
-                    onClick={() => onViewBucket()}
-                  >
-                    버킷 보기
-                  </Button>
-                  <Button
-                    intent="silver"
-                    size="lg"
-                    font="regular"
-                    className="!text-base flex-1"
-                    onClick={() => onEditBox(box)}
-                  >
-                    수정하기
-                  </Button>
-                </div>
               </div>
-            ))}
+            </div>
           </div>
+        ) : null}
+
+        <div className="px-6">
+          <h1 className="font-hana-bold text-text-primary !mb-8 text-3xl">
+            박스
+          </h1>
+
+          {boxesLoading ? (
+            <div className="space-y-4">
+              {[1, 2].map((i) => (
+                <div key={i} className="!mb-8 space-y-3">
+                  <div className="bg-theme-secondary !mb-[5px] rounded-2xl p-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="ml-2 flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-sm">
+                          <div className="h-7 w-7 animate-pulse rounded bg-gray-200"></div>
+                        </div>
+                        <div className="flex-1">
+                          <div className="mb-2 h-6 animate-pulse rounded bg-gray-200"></div>
+                          <div className="h-6 animate-pulse rounded bg-gray-200"></div>
+                        </div>
+                      </div>
+                      <div className="mr-2">
+                        <div className="h-12 w-20 animate-pulse rounded-xl bg-gray-200"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex gap-[5px]">
+                    {[1, 2, 3].map((j) => (
+                      <div
+                        key={j}
+                        className="h-12 flex-1 animate-pulse rounded-xl bg-gray-200"
+                      ></div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : boxes.length > 0 ? (
+            <div className="space-y-4">
+              {boxes.map((box) => (
+                <div key={box.id} className="!mb-8 space-y-3">
+                  <div className="bg-theme-secondary !mb-[5px] rounded-2xl p-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="ml-2 flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-sm">
+                          <img
+                            src="/images/box.png"
+                            alt="박스 아이콘"
+                            className="h-7 w-7"
+                          />
+                        </div>
+                        <div>
+                          <h4 className="font-hana-regular text-text-secondary !mb-0 text-lg">
+                            {box.name}
+                          </h4>
+                          <p className="font-hana-bold text-text-secondary !mb-0 text-xl">
+                            {box.balance} 원
+                          </p>
+                        </div>
+                      </div>
+                      <div className="mr-2">
+                        <Button
+                          intent="pink"
+                          size="lg"
+                          font="bold"
+                          radius="xl"
+                          label="채우기"
+                          onClick={() => handleFillBox(box)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-[5px]">
+                    <Button
+                      intent="silver"
+                      size="lg"
+                      font="regular"
+                      className="flex-1 !text-base"
+                      onClick={() => onViewHistory(box)}
+                    >
+                      상세 보기
+                    </Button>
+                    <Button
+                      intent="silver"
+                      size="lg"
+                      font="regular"
+                      className="flex-1 !text-base"
+                      onClick={() => onViewBucket(box.bucketListId)}
+                    >
+                      버킷 보기
+                    </Button>
+                    <Button
+                      intent="silver"
+                      size="lg"
+                      font="regular"
+                      className="flex-1 !text-base"
+                      onClick={() => onEditBox(box)}
+                    >
+                      수정하기
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center">
+              <EmptyStateMessage title="등록된 박스가 없습니다" />
+            </div>
+          )}
         </div>
       </div>
 

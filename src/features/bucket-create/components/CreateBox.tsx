@@ -1,10 +1,12 @@
-import type { CreateBoxProps } from '../types/props.ts';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import boxPng from '@/assets/bucket-detail/box.png';
+import piggyPng from '@/assets/bucket-edit/piggy.png';
 import Button from '@/components/button/Button';
 import BottomSheet from '@/components/common/BottomSheet.tsx';
-import piggyPng from '@/assets/bucket-edit/piggy.png';
-import boxPng from '@/assets/bucket-detail/box.png';
+
+import type { CreateBoxProps } from '../types/props.ts';
 
 // Step 5: 박스 생성 확인
 export const CreateBox = ({
@@ -41,9 +43,9 @@ export const CreateBox = ({
   const { text: description } = getDescriptiveText();
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <div className="flex-grow space-y-6 text-left">
-        <p className="text-3xl font-hana-regular">
+        <p className="font-hana-regular text-3xl">
           버킷리스트를 이루기 위해
           <br />
           한달에{' '}
@@ -55,16 +57,16 @@ export const CreateBox = ({
           모아야해요
         </p>
         <div className="text-left">
-          <p className="font-hana-medium text-lg text-text-secondary">
+          <p className="font-hana-medium text-text-secondary text-lg">
             {description}
           </p>
         </div>
-        <div className="mt-8 flex-grow flex justify-center items-center">
+        <div className="mt-8 flex flex-grow items-center justify-center">
           <img src={piggyPng} alt="저금하기" />
         </div>
       </div>
 
-      <div className="flex gap-2 w-full">
+      <div className="flex w-full gap-2">
         <Button
           label="취 소"
           size="lg"
@@ -86,8 +88,8 @@ export const CreateBox = ({
         isOpen={bottomVisible}
         onClose={() => setBottomVisible(false)}
       >
-        <div className="flex flex-col h-full items-center">
-          <p className="font-hana-regular text-left text-3xl w-full !mb-0">
+        <div className="flex h-full flex-col items-center">
+          <p className="font-hana-regular !mb-0 w-full text-left text-3xl">
             <span className="font-hana-bold">{title}</span>
             <br />
             버킷리스트 목표금액을
@@ -96,7 +98,7 @@ export const CreateBox = ({
             <br />
             <span className="font-hana-bold">박스</span>를 개설할게요{' '}
           </p>
-          <img src={boxPng} className="w-48 h-48 my-30" alt="저금하기" />
+          <img src={boxPng} className="my-30 h-48 w-48" alt="저금하기" />
         </div>
         <Button
           label="확 인"

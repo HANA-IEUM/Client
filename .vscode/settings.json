@@ -1,0 +1,7 @@
+{
+  "editor.formatOnSave": true, // 저장 시 포맷팅 (Prettier)
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true, // 저장 시 ESLint auto-fix 실행
+    "source.organizeImports": false // VSCode 기본 import 정렬 끄기
+  }
+}

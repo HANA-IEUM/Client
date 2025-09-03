@@ -1,16 +1,16 @@
-import type { MemberItemProps } from '@/types/common';
-import Button from '@/components/button/Button';
 import starBoy from '@/assets/common/starBoy.png';
+import Button from '@/components/button/Button';
+import type { MemberItemProps } from '@/types/common';
 
 const MemberItem = ({ name = '원윤서', onSupportClick }: MemberItemProps) => {
   return (
-    <div className="w-full bg-btn-default-bg rounded-3xl flex items-center justify-between py-2 px-6 mb-5">
+    <div className="bg-btn-default-bg mb-5 flex w-full items-center justify-between rounded-3xl px-6 py-2">
       <div className="flex items-center gap-4">
-        <div className="w-12 h-12 bg-theme-secondary rounded-full flex items-center justify-center">
+        <div className="bg-theme-secondary flex h-12 w-12 items-center justify-center rounded-full">
           <img
             src={starBoy}
             alt={name}
-            className="w-8 h-10 rounded-full object-cover"
+            className="h-10 w-8 rounded-full object-cover"
           />
         </div>
 
@@ -21,7 +21,7 @@ const MemberItem = ({ name = '원윤서', onSupportClick }: MemberItemProps) => 
         <Button
           intent="green"
           size="sm"
-          className="!w-24 !h-7 !text-base !font-hana-bold"
+          className="!font-hana-bold !h-7 !w-24 !text-base"
           onClick={onSupportClick}
         >
           응원 가기

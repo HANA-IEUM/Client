@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { fetchBucketLists } from '@/features/home/apis/apis.ts';
 
 export const bucketListQK = {

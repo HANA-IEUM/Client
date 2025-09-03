@@ -1,0 +1,66 @@
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+
+import moneyGif from '@/assets/support/money.gif';
+import Button from '@/components/button/Button';
+import Header from '@/components/Header';
+import { CheerCard } from '@/features/bucket-detail/components/SupportSlider';
+import { useSupportDetail } from '@/features/support/hooks/useSupportDetail';
+import { formatKoreanDateTime } from '@/utils/dateFormat';
+
+const SupportDetailPage = () => {
+  const navigate = useNavigate();
+  const { id: supportId } = useParams<{ id: string }>();
+  const { data: supportDetail } = useSupportDetail(Number(supportId));
+
+  return (
+    <div>
+      <div className="px-6">
+        <Header onClick={() => navigate(-1)} />
+      </div>
+
+      <div className="mt-10 flex items-center justify-center px-12">
+        <CheerCard
+          id={supportDetail?.id ?? '1'}
+          text={supportDetail?.message ?? ''}
+          author={supportDetail?.supporterName ?? ''}
+          color={supportDetail?.letterColor ?? 'PINK'}
+        />
+      </div>
+
+      <div className="mt-12 px-6">
+        {supportDetail?.supportType === 'SPONSOR' && (
+          <div>
+            <p className="font-hana-regular text-3xl">
+              <span className="font-hana-bold text-3xl">후원금액 : </span>
+              {supportDetail?.supportAmount} 원
+            </p>
+          </div>
+        )}
+        <p className="font-hana-regular text-3xl">
+          <span className="font-hana-bold text-3xl">작성일자 : </span>
+          {supportDetail?.supportedAt
+            ? formatKoreanDateTime(supportDetail.supportedAt)
+            : '작성일자 없음'}
+        </p>
+      </div>
+
+      {supportDetail?.supportType === 'SPONSOR' && (
+        <div className="w-full">
+          <img src={moneyGif} />
+        </div>
+      )}
+
+      <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
+        <Button
+          intent="green"
+          label="확인"
+          size="full"
+          onClick={() => navigate(-1)}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default SupportDetailPage;

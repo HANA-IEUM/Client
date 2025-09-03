@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
+
+import familyGroup from '@/assets/album/familyGroup.png';
 import Button from '@/components/button/Button';
 import BottomSheet from '@/components/common/BottomSheet';
-import familyGroup from '@/assets/album/familyGroup.png';
 
 interface FamilyRegistrationBottomSheetProps {
   isOpen: boolean;
@@ -21,8 +22,8 @@ const FamilyRegistrationBottomSheet = ({
 
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose} maxHeight="80vh">
-      <div className="flex flex-col gap-4 mt-8 min-h-[675px]">
-        <div className="font-hana-regular text-3xl w-full">
+      <div className="mt-8 flex min-h-[675px] flex-col gap-4">
+        <div className="font-hana-regular w-full text-3xl">
           <p>
             아직 가족에 속해있지 않아
             <br />
@@ -32,11 +33,11 @@ const FamilyRegistrationBottomSheet = ({
           </p>
         </div>
 
-        <div className="w-full flex justify-center items-center my-10">
+        <div className="my-10 flex w-full items-center justify-center">
           <img src={familyGroup} alt="가족 그룹" width={300} height={300} />
         </div>
 
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
+        <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
           <Button
             intent="green"
             label="가족등록 하러가기"
