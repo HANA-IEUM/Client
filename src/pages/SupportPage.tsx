@@ -21,7 +21,10 @@ const SupportPage = () => {
   const navigate = useNavigate();
   const trackSupportEvent = useGAEvent('support');
   const [step, setStep] = useState(0);
-  const { id: bucketId } = useParams<{ id: string }>();
+  const { memberId: memberId, id: bucketId } = useParams<{
+    id: string;
+    memberId: string;
+  }>();
   const { mutate: support } = useSupport(Number(bucketId));
   const [supportInfo, setSupportInfo] = useState<SupportInfo>({
     letterColor: 'PINK',
@@ -82,7 +85,7 @@ const SupportPage = () => {
             payload.amount === null ? 'cheer' : 'sponsor'
           );
           showSuccess('응원이 성공적으로 완료되었어요.');
-          navigate('/home');
+          navigate(`/family/member/${memberId}/bucket/${bucketId}`);
         },
         onError: (error) => {
           trackSupportEvent(
