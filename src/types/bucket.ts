@@ -30,3 +30,8 @@ export interface BucketListItem {
   participants: Participant[];
   moneyBoxInfo: MoneyBoxInfo;
 }
+
+export interface BucketCreationAvailability {
+  canCreate: boolean;
+  currentMoneyBoxContext: number;
+}

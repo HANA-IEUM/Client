@@ -11,14 +11,14 @@ import {
 import { HomeHeader } from '@/features/home/components/HomeHeader.tsx';
 import { useBucketLists } from '@/features/home/hooks/useBucketLists.ts';
 import { useAuth } from '@/hooks/useToken.ts';
+import { formatKoreanDateTime } from '@/utils/dateFormat.ts';
 
 const HomePage = () => {
-  const [selected, setSelected] = useState('all');
+  const [selected, setSelected] = useState('in_progress');
   const tabs: Tab[] = [
-    { id: 'all', label: '전체' },
     { id: 'in_progress', label: '진행중' },
     { id: 'completed', label: '종료' },
-    { id: 'participating', label: '참여' },
+    { id: 'participated', label: '참여' },
   ];
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -26,10 +26,10 @@ const HomePage = () => {
   const { data: bucketLists, isLoading: isListLoading } =
     useBucketLists(selected);
 
-  const { data: allBuckets, isLoading: isExistenceLoading } =
-    useBucketLists('all');
+  const { data: progressBucket, isLoading: isExistenceLoading } =
+    useBucketLists('in_progress');
 
-  const hasAnyBucket = allBuckets && allBuckets.length > 0;
+  const hasAnyBucket = progressBucket && progressBucket.length > 0;
 
   if (isExistenceLoading) {
     return (
@@ -41,11 +41,10 @@ const HomePage = () => {
       </div>
     );
   }
-
   const emptyMessage: Record<string, string> = {
     in_progress: '진행중인 버킷리스트가 없어요',
     completed: '종료된 버킷리스트가 없어요',
-    participating: '참여중인 버킷리스트가 없어요',
+    participated: '참여중인 버킷리스트가 없어요',
   };
   return (
     <div className="mx-auto flex h-full w-full max-w-md flex-col bg-white">
@@ -68,7 +67,7 @@ const HomePage = () => {
                   <BucketListItem
                     key={item.id}
                     text={item.title}
-                    date={item.targetDate}
+                    date={formatKoreanDateTime(item.targetDate, false)}
                     category={item.type}
                     completed={item.status === 'COMPLETED'}
                     onClick={() => navigate(`/bucket/${item.id}`)}
