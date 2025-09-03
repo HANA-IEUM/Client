@@ -108,7 +108,7 @@ const BucketEditPage = () => {
                   handleConfirm();
                 }
               }}
-              onBack={() => navigate(-1)}
+              onBack={() => navigate('/home')}
               onChangeTitle={handleChangeTitle}
               onChangeShareFlag={handleChangeShareFlag}
               onChangePublicFlag={handleChangePublicFlag}
