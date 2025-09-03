@@ -25,8 +25,28 @@ const FamilyHome = () => {
     return () => window.removeEventListener('focus', handleFocus);
   }, [refetch]);
 
+  if (isLoading) {
+    return (
+      <div className="w-full h-full pt-12">
+        <div className="px-6">
+          <h1 className="text-4xl font-hana-bold text-text-primary !mb-8">
+            가족
+          </h1>
+        </div>
+
+        <div className="w-full px-6">
+          <div className="flex flex-col items-center justify-center py-20">
+            <div className="text-lg font-hana-regular text-text-secondary">
+              가족 정보를 불러오는 중...
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // 가족 그룹에 속해있지 않은 경우
-  if (!isLoading && !groupInfo) {
+  if (!groupInfo) {
     return <FamilyGroupEmptyStateCard />;
   }
 

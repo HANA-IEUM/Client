@@ -4,9 +4,9 @@ import { FilterTabs, type Tab } from '@/features/home/components/FilterTabs';
 import BucketListItem from '@/components/BucketListItem';
 import EmptyStateMessage from '@/components/common/EmptyStateMessage';
 import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
+import { useMemberBucketLists } from '../hooks/useMemberBucketLists';
 import Header from '@/components/Header';
 import starBoyIcon from '@/assets/common/header/starBoy.png';
-import type { BucketCategoryType } from '@/features/bucket-create/types/bucket';
 
 const FamilyMemberBucketList = () => {
   const [selected, setSelected] = useState('ALL');
@@ -25,15 +25,10 @@ const FamilyMemberBucketList = () => {
     { id: 'PARTICIPATING', label: '참여' },
   ];
 
-  // 임시로 빈 배열 사용 (실제로는 특정 사용자의 버킷리스트 API 호출 필요)
-  const bucketLists: Array<{
-    id: string;
-    title: string;
-    targetDate: string;
-    type: BucketCategoryType;
-    status: string;
-  }> = [];
-  const isLoading = false;
+  const { data: bucketLists, isLoading } = useMemberBucketLists(
+    memberId || '',
+    selected
+  );
 
   const handleBack = () => {
     navigate('/family');
@@ -99,7 +94,9 @@ const FamilyMemberBucketList = () => {
                     key={item.id}
                     text={item.title}
                     date={item.targetDate}
-                    category={item.type}
+                    category={
+                      item.type === 'FAMILY' ? 'FAMILY_SUPPORT' : item.type
+                    }
                     completed={item.status === 'COMPLETED'}
                     onClick={() => navigate(`/bucket/${item.id}`)}
                   />
