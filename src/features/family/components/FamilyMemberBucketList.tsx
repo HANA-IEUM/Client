@@ -46,7 +46,7 @@ const FamilyMemberBucketList = () => {
 
   return (
     <div className="bg-theme-secondary mx-auto flex h-full w-full max-w-md flex-col">
-      <header className="relative z-0 mb-[-50px] flex-shrink-0 px-6 pt-8 text-white">
+      <header className="relative z-0 mb-[-50px] flex-shrink-0 px-6 text-white">
         {/* 뒤로가기 버튼 */}
         <div className="mb-4">
           <Header onClick={handleBack} />
@@ -96,7 +96,9 @@ const FamilyMemberBucketList = () => {
                     date={formatKoreanDateTime(item.createdAt, false)}
                     category={item.type === 'FAMILY' ? 'FAMILY' : item.type}
                     completed={item.status === 'COMPLETED'}
-                    onClick={() => navigate(`/bucket/${item.id}`)}
+                    onClick={() =>
+                      navigate(`/family/member/${memberId}/bucket/${item.id}`)
+                    }
                   />
                 ))}
               </div>
