@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import SelectLetterType from '@/features/support/components/SelectLetterType';
 import WriteTextAndSupport from '@/features/support/components/WriteTextAndSupport';
 import { useSupport } from '@/features/support/hooks/useSupports';
+import { useGAEvent } from '@/hooks/useGAEvent';
 import { showError, showSuccess } from '@/lib/toast';
 
 type SupportInfo = {
@@ -18,6 +19,7 @@ type SupportInfo = {
 
 const SupportPage = () => {
   const navigate = useNavigate();
+  const trackSupportEvent = useGAEvent('support');
   const [step, setStep] = useState(0);
   const { id: bucketId } = useParams<{ id: string }>();
   const { mutate: support } = useSupport(Number(bucketId));
@@ -38,6 +40,7 @@ const SupportPage = () => {
   };
 
   const handleChangeSupportType = (type: string) => {
+    trackSupportEvent('support_type_selected', type);
     setSupportInfo((prev) => ({ ...prev, supportType: type }));
   };
 
@@ -49,15 +52,20 @@ const SupportPage = () => {
     amount: number | null;
     pin: string | null;
   }) => {
-    if (payload.amount === null && payload.pin === null) {
-      console.log('응원 요청', { message: supportInfo.message });
-    } else {
-      console.log('후원 요청', {
-        message: supportInfo.message,
-        amount: payload.amount,
-        pin: payload.pin,
-      });
-    }
+    // if (payload.amount === null && payload.pin === null) {
+    //   console.log('응원 요청', { message: supportInfo.message });
+    // } else {
+    //   console.log('후원 요청', {
+    //     message: supportInfo.message,
+    //     amount: payload.amount,
+    //     pin: payload.pin,
+    //   });
+    // }
+
+    trackSupportEvent(
+      'support_submit_attempt',
+      payload.amount === null ? 'cheer' : 'sponsor'
+    );
 
     support(
       {
@@ -69,10 +77,18 @@ const SupportPage = () => {
       },
       {
         onSuccess: () => {
+          trackSupportEvent(
+            'support_submit_success',
+            payload.amount === null ? 'cheer' : 'sponsor'
+          );
           showSuccess('응원이 성공적으로 완료되었어요.');
           navigate('/home');
         },
         onError: (error) => {
+          trackSupportEvent(
+            'support_submit_failed',
+            payload.amount === null ? 'cheer' : 'sponsor'
+          );
           showError('응원에 실패했어요. 다시 시도해 주세요.');
         },
       }
@@ -93,7 +109,13 @@ const SupportPage = () => {
           {step === 0 && (
             <SelectLetterType
               handleChangeLetterColor={handleChangeLetterColor}
-              onNext={() => setStep(step + 1)}
+              onNext={() => {
+                trackSupportEvent(
+                  'support_letter_selected',
+                  supportInfo.letterColor
+                );
+                setStep(step + 1);
+              }}
               onBack={() => navigate(-1)}
             />
           )}

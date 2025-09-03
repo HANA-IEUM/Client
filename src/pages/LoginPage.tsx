@@ -18,6 +18,7 @@ import { fetchGroupInfo } from '@/features/group-join/apis/groupApi';
 import { groupQK } from '@/features/group-join/hooks/useGroupInfo';
 import { fetchMainAccount } from '@/features/link-account/apis/accountApi';
 import { accountQK } from '@/features/link-account/hooks/useMainAccount';
+import { useGAEvent } from '@/hooks/useGAEvent';
 import { showError } from '@/lib/toast';
 
 const variants = {
@@ -84,11 +85,13 @@ type LoginStep2Props = {
   password: string;
   onPasswordChange: (pin: string) => void;
   onLogin: () => void;
+  onTrackEvent: (action: string, label?: string) => void;
 };
 const LoginStep2 = ({
   password,
   onPasswordChange,
   onLogin,
+  onTrackEvent,
 }: LoginStep2Props) => {
   const boxInputRef = useRef<BoxInputHandle>(null);
 
@@ -119,7 +122,10 @@ const LoginStep2 = ({
         size="full-lg"
         intent="red"
         font="regular"
-        onClick={onLogin}
+        onClick={() => {
+          onTrackEvent('login_attempt', 'password_input');
+          onLogin();
+        }}
         disabled={password.length !== 6}
       />
     </div>
@@ -127,21 +133,30 @@ const LoginStep2 = ({
 };
 
 export default function LoginPage() {
+  const trackAuthEvent = useGAEvent('auth');
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  // const goNext = () => {
+  //   if (step >= 2) return;
+  //   setDirection(1);
+  //   setStep(2);
+  // };
+
   const goNext = () => {
     if (step >= 2) return;
     setDirection(1);
     setStep(2);
+
+    trackAuthEvent('login_phone_entered', 'phone_input');
   };
 
   const goBack = () => {
     if (step === 1) {
-      navigate(-1); // 이전 페이지로 이동
+      navigate(-1);
     } else {
       setDirection(-1);
       setStep(1);
@@ -177,7 +192,12 @@ export default function LoginPage() {
           queryFn: fetchMainAccount,
         });
       }
-    } catch {
+    } catch (err: unknown) {
+      const status =
+        (err as { response?: { status?: number } })?.response?.status ??
+        'unknown';
+
+      trackAuthEvent('login_failed', status.toString());
       showError('아이디 또는 비밀번호를 확인해주세요');
     }
   };
@@ -198,6 +218,7 @@ export default function LoginPage() {
             password={password}
             onPasswordChange={setPassword}
             onLogin={handleLogin}
+            onTrackEvent={trackAuthEvent}
           />
         );
       default:

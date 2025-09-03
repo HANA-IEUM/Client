@@ -19,7 +19,9 @@ import type {
 } from '@/features/bucket-create/types/bucket.ts';
 import { fetchGroupInfo } from '@/features/group-join/apis/groupApi.ts';
 import { groupQK } from '@/features/group-join/hooks/useGroupInfo.ts';
+import { useGAEvent } from '@/hooks/useGAEvent';
 import { useMonthlyLivingCost } from '@/hooks/useMonthlyLivingCost.ts';
+import { showError } from '@/lib/toast';
 
 const variants = {
   enter: (direction: number) => ({
@@ -37,6 +39,8 @@ const variants = {
 };
 
 export default function BucketCreatePage() {
+  const trackBucketEvent = useGAEvent('bucket_create');
+
   const today = new Date();
   const dayStr = String(today.getDate()).padStart(2, '0');
   const [step, setStep] = useState(1);
@@ -76,10 +80,15 @@ export default function BucketCreatePage() {
 
   const createBucketMutation = useCreateBucket(
     () => {
+      trackBucketEvent('bucket_create_success', 'completed');
       navigate('/home', { replace: true });
     },
-    () => {}
+    () => {
+      trackBucketEvent('bucket_create_failed', 'error');
+      showError('버킷 생성에 실패했어요. 다시 시도해 주세요.');
+    }
   );
+
   const handleCreate = () => {
     const payload: CreateBucketPayload = {
       type: category,
@@ -100,6 +109,37 @@ export default function BucketCreatePage() {
 
   const goNext = () => {
     setDirection(1);
+
+    switch (step) {
+      case 1:
+        trackBucketEvent('bucket_category_selected', category);
+        break;
+      case 2:
+        trackBucketEvent(
+          'bucket_whoandwhat_done',
+          withFamily ? 'with_family' : 'solo'
+        );
+        break;
+      case 3:
+        trackBucketEvent(
+          'bucket_members_selected',
+          selectedMembersIds.length.toString()
+        );
+        break;
+      case 4:
+        trackBucketEvent('bucket_goal_set', `${amount}_${period}`);
+        break;
+      case 5:
+        trackBucketEvent('bucket_createbox_done', boxName || 'default');
+        break;
+      case 6:
+        trackBucketEvent(
+          'bucket_boxinfo_done',
+          automaticTransfer ? 'auto_transfer' : 'manual'
+        );
+        break;
+    }
+
     if (withFamily === false && step === 2) {
       setStep(4);
     } else {

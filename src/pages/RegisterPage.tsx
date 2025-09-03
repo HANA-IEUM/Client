@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import Stepper from '@/components/common/Stepper.tsx';
@@ -13,6 +12,8 @@ import { PhoneInput } from '@/features/auth/components/PhoneInput.tsx';
 import { PhoneVerification } from '@/features/auth/components/PhoneVerification.tsx';
 import RegisterCom from '@/features/auth/components/RegisterCom';
 import { useRegister } from '@/features/auth/hooks/useRegister.ts';
+import { useGAEvent } from '@/hooks/useGAEvent';
+import { showError } from '@/lib/toast';
 
 // 슬라이드 애니메이션을 위한 variants
 const variants = {
@@ -31,6 +32,8 @@ const variants = {
 };
 
 export default function RegisterPage() {
+  const trackRegisterEvent = useGAEvent('register');
+
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1); // 1: next, -1: prev
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -43,14 +46,27 @@ export default function RegisterPage() {
 
   const TOTAL_STEPS = 6;
 
+  //  const registerMutation = useRegister(
+  //   () => {},
+  //   () => {
+  //     setStep(1);
+  //     toast.error('회원가입에 실패했어요');
+  //   }
+  // );
+
   // 회원가입 훅
   const registerMutation = useRegister(
-    () => {},
     () => {
+      trackRegisterEvent('register_success', 'completed');
+      setStep(7);
+    },
+    () => {
+      trackRegisterEvent('register_failed', 'error');
       setStep(1);
-      toast.error('회원가입에 실패했어요');
+      showError('회원가입에 실패했어요. 다시 시도해 주세요.');
     }
   );
+
   const costToNumber = () => {
     // 입력값에서 숫자만 추출
     const rawValue = cost.replace(/[^0-9]/g, '');
@@ -60,17 +76,54 @@ export default function RegisterPage() {
     }
     return Number(rawValue);
   };
+
+  // const goNext = () => {
+  //   if (step === TOTAL_STEPS) {
+  //     registerMutation.mutate({
+  //       phoneNumber: phoneNumber,
+  //       password: pw,
+  //       name: name,
+  //       birthDate: birthday,
+  //       gender: 'M',
+  //       monthlyLivingCost: costToNumber(),
+  //     });
+  //   }
+  //   setDirection(1);
+  //   setStep((prev) => prev + 1);
+  // };
+
   const goNext = () => {
     if (step === TOTAL_STEPS) {
       registerMutation.mutate({
-        phoneNumber: phoneNumber,
+        phoneNumber,
         password: pw,
-        name: name,
+        name,
         birthDate: birthday,
         gender: 'M',
         monthlyLivingCost: costToNumber(),
       });
+      trackRegisterEvent('register_cost_done', 'monthly_cost');
+      return;
     }
+
+    switch (step) {
+      case 1:
+        trackRegisterEvent('register_phone_done', 'phone_input');
+        break;
+      case 2:
+        trackRegisterEvent('register_phone_verified', 'verification');
+        break;
+      case 3:
+        trackRegisterEvent('register_password_set', 'password_input');
+        break;
+      case 4:
+        trackRegisterEvent('register_name_done', 'name_input');
+        break;
+      case 5:
+        trackRegisterEvent('register_birthday_done', 'birthday_input');
+        break;
+    }
+
     setDirection(1);
     setStep((prev) => prev + 1);
   };

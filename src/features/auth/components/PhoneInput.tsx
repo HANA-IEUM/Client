@@ -1,12 +1,12 @@
 import type { InputRef } from 'antd';
 import React, { useEffect, useRef } from 'react';
-import { toast } from 'react-hot-toast';
 
 import phoneIcon from '@/assets/common/user/phone.png';
 import Button from '@/components/button/Button.tsx';
 import Input from '@/components/input/Input.tsx';
 import { useCheckPhoneNumber } from '@/features/auth/hooks/useCheckPhoneNumber.ts';
 import { useVerification } from '@/features/auth/hooks/useVerification.ts';
+import { showError } from '@/lib/toast';
 
 export type PhoneInputProps = {
   phoneNumber: string;
@@ -26,7 +26,7 @@ export const PhoneInput = ({
       if (data.data.available) {
         goNextStep();
       } else {
-        toast.error('이미 가입된 전화번호예요');
+        showError('이미 가입된 전화번호예요');
       }
     },
     () => {}

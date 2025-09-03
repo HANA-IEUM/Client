@@ -8,6 +8,7 @@ import BucketEditFamily from '@/features/bucket-edit/components/BucketEditFamily
 import BucketEditSummary from '@/features/bucket-edit/components/BucketEditSummary';
 import { useUpdateBucket } from '@/features/bucket-edit/hooks/useUpdateBucket';
 import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
+import { useGAEvent } from '@/hooks/useGAEvent';
 import { showError } from '@/lib/toast';
 
 type EditInfo = {
@@ -19,6 +20,8 @@ type EditInfo = {
 
 const BucketEditPage = () => {
   const navigate = useNavigate();
+  const trackBucketEditEvent = useGAEvent('bucket_edit');
+
   const { id: bucketId } = useParams<{ id: string }>();
   const { mutate: update } = useUpdateBucket(Number(bucketId));
   const { data: bucketDetail } = useBucketDetail(Number(bucketId));
@@ -62,11 +65,14 @@ const BucketEditPage = () => {
   };
 
   const handleConfirm = () => {
+    trackBucketEditEvent('bucket_edit_submit', 'attempt');
     update(editInfo, {
       onSuccess: () => {
+        trackBucketEditEvent('bucket_edit_success', 'completed');
         setStep(2);
       },
       onError: () => {
+        trackBucketEditEvent('bucket_edit_failed', 'error');
         showError('버킷 수정에 오류가 생겼어요. 다시 시도해 주세요.');
       },
     });
@@ -88,6 +94,11 @@ const BucketEditPage = () => {
           {step === 0 && (
             <BucketEditBasicInfo
               onNext={() => {
+                trackBucketEditEvent(
+                  'bucket_edit_basic_done',
+                  `${editInfo.shareFlag ? 'share' : 'solo'}_${editInfo.publicFlag ? 'public' : 'private'}`
+                );
+
                 if (editInfo.shareFlag) {
                   setStep(1);
                 } else {
@@ -105,6 +116,10 @@ const BucketEditPage = () => {
           {step === 1 && (
             <BucketEditFamily
               onNext={() => {
+                trackBucketEditEvent(
+                  'bucket_edit_family_done',
+                  editInfo.selectedMemberIds.length.toString()
+                );
                 handleConfirm();
               }}
               onBack={() => setStep(step - 1)}
