@@ -14,7 +14,7 @@ const BucketDetailPage = () => {
   const { data: supportHistory } = useSupportHistory(Number(bucketId));
 
   return (
-    <div className="scrollbar-hide h-screen overflow-y-auto">
+    <div className="scrollbar-hide h-screen overflow-x-hidden overflow-y-auto">
       <BucketDetailHeader
         title={bucketDetail?.title ?? ''}
         onClick={() => navigate(-1)}
