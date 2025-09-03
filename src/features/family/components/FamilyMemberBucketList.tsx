@@ -7,6 +7,7 @@ import EmptyStateMessage from '@/components/common/EmptyStateMessage';
 import Header from '@/components/Header';
 import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
 import { FilterTabs, type Tab } from '@/features/home/components/FilterTabs';
+import { formatKoreanDateTime } from '@/utils/dateFormat';
 
 import { useMemberBucketLists } from '../hooks/useMemberBucketLists';
 
@@ -93,7 +94,7 @@ const FamilyMemberBucketList = () => {
                   <BucketListItem
                     key={item.id}
                     text={item.title}
-                    date={item.targetDate}
+                    date={formatKoreanDateTime(item.createdAt, false)}
                     category={item.type === 'FAMILY' ? 'FAMILY' : item.type}
                     completed={item.status === 'COMPLETED'}
                     onClick={() => navigate(`/bucket/${item.id}`)}

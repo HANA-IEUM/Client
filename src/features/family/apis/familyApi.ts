@@ -20,15 +20,11 @@ export interface MemberBucketListItem {
   memberId: number;
   type: 'TRIP' | 'HOBBY' | 'HEALTH' | 'FAMILY';
   title: string;
-  targetAmount: number;
-  targetDate: string;
   publicFlag: boolean;
   togetherFlag: boolean;
-  status: 'IN_PROGRESS' | 'COMPLETED' | 'PARTICIPATING';
+  status: 'IN_PROGRESS' | 'COMPLETED';
   createdAt: string;
-  updatedAt: string;
   participants: Participant[];
-  moneyBoxInfo: MoneyBoxInfo;
 }
 
 export interface MemberBucketListResponse {
@@ -40,20 +36,18 @@ export interface MemberBucketListResponse {
 
 export async function fetchMemberBucketLists(
   memberId: string,
-  filter: string = 'ALL'
+  filter: string = 'IN_PROGRESS'
 ): Promise<MemberBucketListItem[]> {
-  const params: Record<string, string> = {};
+  let endpoint: string;
 
-  if (filter !== 'ALL') {
-    params.status = filter;
+  if (filter === 'IN_PROGRESS') {
+    endpoint = `/bucket-lists/group/${memberId}/in-progress`;
+  } else if (filter === 'COMPLETED') {
+    endpoint = `/bucket-lists/group/${memberId}/completed`;
+  } else {
+    endpoint = `/bucket-lists/group/${memberId}/in-progress`;
   }
 
-  const res = await api.get<MemberBucketListResponse>(
-    `/bucket-lists/group/${memberId}`,
-    {
-      params,
-    }
-  );
-
+  const res = await api.get<MemberBucketListResponse>(endpoint);
   return res.data.data || [];
 }
