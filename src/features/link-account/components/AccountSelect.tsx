@@ -58,13 +58,38 @@ const AccountSelect = ({
       </div>
 
       <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
-        <Button
-          intent={selected ? 'green' : 'gray'}
-          label="확인"
-          size="full"
-          disabled={!account || !selected}
-          onClick={() => onConfirm?.(selected && account ? account : null)}
-        />
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-center">
+            <p className="font-hana-regular text-center text-3xl">
+              <span className="font-hana-bold text-3xl">
+                💡 하나은행 연금 수령 계좌
+              </span>
+              를 <br />
+              연결하면{' '}
+              <span className="font-hana-bold text-3xl">우대금리 1%</span>를
+              <br />
+              추가로 받을 수 있어요
+            </p>
+          </div>
+
+          <Button
+            label="연금 수령 계좌 이전하기"
+            intent="green"
+            onClick={() =>
+              window.open(
+                'https://www.kebhana.com/cont/mall/mall08/mall0801/mall080103/1455931_115188.jsp',
+                '_blank'
+              )
+            }
+          />
+          <Button
+            intent={selected ? 'green' : 'gray'}
+            label="확인"
+            size="full"
+            disabled={!account || !selected}
+            onClick={() => onConfirm?.(selected && account ? account : null)}
+          />
+        </div>
       </div>
     </div>
   );
