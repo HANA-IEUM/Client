@@ -7,7 +7,6 @@ import giftJson from '@/assets/bucket-detail/gift.json';
 import Button from '@/components/button/Button';
 import BottomSheet from '@/components/common/BottomSheet';
 import EmptyStateMessage from '@/components/common/EmptyStateMessage';
-import { useCreateCoupon } from '@/features/coupon/hooks/useCreateCoupon';
 import { showError, showSuccess } from '@/lib/toast';
 import type { SupportHistory } from '@/types/supportHistory';
 
