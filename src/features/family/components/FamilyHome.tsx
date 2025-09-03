@@ -17,8 +17,9 @@ const FamilyHome = () => {
     navigate(`/family/member/${memberId}/bucket`);
   };
 
-  // 페이지 포커스 시 데이터 새로고침
+  // 컴포넌트 마운트 시 및 페이지 포커스 시 데이터 새로고침
   useEffect(() => {
+    refetch();
     const handleFocus = () => {
       refetch();
     };
