@@ -102,6 +102,7 @@ const SupportBottomSheet = ({
           </div>
 
           <div className="flex w-full items-center gap-2">
+            <div></div>
             <Input
               placeholder="응원하는 마음을 꾹꾹 담아"
               inputMode="numeric"
@@ -111,7 +112,16 @@ const SupportBottomSheet = ({
               }
               className="flex-1"
             />
-            <span className="font-hana-bold text-xl">원</span>
+            <span className="font-hana-bold text-2xl">원</span>
+          </div>
+
+          <div className="px-3">
+            <p className="font-hana-regular text-lg">
+              💡 가족 간 일정 금액 이상의 후원은
+              <br />
+              「상속세 및 증여세법」 에 따라 증여세 <br />
+              과세 대상이 될 수 있습니다
+            </p>
           </div>
 
           <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">

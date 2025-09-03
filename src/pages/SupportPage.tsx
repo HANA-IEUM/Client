@@ -135,7 +135,7 @@ const SupportPage = () => {
               handleChangeSupportType={handleChangeSupportType}
               handleChangeSupportAmount={handleChangeSupportAmount}
               onSubmit={handleSupportSubmit}
-              title={title}
+              title={title ?? ''}
             />
           )}
         </motion.div>
