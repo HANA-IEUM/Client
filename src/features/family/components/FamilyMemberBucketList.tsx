@@ -11,7 +11,7 @@ import { FilterTabs, type Tab } from '@/features/home/components/FilterTabs';
 import { useMemberBucketLists } from '../hooks/useMemberBucketLists';
 
 const FamilyMemberBucketList = () => {
-  const [selected, setSelected] = useState('ALL');
+  const [selected, setSelected] = useState('IN_PROGRESS');
   const { memberId } = useParams<{ memberId: string }>();
   const navigate = useNavigate();
 
@@ -21,10 +21,8 @@ const FamilyMemberBucketList = () => {
   );
 
   const tabs: Tab[] = [
-    { id: 'ALL', label: '전체' },
     { id: 'IN_PROGRESS', label: '진행중' },
     { id: 'COMPLETED', label: '달성' },
-    { id: 'PARTICIPATING', label: '참여' },
   ];
 
   const { data: bucketLists, isLoading } = useMemberBucketLists(
