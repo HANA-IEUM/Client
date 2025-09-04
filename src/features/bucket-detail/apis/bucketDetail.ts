@@ -34,7 +34,7 @@ export async function fetchBucketDetail(
 }
 
 export async function deleteBucket(bucketListId: number): Promise<void> {
-  await api.delete(`/bucket-lists/my/${bucketListId}`);
+  await api.delete(`/bucket-lists/${bucketListId}`);
 }
 
 export async function completeBucket(bucketListId: number) {
