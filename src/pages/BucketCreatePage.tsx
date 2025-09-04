@@ -8,7 +8,8 @@ import Header from '@/components/Header';
 import { BoxInfo } from '@/features/bucket-create/components/BoxInfo.tsx';
 import { ConfirmBucket } from '@/features/bucket-create/components/ConfirmBucket.tsx';
 import { CreateBox } from '@/features/bucket-create/components/CreateBox.tsx';
-import { GoalAmountPeriod } from '@/features/bucket-create/components/GoalAmountPeriod.tsx';
+import { GoalAmount } from '@/features/bucket-create/components/GoalAmount.tsx';
+import { GoalPeriod } from '@/features/bucket-create/components/GoalPeriod.tsx';
 import { SelectCategory } from '@/features/bucket-create/components/SelectCategory.tsx';
 import { SelectGroupMember } from '@/features/bucket-create/components/SelectGroupMember';
 import { WhoAndWhat } from '@/features/bucket-create/components/WhoAndWhat';
@@ -65,7 +66,7 @@ export default function BucketCreatePage() {
     queryFn: fetchGroupInfo,
   });
 
-  const TOTAL_STEPS = 4;
+  const TOTAL_STEPS = 5;
 
   const getNumberAmount = (str: string) => {
     return Number(str.replace(/,/g, ''));
@@ -127,10 +128,10 @@ export default function BucketCreatePage() {
         );
         break;
       case 4:
-        trackBucketEvent('bucket_goal_set', `${amount}_${period}`);
+        trackBucketEvent('bucket_goal_amount_set', amount);
         break;
       case 5:
-        trackBucketEvent('bucket_createbox_done', boxName || 'default');
+        trackBucketEvent('bucket_goal_period_set', String(period));
         break;
       case 6:
         trackBucketEvent(
@@ -191,16 +192,23 @@ export default function BucketCreatePage() {
         );
       case 4:
         return (
-          <GoalAmountPeriod
+          <GoalAmount
+            bucket={title}
             amount={amount}
             setAmount={setAmount}
-            period={period}
-            setPeriod={setPeriod}
-            handleAmount={handleAmount}
             onNext={goNext}
           />
         );
       case 5:
+        return (
+          <GoalPeriod
+            period={period}
+            setPeriod={setPeriod}
+            onNext={goNext}
+            handleAmount={handleAmount}
+          />
+        );
+      case 6:
         return (
           <CreateBox
             title={title}
@@ -210,7 +218,7 @@ export default function BucketCreatePage() {
             onNext={goNext}
           />
         );
-      case 6:
+      case 7:
         return (
           <BoxInfo
             boxName={boxName}
@@ -224,7 +232,7 @@ export default function BucketCreatePage() {
             onNext={goNext}
           />
         );
-      case 7:
+      case 8:
         return <ConfirmBucket title={title} onSubmit={handleCreate} />;
       default:
         return null;
@@ -239,10 +247,10 @@ export default function BucketCreatePage() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <Header onClick={goBack} isVisible={step !== 5 && step !== 7} />{' '}
+          <Header onClick={goBack} isVisible={step !== 6 && step !== 8} />{' '}
         </motion.div>
       </AnimatePresence>
-      {step < 5 ? (
+      {step < 6 ? (
         <div className="pt-5">
           <Stepper totalSteps={TOTAL_STEPS} currentStep={step} />
         </div>
