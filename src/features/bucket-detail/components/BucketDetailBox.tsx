@@ -50,6 +50,7 @@ const BucketDetailBox = ({
   const { mutate: completeBucket } = useCompleteBucket(Number(bucketId));
   const { mutate: deleteBucket, isPending } = useDeleteBucket(Number(bucketId));
   const [isAchieveSheetOpen, setIsAchieveSheetOpen] = useState(false);
+  const [isDeleteSheetOpen, setIsDeleteSheetOpen] = useState(false);
 
   const onClose = () => {
     setIsAchieveSheetOpen(false);
@@ -61,8 +62,11 @@ const BucketDetailBox = ({
     navigate(`/bucket-edit/${bucketId}`);
   };
 
-  // 삭제
   const handleDelete = () => {
+    setIsDeleteSheetOpen(true);
+  };
+
+  const confirmDelete = () => {
     deleteBucket(undefined, {
       onSuccess: () => {
         showSuccess('버킷이 삭제되었습니다.');
@@ -73,6 +77,19 @@ const BucketDetailBox = ({
       },
     });
   };
+
+  // 삭제
+  // const handleDelete = () => {
+  //   deleteBucket(undefined, {
+  //     onSuccess: () => {
+  //       showSuccess('버킷이 삭제되었습니다.');
+  //       navigate('/home');
+  //     },
+  //     onError: () => {
+  //       showError('삭제 중 오류가 발생했습니다.');
+  //     },
+  //   });
+  // };
 
   // 달성 완료
   const handleComplete = () => {
@@ -130,6 +147,43 @@ const BucketDetailBox = ({
           <EmptyStateMessage title={'아직 받은 응원이나 후원이 없어요 💌'} />
         )}
       </div>
+
+      <BottomSheet
+        isOpen={isDeleteSheetOpen}
+        onClose={() => setIsDeleteSheetOpen(false)}
+      >
+        <div className="mt-6 flex flex-col gap-6">
+          <p className="font-hana-bold text-accent-primary text-3xl">⚠️ 주의</p>
+          <p className="font-hana-regular text-text-primary text-3xl">
+            <span className="font-hana-bold">버킷리스트를 삭제하면</span>
+            <br />
+            개설한 <span className="font-hana-bold">머니박스</span>도
+            <br /> 자동으로 삭제되고
+            <br />
+            <span className="font-hana-bold">이자</span>도 받을 수 없어요
+          </p>
+          <p className="font-hana-regular text-3xl">
+            원금은 연결된 주계좌로 <br />
+            이체돼요
+          </p>
+          <p className="font-hana-regular text-3xl">그래도 삭제하시겠어요?</p>
+          <div className="flex w-full gap-2">
+            <Button
+              intent="gray"
+              label="취소"
+              className="w-1/3"
+              onClick={() => setIsDeleteSheetOpen(false)}
+            />
+            <Button
+              intent="red"
+              label="삭제"
+              className="w-2/3"
+              onClick={confirmDelete}
+              disabled={isPending}
+            />
+          </div>
+        </div>
+      </BottomSheet>
 
       <BottomSheet
         isOpen={isAchieveSheetOpen}

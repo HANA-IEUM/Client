@@ -33,7 +33,7 @@ jobs:
         uses: chromaui/action@v11
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          exitOnceUploaded: true # 업로드 후 테스트 결과 기다리지 않고 종료
+          exitOnceUploaded: true
 
       - name: ✅ Comment on PR
         if: success() && github.event_name == 'pull_request'
