@@ -166,7 +166,9 @@ const BucketDetailBox = ({
             원금은 연결된 주계좌로 <br />
             이체돼요
           </p>
-          <p className="font-hana-regular text-3xl">그래도 삭제하시겠어요?</p>
+          <p className="font-hana-regular text-3xl">
+            그래도 <span className="font-hana-bold">삭제</span>하시겠어요?
+          </p>
           <div className="flex w-full gap-2">
             <Button
               intent="gray"
