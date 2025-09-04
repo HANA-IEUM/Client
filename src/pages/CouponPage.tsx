@@ -19,19 +19,21 @@ const CouponPage = () => {
       {isLoading ? (
         <div className="flex h-64 items-center justify-center"></div>
       ) : coupons && coupons.length > 0 ? (
-        coupons.map((coupon) => (
-          <Coupon
-            key={coupon.couponId}
-            id={coupon.couponId}
-            couponName={coupon.couponName}
-            category={coupon.category}
-            partnerName={coupon.partnerName}
-            description={coupon.description}
-            discountRate={coupon.discountRate}
-            couponCode={coupon.couponCode}
-            expireDate={coupon.expireDate}
-          />
-        ))
+        <div className="mt-6 flex flex-col gap-4">
+          {coupons.map((coupon) => (
+            <Coupon
+              key={coupon.couponId}
+              id={coupon.couponId}
+              couponName={coupon.couponName}
+              category={coupon.category}
+              partnerName={coupon.partnerName}
+              description={coupon.description}
+              discountRate={coupon.discountRate}
+              couponCode={coupon.couponCode}
+              expireDate={coupon.expireDate}
+            />
+          ))}
+        </div>
       ) : (
         <EmptyStateMessage title="보유한 쿠폰이 없어요" />
       )}

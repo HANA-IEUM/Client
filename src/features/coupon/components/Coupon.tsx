@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Button from '@/components/button/Button';
 import BottomSheet from '@/components/common/BottomSheet';
 import InviteCodeCopyBtn from '@/components/common/InviteCodeCopyBtn';
+import { formatKoreanDateTime } from '@/utils/dateFormat';
 
 type CouponProps = {
   id: number | string;
@@ -30,11 +31,20 @@ const Coupon = ({
   const handleCloseSheet = () => setIsSheetOpen(false);
 
   const categoryBgMap: Record<string, string> = {
-    여행: 'bg-icon-pink',
-    취미: 'bg-icon-blue',
-    건강: 'bg-icon-yellow',
-    가족지원: 'bg-icon-green',
+    TRIP: 'bg-icon-pink',
+    HOBBY: 'bg-icon-blue',
+    HEALTH: 'bg-icon-yellow',
+    FAMILY: 'bg-icon-green',
   };
+
+  const categoryLabelMap: Record<string, string> = {
+    TRIP: '여행',
+    FAMILY: '가족',
+    HEALTH: '건강',
+    HOBBY: '취미',
+  };
+
+  const displayCategory = categoryLabelMap[category] ?? category;
 
   return (
     <div className="bg-btn-default-bg flex w-full flex-col rounded-lg px-3 pt-2 pb-4">
@@ -43,7 +53,7 @@ const Coupon = ({
         <div
           className={`${categoryBgMap[category] ?? 'bg-gray-300'} flex w-[71px] items-center justify-center px-3 py-1`}
         >
-          <span className="font-hana-bold">{category}</span>
+          <span className="font-hana-bold">{displayCategory}</span>
         </div>
       </div>
 
@@ -54,7 +64,9 @@ const Coupon = ({
           [ {partnerName} ] {couponName}
         </span>
         <span className="font-hana-regular">{description}</span>
-        <span className="font-hana-bold">{expireDate} 까지</span>
+        <span className="font-hana-bold">
+          {formatKoreanDateTime(expireDate)} 까지
+        </span>
       </div>
 
       <Button intent="mint" label="사용하기" onClick={handleOpenSheet} />
@@ -76,7 +88,7 @@ const Coupon = ({
 
           <Button
             intent="green"
-            label={partnerName}
+            label={`${partnerName} 으로 이동하기`}
             onClick={handleCloseSheet}
           />
         </div>
