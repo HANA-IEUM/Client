@@ -46,7 +46,7 @@ export const MonthlyCostInput = ({
           <Input
             ref={inputRef}
             intent="green"
-            placeholder="500000"
+            placeholder="5,000,000"
             value={cost}
             onChange={handleChange}
           />
