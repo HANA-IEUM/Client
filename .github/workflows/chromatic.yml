@@ -43,7 +43,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             ✅ Chromatic 빌드 성공!  
-            👉 [Storybook 결과 확인하기](https://www.chromatic.com/builds?appId=${{ secrets.CHROMATIC_APP_ID }})
+            👉 [스토리북 바로가기](https://${{ secrets.CHROMATIC_APP_ID }}.chromatic.com)
 
       - name: ❌ Comment on PR (failure)
         if: failure() && github.event_name == 'pull_request'
