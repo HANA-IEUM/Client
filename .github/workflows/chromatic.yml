@@ -6,6 +6,11 @@ on:
   push:
     branches: [main, dev]
 
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
 jobs:
   chromatic-deployment:
     runs-on: ubuntu-latest
