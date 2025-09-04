@@ -1,20 +1,12 @@
-// Step 4: 목표 금액, 기간
+// Step 4-1: 목표 금액
 import { type InputRef } from 'antd';
 import React, { useEffect, useRef } from 'react';
 
 import Button from '@/components/button/Button.tsx';
 import Input from '@/components/input/Input.tsx';
-import SelectItem from '@/components/SelectItem.tsx';
-import type { GoalAmountPeriodProps } from '@/features/bucket-create/types/props.ts';
+import type { GoalAmountProps } from '@/features/bucket-create/types/props.ts';
 
-export const GoalAmountPeriod = ({
-  amount,
-  setAmount,
-  period,
-  setPeriod,
-  handleAmount,
-  onNext,
-}: GoalAmountPeriodProps) => {
+export const GoalAmount = ({ amount, setAmount, onNext }: GoalAmountProps) => {
   const inputRef = useRef<InputRef>(null);
   useEffect(() => {
     inputRef.current?.focus();
@@ -30,12 +22,6 @@ export const GoalAmountPeriod = ({
     const formatted = Number(rawValue).toLocaleString();
     setAmount(formatted);
   };
-  const handleNext = () => {
-    handleAmount();
-    onNext();
-  };
-
-  const periods = [3, 6, 12, 24];
 
   return (
     <div className="flex h-full flex-col">
@@ -58,28 +44,13 @@ export const GoalAmountPeriod = ({
             <span className="font-hana-regular text-3xl">원</span>
           </div>
         </div>
-        <div>
-          <p className="font-hana-regular mb-3 text-3xl">
-            <span className="font-hana-bold">목표 기간</span>을 선택해 주세요
-          </p>
-          <div className="grid grid-cols-2 gap-3">
-            {periods.map((p) => (
-              <SelectItem
-                key={p}
-                text={`${p}개월`}
-                selected={period === p}
-                onClick={() => setPeriod(p)}
-              />
-            ))}
-          </div>
-        </div>
       </div>
       <Button
         label="다 음"
         size="full-lg"
         intent="green"
-        onClick={handleNext}
-        disabled={!amount || !period}
+        onClick={onNext}
+        disabled={!amount}
       />
     </div>
   );

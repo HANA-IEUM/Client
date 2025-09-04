@@ -17,9 +17,12 @@ export type SelectGroupMemberProps = {
   groupMemberInfo: GroupMember[];
   onNext: () => void;
 };
-export type GoalAmountPeriodProps = {
+export type GoalAmountProps = {
   amount: string;
   setAmount: (str: string) => void;
+  onNext: () => void;
+};
+export type GoalPeriodProps = {
   period: number | null;
   setPeriod: (num: number) => void;
   handleAmount: () => void;
