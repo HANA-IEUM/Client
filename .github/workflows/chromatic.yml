@@ -29,8 +29,7 @@ jobs:
         run: |
           npx chromatic \
             --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} \
-            --exit-zero-on-changes \
-            --storybook-build-dir=storybook-static
+            --exit-zero-on-changes
 
       - name: ✅ Comment on PR (success)
         if: success() && github.event_name == 'pull_request'
