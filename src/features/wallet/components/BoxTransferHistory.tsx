@@ -78,6 +78,8 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
     return () => observer.disconnect();
   }, [handleObserver]);
 
+  // useEffect 제거 (refetchOnWindowFocus: true로 자동 처리됨)
+
   return (
     <div className="h-full w-full overflow-y-auto pb-20">
       <div className="mb-7 px-6 pt-5">
@@ -184,7 +186,9 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
                           <span className="text-text-secondary font-hana-bold text-xl">
-                            {tx.description || tx.transactionType}
+                            {tx.counterpartyName
+                              ? `${tx.counterpartyName} ㅣ ${tx.description || tx.transactionType}`
+                              : tx.description || tx.transactionType}
                           </span>
                           {(() => {
                             const isDeposit = tx.transactionType === 'DEPOSIT';
