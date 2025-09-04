@@ -18,6 +18,7 @@ export type SelectGroupMemberProps = {
   onNext: () => void;
 };
 export type GoalAmountProps = {
+  bucket: string;
   amount: string;
   setAmount: (str: string) => void;
   onNext: () => void;

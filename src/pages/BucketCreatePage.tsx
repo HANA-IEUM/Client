@@ -192,7 +192,12 @@ export default function BucketCreatePage() {
         );
       case 4:
         return (
-          <GoalAmount amount={amount} setAmount={setAmount} onNext={goNext} />
+          <GoalAmount
+            bucket={title}
+            amount={amount}
+            setAmount={setAmount}
+            onNext={goNext}
+          />
         );
       case 5:
         return (
