@@ -12,6 +12,7 @@ import {
   useFillMoneyBox,
 } from '@/features/wallet/hooks/useMainAccount';
 import { showError, showSuccess } from '@/lib/toast';
+import { formatAccountNumber } from '@/utils/formatAccountNumber';
 
 import type { Box } from '../types';
 
@@ -186,7 +187,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
                     {mainAccount.accountName}
                   </h2>
                   <p className="font-hana-regular text-text-secondary !mb-0 text-base">
-                    {mainAccount.accountNumber}
+                    {formatAccountNumber(mainAccount.accountNumber)}
                   </p>
                   <div className="text-left">
                     <p className="font-hana-bold text-text-primary !mb-0 text-2xl">
