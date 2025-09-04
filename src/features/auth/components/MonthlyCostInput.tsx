@@ -53,7 +53,7 @@ export const MonthlyCostInput = ({
           <span className="font-hana-regular text-3xl">원</span>
         </div>
       </div>
-      <div className="mb-4">
+      <div className="font-hana-regular mb-4">
         <p>
           은퇴 후 자금 설계 이전이라면, <br />
           아래 버튼을 클릭해 진단을 먼저 받아주세요
