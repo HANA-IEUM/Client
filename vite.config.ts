@@ -1,6 +1,8 @@
+/// <reference types="vitest/config" />
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
@@ -9,14 +11,14 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
     tsconfigPaths(),
     VitePWA({
-      registerType: 'autoUpdate', // 앱 새 버전 자동 업데이트
+      registerType: 'autoUpdate',
+      // 앱 새 버전 자동 업데이트
       manifest: {
         name: '하나이음',
         short_name: '하나이음',
@@ -46,5 +48,32 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
+  },
+  test: {
+    projects: [
+      {
+        plugins: [
+          // The plugin will run tests for the stories defined in your Storybook config
+          // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
+          storybookTest({
+            configDir: path.join(__dirname, '.storybook'),
+          }),
+        ],
+        test: {
+          name: 'storybook',
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: 'playwright',
+            instances: [
+              {
+                browser: 'chromium',
+              },
+            ],
+          },
+          setupFiles: ['.storybook/vitest.setup.ts'],
+        },
+      },
+    ],
   },
 });
