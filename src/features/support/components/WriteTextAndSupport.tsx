@@ -13,12 +13,14 @@ type WriteTextAndSupportProps = {
   handleChangeSupportType: (type: string) => void;
   handleChangeSupportAmount: (amount: number) => void;
   onSubmit: (payload: { amount: number | null; pin: string | null }) => void;
+  title: string;
 };
 
 const WriteTextAndSupport = ({
   onBack,
   onSubmit,
   handleChangeLetterText,
+  title,
 }: WriteTextAndSupportProps) => {
   const [text, setText] = useState('');
   const [open, setOpen] = useState(false);
@@ -61,7 +63,7 @@ const WriteTextAndSupport = ({
         open={open}
         onClose={() => setOpen(false)}
         messageText={text}
-        bucketTitle="유럽 여행 가기"
+        bucketTitle={title}
         onSubmit={onSubmit}
       />
 
