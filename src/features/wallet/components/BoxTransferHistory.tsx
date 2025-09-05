@@ -1,6 +1,7 @@
 import { Spin } from 'antd';
 import React, { useRef, useCallback, useEffect } from 'react';
 
+import boxPng from '@/assets/bucket-detail/box.png';
 import Button from '@/components/button/Button';
 import Header from '@/components/Header';
 import {
@@ -122,11 +123,7 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="ml-2 flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-sm">
-                <img
-                  src="/images/box.png"
-                  alt="박스 아이콘"
-                  className="h-7 w-7"
-                />
+                <img src={boxPng} alt="박스 아이콘" className="h-7 w-7" />
               </div>
               <div>
                 <h4 className="font-hana-regular text-text-secondary !mb-0 text-lg">

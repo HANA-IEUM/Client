@@ -46,14 +46,6 @@ export default function RegisterPage() {
 
   const TOTAL_STEPS = 6;
 
-  //  const registerMutation = useRegister(
-  //   () => {},
-  //   () => {
-  //     setStep(1);
-  //     toast.error('회원가입에 실패했어요');
-  //   }
-  // );
-
   // 회원가입 훅
   const registerMutation = useRegister(
     () => {
@@ -76,21 +68,6 @@ export default function RegisterPage() {
     }
     return Number(rawValue);
   };
-
-  // const goNext = () => {
-  //   if (step === TOTAL_STEPS) {
-  //     registerMutation.mutate({
-  //       phoneNumber: phoneNumber,
-  //       password: pw,
-  //       name: name,
-  //       birthDate: birthday,
-  //       gender: 'M',
-  //       monthlyLivingCost: costToNumber(),
-  //     });
-  //   }
-  //   setDirection(1);
-  //   setStep((prev) => prev + 1);
-  // };
 
   const goNext = () => {
     if (step === TOTAL_STEPS) {

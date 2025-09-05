@@ -9,6 +9,7 @@ import BoxInput, {
 } from '@/components/common/BoxInput.tsx';
 import { useVerification } from '@/features/auth/hooks/useVerification.ts';
 import { useVerificationConfirm } from '@/features/auth/hooks/useVerificationConfirm.ts';
+import { showError, showSuccess } from '@/lib/toast';
 
 export type PhoneVerificationProps = {
   phoneNumber: string;
@@ -24,23 +25,7 @@ export const PhoneVerification = ({
   // 인증번호 발송을 위한 mutation
   const sendVerificationMutation = useVerification(
     () => {
-      toast.custom(
-        () => (
-          <div className="mx-auto mb-16 max-w-[400px]">
-            <div className="flex items-center gap-2 rounded-xl bg-white px-4 py-3 shadow-[0_2px_10px_rgba(0,0,0,0.08)] ring-1 ring-black/5">
-              <img
-                src={checkCircleSvg}
-                className="inline-block size-5"
-                alt="성공"
-              />
-              <span className="font-hana-bold text-xl text-[var(--color-text-primary)]">
-                인증번호를 재전송했어요
-              </span>
-            </div>
-          </div>
-        ),
-        { duration: 2000, position: 'top-center', id: 'resend-ok' }
-      );
+      showSuccess('인증번호를 재전송했어요.');
     },
     () => {}
   );
@@ -53,7 +38,7 @@ export const PhoneVerification = ({
     },
     () => {
       // 실패 시 토스트 알림을 띄우고 입력값을 초기화
-      toast.error('인증번호가 올바르지 않아요.');
+      showError('인증번호가 올바르지 않아요.');
       setPin('');
       boxInputRef.current?.focus();
     }

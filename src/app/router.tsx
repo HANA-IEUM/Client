@@ -20,38 +20,46 @@ import SupportDetailPage from '@/pages/SupportDetailPage';
 import SupportPage from '@/pages/SupportPage';
 import WalletPage from '@/pages/WalletPage';
 
+import PrivateRoute from './providers/PrivateRoute';
+
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
     children: [
       { index: true, element: <OnboardingWrapper /> },
-      { path: 'home', element: <HomePage /> },
-      { path: 'family', element: <FamilyPage /> },
-      {
-        path: 'family/member/:memberId/bucket',
-        element: <FamilyMemberBucketList />,
-      },
-      {
-        path: 'family/member/:memberId/bucket/:id',
-        element: <FamilyMemberBucketListDetailPage />,
-      },
-      { path: 'wallet', element: <WalletPage /> },
-      { path: 'album', element: <AlbumPage /> },
-      { path: 'mypage', element: <MyPage /> },
       { path: 'register', element: <RegisterPage /> },
       { path: 'login', element: <LoginPage /> },
-      { path: 'group', element: <GroupJoinPage /> },
-      { path: 'account', element: <LinkAccountPage /> },
-      { path: 'bucket/:id', element: <BucketDetailPage /> },
-      { path: 'bucket-edit/:id', element: <BucketEditPage /> },
+
       {
-        path: 'bucket-support/:memberId/:id/:title',
-        element: <SupportPage />,
+        element: <PrivateRoute />,
+        children: [
+          { path: 'home', element: <HomePage /> },
+          { path: 'family', element: <FamilyPage /> },
+          {
+            path: 'family/member/:memberId/bucket',
+            element: <FamilyMemberBucketList />,
+          },
+          {
+            path: 'family/member/:memberId/bucket/:id',
+            element: <FamilyMemberBucketListDetailPage />,
+          },
+          { path: 'wallet', element: <WalletPage /> },
+          { path: 'album', element: <AlbumPage /> },
+          { path: 'mypage', element: <MyPage /> },
+          { path: 'group', element: <GroupJoinPage /> },
+          { path: 'account', element: <LinkAccountPage /> },
+          { path: 'bucket/:id', element: <BucketDetailPage /> },
+          { path: 'bucket-edit/:id', element: <BucketEditPage /> },
+          {
+            path: 'bucket-support/:memberId/:id/:title',
+            element: <SupportPage />,
+          },
+          { path: 'bucket-create', element: <BucketCreatePage /> },
+          { path: 'support/:id', element: <SupportDetailPage /> },
+          { path: 'coupon', element: <CouponPage /> },
+        ],
       },
-      { path: 'bucket-create', element: <BucketCreatePage /> },
-      { path: 'support/:id', element: <SupportDetailPage /> },
-      { path: 'coupon', element: <CouponPage /> },
     ],
   },
 ]);

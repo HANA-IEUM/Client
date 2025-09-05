@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
+import boxPng from '@/assets/bucket-detail/box.png';
 import HanaIcon from '@/assets/common/HanaIcon';
 import Button from '@/components/button/Button';
 import EmptyStateMessage from '@/components/common/EmptyStateMessage';
@@ -245,7 +246,7 @@ const WalletHome: React.FC<WalletHomeProps> = ({
                       <div className="flex items-center gap-4">
                         <div className="ml-2 flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-sm">
                           <img
-                            src="/images/box.png"
+                            src={boxPng}
                             alt="박스 아이콘"
                             className="h-7 w-7"
                           />

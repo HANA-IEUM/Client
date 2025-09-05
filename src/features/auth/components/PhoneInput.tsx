@@ -26,7 +26,7 @@ export const PhoneInput = ({
       if (data.data.available) {
         goNextStep();
       } else {
-        showError('이미 가입된 전화번호예요');
+        showError('이미 가입된 전화번호예요.');
       }
     },
     () => {}
