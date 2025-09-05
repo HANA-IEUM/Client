@@ -188,4 +188,17 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Chrome/Safari/Opera */
   }
+
+  @keyframes floating {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-18px);
+    }
+  }
+  .animate-floating {
+    animation: floating 2.5s ease-in-out infinite;
+  }
 }
