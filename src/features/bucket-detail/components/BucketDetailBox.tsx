@@ -153,7 +153,9 @@ const BucketDetailBox = ({
         onClose={() => setIsDeleteSheetOpen(false)}
       >
         <div className="mt-6 flex flex-col gap-6">
-          <p className="font-hana-bold text-accent-primary text-3xl">⚠️ 주의</p>
+          <span className="font-hana-bold text-accent-primary text-3xl">
+            ⚠️ 주의
+          </span>
           <p className="font-hana-regular text-text-primary text-3xl">
             <span className="font-hana-bold">버킷리스트를 삭제하면</span>
             <br />
