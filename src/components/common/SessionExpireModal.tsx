@@ -22,7 +22,7 @@ const SessionExpireModal = () => {
         <div className="flex justify-end">
           <Button
             intent="green"
-            size="sm"
+            size="md"
             label="확인"
             onClick={() => {
               closeModal();

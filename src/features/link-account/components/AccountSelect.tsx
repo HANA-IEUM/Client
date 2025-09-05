@@ -59,7 +59,7 @@ const AccountSelect = ({
 
       <div className="mt-4 flex w-full flex-col gap-4">
         <AccountItem
-          accountName="하나 플러스 통장"
+          accountName="함께하는 사랑 통장"
           accountNum="022-432122-49182"
         />
         <AccountItem
