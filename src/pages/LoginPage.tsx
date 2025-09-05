@@ -156,7 +156,7 @@ export default function LoginPage() {
 
   const goBack = () => {
     if (step === 1) {
-      navigate(-1);
+      navigate('/');
     } else {
       setDirection(-1);
       setStep(1);

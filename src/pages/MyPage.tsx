@@ -1,6 +1,5 @@
 import type { InputRef } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import rightIcon from '@/assets/common/chevron-right.png';
@@ -13,6 +12,7 @@ import { useLogout } from '@/features/auth/hooks/useLogout.ts';
 import { useMonthlyLivingCost } from '@/hooks/useMonthlyLivingCost.ts';
 import { useAuth } from '@/hooks/useToken.ts';
 import { useUpdateMonthlyLivingCost } from '@/hooks/useUpdateMonthlyLivingCost.ts';
+import { showError, showSuccess } from '@/lib/toast';
 import { formatPhoneNumber } from '@/utils/phoneNumberFormat.ts';
 
 const MyPage = () => {
@@ -26,10 +26,10 @@ const MyPage = () => {
   const updateCostMutation = useUpdateMonthlyLivingCost(
     () => {
       setVisible(false);
-      toast.success('수정을 완료했어요');
+      showSuccess('수정을 완료했어요.');
     },
     () => {
-      toast.error('수정을 실패했어요');
+      showError('수정에 실패했어요. 다시 시도해 주세요.');
     }
   );
 

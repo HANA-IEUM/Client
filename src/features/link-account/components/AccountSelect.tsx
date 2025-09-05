@@ -41,7 +41,7 @@ const AccountSelect = ({
       <div className="mt-6 w-full">
         <div className="flex justify-end">
           <p className="font-hana-regular text-text-secondary">
-            {isLoading ? '로딩 중…' : account ? '총 1개' : '없음'}
+            {isLoading ? '로딩 중…' : account ? '총 3개' : '없음'}
           </p>
         </div>
 
@@ -55,6 +55,17 @@ const AccountSelect = ({
             />
           </div>
         )}
+      </div>
+
+      <div className="mt-4 flex w-full flex-col gap-4">
+        <AccountItem
+          accountName="함께하는 사랑 통장"
+          accountNum="022-432122-49182"
+        />
+        <AccountItem
+          accountName="행복나눔 통장"
+          accountNum="122-597821-92837"
+        />
       </div>
 
       <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
