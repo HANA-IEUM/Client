@@ -1,84 +1,95 @@
-import { useRef, useState } from 'react';
-import { Pagination } from 'swiper/modules';
+import { useState, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper/types';
-
 import 'swiper/css';
-import 'swiper/css/pagination';
+
+import onboardingHouse from '@/assets/onboarding/onboardingHouse.png';
+import onboardingMoneyBox from '@/assets/onboarding/onboardingMoneyBox.png';
+import onboardingTravel from '@/assets/onboarding/onboardingTravel.png';
 import Button from '@/components/button/Button';
+import DotIndicator from '@/components/intro/DotIndicator';
+import IntroSlide from '@/components/intro/IntroSlide';
 import LandingPage from '@/pages/LandingPage';
+
+const slides = [
+  {
+    imageSrc: onboardingTravel,
+    title: '버킷리스트 작성',
+    description:
+      '"꿈을 적는 순간, 새로운 여정이 시작됩니다"\n버킷리스트를 작성하고 관리해 보세요',
+  },
+  {
+    imageSrc: onboardingMoneyBox,
+    title: '머니박스 기능',
+    description:
+      '"버킷리스트를 이루기 위한 저금통"\n편리하게 목표 금액을 모아보세요',
+  },
+  {
+    imageSrc: onboardingHouse,
+    title: '가족 연결',
+    description:
+      '"가족과 함께 이루는 꿈"\n사진으로 추억을 남기고, 후원으로 서로를 응원하세요',
+  },
+];
 
 const OnboardingWrapper = () => {
   const [showOnboarding, setShowOnboarding] = useState(true);
-  const [atLast, setAtLast] = useState(false);
-  const readyRef = useRef(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const swiperRef = useRef<SwiperType | null>(null);
 
   if (!showOnboarding) return <LandingPage />;
 
   const handleSlideChange = (swiper: SwiperType) => {
-    const isLast = swiper.activeIndex === swiper.slides.length - 1;
-    setAtLast(isLast);
-    if (!isLast) readyRef.current = false;
+    setCurrentIndex(swiper.activeIndex);
   };
 
-  const handleTransitionEnd = (swiper: SwiperType) => {
-    const isLast = swiper.activeIndex === swiper.slides.length - 1;
-    readyRef.current = isLast;
-  };
-
-  const handleTouchEnd = (swiper: SwiperType) => {
-    if (
-      swiper.isEnd &&
-      atLast &&
-      readyRef.current &&
-      swiper.swipeDirection === 'next'
-    ) {
+  const handleNext = () => {
+    if (currentIndex < slides.length - 1) {
+      swiperRef.current?.slideNext();
+    } else {
       setShowOnboarding(false);
     }
   };
 
+  const handleDotClick = (index: number) => {
+    swiperRef.current?.slideTo(index);
+  };
+
   return (
-    <div className="h-full w-full">
-      <Swiper
-        modules={[Pagination]}
-        pagination={{ clickable: true }}
-        className="h-full w-full"
-        onSlideChange={handleSlideChange}
-        onTransitionEnd={handleTransitionEnd}
-        onTouchEnd={handleTouchEnd}
-      >
-        <SwiperSlide>
-          <div className="font-hana-bold flex h-full flex-col items-center justify-center">
-            <h1 className="text-3xl font-bold">
-              하나이음에 오신 것을 환영합니다
-            </h1>
-            <p className="mt-4">쉽고 빠른 금융 경험을 시작해 보세요</p>
-          </div>
-        </SwiperSlide>
+    <div className="bg-background flex h-full flex-col">
+      <div className="flex-1">
+        <Swiper
+          onSwiper={(swiper) => (swiperRef.current = swiper)}
+          onSlideChange={handleSlideChange}
+          spaceBetween={24}
+          slidesPerView={1}
+          className="h-full w-full"
+        >
+          {slides.map((slide, index) => (
+            <SwiperSlide key={index}>
+              <IntroSlide {...slide} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
 
-        <SwiperSlide>
-          <div className="font-hana-bold flex h-full flex-col items-center justify-center">
-            <h1 className="text-3xl font-bold">버킷리스트와 함께하는 금융</h1>
-            <p className="mt-4">당신의 목표를 응원합니다</p>
-          </div>
-        </SwiperSlide>
+      <div className="flex flex-col items-center justify-center space-y-20 pb-8">
+        <DotIndicator
+          total={slides.length}
+          current={currentIndex}
+          onDotClick={handleDotClick}
+        />
 
-        <SwiperSlide>
-          <div className="font-hana-bold flex h-full flex-col items-center justify-center px-6 text-center">
-            <h1 className="text-3xl font-bold">시작해 볼까요?</h1>
-            <p className="mt-4">한 번 더 넘기면 로그인 화면으로 이동합니다</p>
-
-            <div className="mt-10 w-full max-w-md">
-              <Button
-                intent="green"
-                size="full"
-                label="바로 시작하기"
-                onClick={() => setShowOnboarding(false)}
-              />
-            </div>
-          </div>
-        </SwiperSlide>
-      </Swiper>
+        <div className="w-[90%]">
+          <Button
+            label={currentIndex === slides.length - 1 ? '시작하기' : '다음'}
+            intent="green"
+            size="full"
+            onClick={handleNext}
+            className="!font-hana-bold !h-11 !text-2xl"
+          />
+        </div>
+      </div>
     </div>
   );
 };
