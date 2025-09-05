@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
 
-import checkCircleSvg from '@/assets/common/toast/checkCircle.svg';
 import messageIcon from '@/assets/common/user/message.png';
 import Button from '@/components/button/Button.tsx';
 import BoxInput, {

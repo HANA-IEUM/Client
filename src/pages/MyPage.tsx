@@ -1,6 +1,5 @@
 import type { InputRef } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import rightIcon from '@/assets/common/chevron-right.png';
