@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom';
 
-import errorCheckCircle from '@/assets/common/toast/ErrorCheckCircle.svg';
+import errorCheckCircle from '@/assets/common/toast/errorCheckCircle.svg';
 import { useSessionStore } from '@/stores/useSessionStore';
 
 import Button from '../button/Button';
