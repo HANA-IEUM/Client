@@ -20,9 +20,10 @@ const FamilyGroupEmptyStateCard = ({
 
   return (
     <div className="relative flex h-full w-full flex-col items-center px-6 pt-28">
-      <div className="font-hana-regular flex w-full flex-col text-3xl">
+      <div className="font-hana-regular text-text-primary flex w-full flex-col text-3xl">
         <p>
           <span className="font-hana-bold">{user?.name || '고객'}</span>님은
+          <br />
           아직 가족 그룹에 <br />
           속해있지 않아요
         </p>
@@ -34,10 +35,12 @@ const FamilyGroupEmptyStateCard = ({
       >
         <img src={inviteSvg} />
         <div className="flex flex-col gap-1">
-          <span className="font-hana-regular text-xl">
+          <span className="font-hana-regular text-text-primary text-xl">
             이미 초대코드를 받았다면
           </span>
-          <span className="font-hana-bold text-2xl">가족 그룹 참여하기</span>
+          <span className="font-hana-bold text-text-primary text-2xl">
+            가족 그룹 참여하기
+          </span>
         </div>
       </div>
 
@@ -66,7 +69,7 @@ const FamilyGroupEmptyStateCard = ({
             onClick={onHide}
             className="flex cursor-pointer items-center justify-center"
           >
-            <span className="font-hana-bold text-line text-lg">
+            <span className="font-hana-bold text-line pb-9 text-2xl">
               다시 보지 않기
             </span>
           </div>
