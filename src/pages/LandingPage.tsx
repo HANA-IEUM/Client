@@ -14,7 +14,7 @@ const LandingPage = () => {
         className="animate-floating h-auto w-96"
       />
 
-      <div className="font-hana-bold text-text-secondary text-center text-xl">
+      <div className="font-hana-bold text-text-secondary mt-3 text-center text-xl">
         "꿈꾸는 순간부터 이뤄지는 순간까지"
       </div>
 

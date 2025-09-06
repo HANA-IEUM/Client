@@ -28,7 +28,7 @@ const slides = [
     imageSrc: onboardingHouse,
     title: '가족 연결',
     description:
-      '"가족과 함께 이루는 꿈"\n사진으로 추억을 남기고, 후원으로 서로를 응원하세요',
+      '"가족과 함께 이루는 꿈"\n사진으로 추억을 남기고,\n후원으로 서로를 응원하세요',
   },
 ];
 
