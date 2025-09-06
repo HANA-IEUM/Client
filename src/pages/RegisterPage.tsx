@@ -170,7 +170,7 @@ export default function RegisterPage() {
           </motion.div>
         )}
       </AnimatePresence>
-      {step < 6 ? (
+      {step <= 6 ? (
         <>
           <div className="pt-5">
             <Stepper totalSteps={TOTAL_STEPS} currentStep={step} />
@@ -179,7 +179,7 @@ export default function RegisterPage() {
       ) : (
         <></>
       )}
-      <div className="relative my-10 flex-grow overflow-hidden">
+      <div className="relative mb-10 flex-grow overflow-hidden">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={step}

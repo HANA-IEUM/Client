@@ -61,34 +61,34 @@ export const PhoneVerification = ({
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex-grow space-y-6">
-        <div className="bg-theme-secondary mx-auto flex h-16 w-16 items-center justify-center rounded-full">
-          <img src={messageIcon} alt="message" className="h-10 w-10" />
+      <div className="flex-grow">
+        <div className="bg-theme-secondary mx-auto my-15 flex h-24 w-24 items-center justify-center rounded-full">
+          <img src={messageIcon} alt="message" className="h-11 w-11" />
         </div>
-        <p className="font-hana-regular text-left text-3xl">
+        <p className="font-hana-regular !mb-9.5 text-left text-3xl">
           <span className="font-hana-bold">{phoneNumber}</span>로 받은 <br />
           <span className="font-hana-bold">인증번호</span>를 입력해 주세요
         </p>
         <BoxInput ref={boxInputRef} length={6} onChange={setPin} value={pin} />
+      </div>
+      <div className="flex flex-col gap-7">
         <div className="text-center">
           <Button
             label="인증번호 재전송"
-            font="regular"
-            size="full-lg"
+            size="full"
             intent="gray"
             onClick={handleResend}
           ></Button>
         </div>
+        <Button
+          label="확 인"
+          size="full"
+          intent="green"
+          onClick={handleConfirm}
+          disabled={pin.length !== 6 || verificationConfirmMutation.isPending} // 6자리 입력 & 로딩 중 아닐 때 활성화
+          loading={verificationConfirmMutation.isPending}
+        />
       </div>
-      <Button
-        label="확 인"
-        size="full-lg"
-        intent="green"
-        font="regular"
-        onClick={handleConfirm}
-        disabled={pin.length !== 6 || verificationConfirmMutation.isPending} // 6자리 입력 & 로딩 중 아닐 때 활성화
-        loading={verificationConfirmMutation.isPending}
-      />
     </div>
   );
 };
