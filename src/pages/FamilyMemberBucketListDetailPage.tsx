@@ -44,25 +44,19 @@ const FamilyMemberBucketListDetailPage = () => {
     }
   }, [bucketId, refetchSupportHistory]);
 
-  // 더미 데이터 (API 연동 전까지 사용)
-  const dummyBucketDetail = {
-    title: '결혼자금 보태주기',
-    togetherFlag: false,
-    targetAmount: 4000000,
-    targetDate: '2026.09.10',
-  };
-
-  // 더미 데이터는 이제 필요 없음 (useSupportHistory로 실제 API 데이터 사용)
-
   const member = groupInfo?.members?.find(
     (m) => m.memberId.toString() === memberId
   ) || { name: '가족 구성원' };
 
-  // 디버깅용 로그
-  console.log('실제 API 데이터:', supportHistory);
-
   const handleBack = () => {
-    navigate(`/family/member/${memberId}/bucket`);
+    const from = (window.history.state as { usr?: { from?: string } })?.usr
+      ?.from;
+
+    if (from === 'home') {
+      navigate('/home');
+    } else {
+      navigate(`/family/member/${memberId}/bucket`);
+    }
   };
 
   if (!member) {
@@ -84,7 +78,7 @@ const FamilyMemberBucketListDetailPage = () => {
       style={{ overscrollBehavior: 'none' }}
     >
       <BucketDetailHeader
-        title={bucketDetail?.title ?? dummyBucketDetail.title}
+        title={bucketDetail?.title ?? '버킷리스트'}
         onClick={handleBack}
       />
       <BucketInfo
@@ -93,10 +87,8 @@ const FamilyMemberBucketListDetailPage = () => {
             ? '함께'
             : '혼자'
         }
-        targetAmount={
-          bucketDetail?.targetAmount ?? dummyBucketDetail.targetAmount
-        }
-        targetPeriod={bucketDetail?.targetDate ?? dummyBucketDetail.targetDate}
+        targetAmount={bucketDetail?.targetAmount ?? 0}
+        targetPeriod={bucketDetail?.targetDate ?? ''}
         participants={bucketDetail?.participants ?? []}
       />
       <div className="bg-theme-secondary mt-7 flex flex-1 flex-col rounded-t-3xl p-6 pt-11">
