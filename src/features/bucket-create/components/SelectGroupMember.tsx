@@ -41,7 +41,7 @@ export const SelectGroupMember = ({
           </div>
         </div>
       </div>
-      <Button label="다 음" size="full-lg" intent="green" onClick={onNext} />
+      <Button label="다 음" size="full" intent="green" onClick={onNext} />
     </div>
   );
 };

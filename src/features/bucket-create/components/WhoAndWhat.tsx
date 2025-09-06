@@ -35,7 +35,7 @@ export const WhoAndWhat = ({
           입력해 주세요
         </p>
 
-        <div className="flex w-full items-center gap-15">
+        <div className="flex w-full items-center gap-10">
           <span className="font-hana-regular text-3xl">
             <span className="font-hana-bold">가족</span>에게 버킷 공개{' '}
           </span>
@@ -89,7 +89,7 @@ export const WhoAndWhat = ({
 
       <Button
         label="다 음"
-        size="full-lg"
+        size="full"
         intent="green"
         onClick={onNext}
         disabled={!title}

@@ -24,7 +24,7 @@ export const HomeHeader = ({ name }: HomeHeaderProps) => {
             label="등록하기"
             intent="yellow"
             size="lg"
-            font="regular"
+            className="!h-10 !w-36 !text-xl"
             onClick={handleRegisterClick}
             loading={checkCreationMutation.isPending}
           />

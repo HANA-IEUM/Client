@@ -46,9 +46,8 @@ export const GoalPeriod = ({
       </div>
       <Button
         label="다 음"
-        size="full-lg"
+        size="full"
         intent="green"
-        font={'regular'}
         onClick={handleNext}
         disabled={!period}
       />
@@ -92,10 +91,9 @@ export const GoalPeriod = ({
             우대금리 <span className="font-hana-bold">1%</span>가 추가돼요️
           </p>
           <Button
-            label={'확 인'}
-            font={'regular'}
-            size={'full-lg'}
-            intent={'green'}
+            label="확 인"
+            size="full"
+            intent="green"
             onClick={() => setVisible(false)}
           />
         </div>
