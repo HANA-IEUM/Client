@@ -131,6 +131,10 @@ export function useFillMoneyBox() {
       queryClient.invalidateQueries({ queryKey: walletQK.moneyBoxes });
       queryClient.invalidateQueries({ queryKey: ['wallet', 'moneyBoxInfo'] });
       queryClient.invalidateQueries({ queryKey: walletQK.mainAccount });
+      queryClient.invalidateQueries({
+        queryKey: ['wallet', 'accountTransactions'],
+        exact: false,
+      });
     },
   });
 }
