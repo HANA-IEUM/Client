@@ -11,6 +11,7 @@ import {
 import { HomeHeader } from '@/features/home/components/HomeHeader.tsx';
 import { useBucketLists } from '@/features/home/hooks/useBucketLists.ts';
 import { useAuth } from '@/hooks/useToken.ts';
+import type { BucketListItem as BucketListItemType } from '@/types/bucket';
 import { formatKoreanDateTime } from '@/utils/dateFormat.ts';
 
 const HomePage = () => {
@@ -46,6 +47,17 @@ const HomePage = () => {
     completed: '종료된 버킷리스트가 없어요',
     participated: '참여중인 버킷리스트가 없어요',
   };
+
+  const handleBucketClick = (item: BucketListItemType) => {
+    if (selected === 'participated') {
+      navigate(`/family/member/${item.memberId}/bucket/${item.id}`, {
+        state: { from: 'home' },
+      });
+    } else {
+      navigate(`/bucket/${item.id}`);
+    }
+  };
+
   return (
     <div className="mx-auto flex h-full w-full max-w-md flex-col bg-white">
       <HomeHeader name={user?.name || '유저'} />
@@ -70,7 +82,7 @@ const HomePage = () => {
                     date={formatKoreanDateTime(item.targetDate, false)}
                     category={item.type}
                     completed={item.status === 'COMPLETED'}
-                    onClick={() => navigate(`/bucket/${item.id}`)}
+                    onClick={() => handleBucketClick(item)}
                   />
                 ))
               ) : (
