@@ -12,6 +12,7 @@ import {
 } from '@/features/wallet/hooks/useMainAccount';
 import type { Box } from '@/features/wallet/types';
 import { showSuccess, showError } from '@/lib/toast';
+import { formatTwoDigits } from '@/utils/numberFormat';
 
 interface BoxEditProps {
   box: Box;
@@ -47,7 +48,9 @@ const BoxEdit: React.FC<BoxEditProps> = ({ box, onBack, onSave }) => {
       setAutomaticTransfer(!!editInfo.nextAutoTransferEnabled);
       setMonthlyAmount(editInfo.nextMonthlyAmount ?? 0);
       setTransferDay(
-        editInfo.nextTransferDay != null ? String(editInfo.nextTransferDay) : ''
+        editInfo.nextTransferDay != null
+          ? formatTwoDigits(editInfo.nextTransferDay)
+          : ''
       );
       setInitialized(true);
     }
