@@ -55,9 +55,9 @@ const SupportBottomSheet = ({
   };
 
   return (
-    <BottomSheet isOpen={open} onClose={onClose} maxHeight="90vh">
+    <BottomSheet isOpen={open} onClose={onClose} maxHeight="80vh">
       {step === 'confirm' && (
-        <div className="flex min-h-[675px] flex-col gap-4">
+        <div className="mt-4 flex min-h-[675px] flex-col gap-4">
           <div className="font-hana-regular mb-6 w-full text-3xl">
             <p>
               <span className="font-hana-bold">{bucketTitle}</span> 버킷을
@@ -76,6 +76,7 @@ const SupportBottomSheet = ({
               <Button
                 intent="gray"
                 label="아니요"
+                size="full"
                 onClick={() => {
                   onSubmit({ amount: null, pin: null });
                   onClose();
@@ -85,6 +86,7 @@ const SupportBottomSheet = ({
               <Button
                 intent="green"
                 label="후원하기"
+                size="full"
                 onClick={() => setStep('amount')}
                 className="w-2/3"
               />
@@ -94,9 +96,9 @@ const SupportBottomSheet = ({
       )}
 
       {step === 'amount' && (
-        <div className="flex min-h-[675px] flex-col gap-4">
+        <div className="mt-4 flex min-h-[675px] flex-col gap-4">
           <div className="font-hana-regular mb-6 w-full text-3xl">
-            <p>
+            <p className="!mb-0">
               <span className="font-hana-bold">금액</span>을 입력해 주세요
             </p>
           </div>
@@ -129,6 +131,7 @@ const SupportBottomSheet = ({
               <Button
                 intent="gray"
                 label="뒤로"
+                size="full"
                 onClick={() => setStep('confirm')}
                 className="w-1/3"
               />
@@ -136,6 +139,7 @@ const SupportBottomSheet = ({
                 intent={isAmountValid ? 'green' : 'gray'}
                 disabled={!isAmountValid}
                 label="확인"
+                size="full"
                 onClick={() => setStep('pin')}
                 className="w-2/3"
               />
@@ -145,7 +149,7 @@ const SupportBottomSheet = ({
       )}
 
       {step === 'pin' && (
-        <div className="flex min-h-[675px] flex-col gap-4">
+        <div className="mt-4 flex min-h-[675px] flex-col gap-4">
           <div className="font-hana-regular mb-6 w-full text-3xl">
             <p>
               계좌 <span className="font-hana-bold">비밀번호</span>를
@@ -169,6 +173,7 @@ const SupportBottomSheet = ({
               <Button
                 intent="gray"
                 label="뒤로"
+                size="full"
                 onClick={() => setStep('amount')}
                 className="w-1/3"
               />
@@ -176,6 +181,7 @@ const SupportBottomSheet = ({
                 intent={isPinValid ? 'green' : 'gray'}
                 disabled={!isPinValid}
                 label="후원하기"
+                size="full"
                 onClick={() => {
                   onSubmit({ amount: Number(rawAmount), pin });
                   onClose();

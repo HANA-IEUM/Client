@@ -10,6 +10,7 @@ interface EmptyStateMessageProps {
   titleColor?: string;
   subtitleColor?: string;
   subtitleFont?: 'regular' | 'bold';
+  customPadding?: boolean;
 }
 
 const EmptyStateMessage = ({
@@ -22,6 +23,7 @@ const EmptyStateMessage = ({
   titleColor = 'text-line',
   subtitleColor = 'text-line',
   subtitleFont = 'bold',
+  customPadding = false,
 }: EmptyStateMessageProps) => {
   const iconSizeClasses = {
     sm: 'w-24 h-20',
@@ -30,7 +32,9 @@ const EmptyStateMessage = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center py-20">
+    <div
+      className={`flex flex-col items-center justify-center ${customPadding ? 'py-10' : 'py-20'}`}
+    >
       <div
         className={`${iconSizeClasses[iconSize]} mb-6 flex items-center justify-center`}
       >
@@ -50,7 +54,12 @@ const EmptyStateMessage = ({
           <p
             className={`font-hana-${subtitleFont} !mb-0 text-2xl ${subtitleColor}`}
           >
-            {subtitle}
+            {subtitle.split('\n').map((line, index) => (
+              <span key={index}>
+                {line}
+                {index < subtitle.split('\n').length - 1 && <br />}
+              </span>
+            ))}
           </p>
         )}
       </div>

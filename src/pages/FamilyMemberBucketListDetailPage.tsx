@@ -130,12 +130,13 @@ const FamilyMemberBucketListDetailPage = () => {
               subtitle={
                 bucketDetail?.bucketListStatus === 'COMPLETED'
                   ? undefined
-                  : '작성하기 버튼을 눌러 응원해 보세요!'
+                  : '작성하기 버튼을 눌러\n응원해 보세요!'
               }
               iconColor="brightness(0) saturate(100%) invert(40%) sepia(0%) sepia(0%) hue-rotate(0deg) brightness(100%) contrast(100%)"
               titleColor="text-text-secondary"
               subtitleColor="text-text-secondary"
               subtitleFont="regular"
+              customPadding={true}
             />
           )}
         </div>
