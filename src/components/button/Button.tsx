@@ -1,5 +1,6 @@
-import React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
+import React from 'react';
+
 import { cn } from '@/lib/cn';
 
 const buttonVariants = cva(
@@ -21,7 +22,7 @@ const buttonVariants = cva(
         md: 'px-4 py-2 !text-base h-10',
         lg: 'px-6 py-3 !text-lg h-12',
         xl: 'px-8 py-4 !text-xl h-14',
-        full: 'w-full px-4 py-2 !text-base h-10',
+        full: 'w-full !px-3.5 !py-1 !text-2xl !h-12',
         'full-lg': 'w-full px-6 py-3 !text-lg h-12',
       },
       font: {
@@ -77,7 +78,7 @@ export default function Button({
       onClick={!loading && !isDisabled ? onClick : undefined}
       className={cn(
         buttonVariants({ intent, size, font, radius }),
-        isDisabled && intent !== 'disable' && 'opacity-50 cursor-not-allowed',
+        isDisabled && intent !== 'disable' && 'cursor-not-allowed opacity-50',
         className
       )}
       {...props}

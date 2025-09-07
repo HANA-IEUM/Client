@@ -1,11 +1,12 @@
-import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import SelectLetterType from '@/features/support/components/SelectLetterType';
-import { useNavigate } from 'react-router-dom';
 import WriteTextAndSupport from '@/features/support/components/WriteTextAndSupport';
-import { useParams } from 'react-router-dom';
 import { useSupport } from '@/features/support/hooks/useSupports';
+import { useGAEvent } from '@/hooks/useGAEvent';
 import { showError, showSuccess } from '@/lib/toast';
 
 type SupportInfo = {
@@ -18,8 +19,17 @@ type SupportInfo = {
 
 const SupportPage = () => {
   const navigate = useNavigate();
+  const trackSupportEvent = useGAEvent('support');
   const [step, setStep] = useState(0);
-  const { id: bucketId } = useParams<{ id: string }>();
+  const {
+    memberId: memberId,
+    id: bucketId,
+    title: title,
+  } = useParams<{
+    id: string;
+    memberId: string;
+    title: string;
+  }>();
   const { mutate: support } = useSupport(Number(bucketId));
   const [supportInfo, setSupportInfo] = useState<SupportInfo>({
     letterColor: 'PINK',
@@ -38,6 +48,7 @@ const SupportPage = () => {
   };
 
   const handleChangeSupportType = (type: string) => {
+    trackSupportEvent('support_type_selected', type);
     setSupportInfo((prev) => ({ ...prev, supportType: type }));
   };
 
@@ -49,15 +60,20 @@ const SupportPage = () => {
     amount: number | null;
     pin: string | null;
   }) => {
-    if (payload.amount === null && payload.pin === null) {
-      console.log('응원 요청', { message: supportInfo.message });
-    } else {
-      console.log('후원 요청', {
-        message: supportInfo.message,
-        amount: payload.amount,
-        pin: payload.pin,
-      });
-    }
+    // if (payload.amount === null && payload.pin === null) {
+    //   console.log('응원 요청', { message: supportInfo.message });
+    // } else {
+    //   console.log('후원 요청', {
+    //     message: supportInfo.message,
+    //     amount: payload.amount,
+    //     pin: payload.pin,
+    //   });
+    // }
+
+    trackSupportEvent(
+      'support_submit_attempt',
+      payload.amount === null ? 'cheer' : 'sponsor'
+    );
 
     support(
       {
@@ -69,10 +85,18 @@ const SupportPage = () => {
       },
       {
         onSuccess: () => {
+          trackSupportEvent(
+            'support_submit_success',
+            payload.amount === null ? 'cheer' : 'sponsor'
+          );
           showSuccess('응원이 성공적으로 완료되었어요.');
-          navigate('/home');
+          navigate(`/family/member/${memberId}/bucket/${bucketId}`);
         },
         onError: (error) => {
+          trackSupportEvent(
+            'support_submit_failed',
+            payload.amount === null ? 'cheer' : 'sponsor'
+          );
           showError('응원에 실패했어요. 다시 시도해 주세요.');
         },
       }
@@ -80,7 +104,7 @@ const SupportPage = () => {
   };
 
   return (
-    <div className="relative w-full h-[100dvh] overflow-hidden px-6">
+    <div className="relative h-[100dvh] w-full overflow-hidden px-6">
       <AnimatePresence mode="sync" initial={false}>
         <motion.div
           key={step}
@@ -88,12 +112,18 @@ const SupportPage = () => {
           animate={{ x: 0 }}
           exit={{ x: '-100%' }}
           transition={{ duration: 0.28, ease: 'easeInOut' }}
-          className="absolute inset-0 w-full h-full transform-gpu will-change-transform"
+          className="absolute inset-0 h-full w-full transform-gpu will-change-transform"
         >
           {step === 0 && (
             <SelectLetterType
               handleChangeLetterColor={handleChangeLetterColor}
-              onNext={() => setStep(step + 1)}
+              onNext={() => {
+                trackSupportEvent(
+                  'support_letter_selected',
+                  supportInfo.letterColor
+                );
+                setStep(step + 1);
+              }}
               onBack={() => navigate(-1)}
             />
           )}
@@ -105,6 +135,7 @@ const SupportPage = () => {
               handleChangeSupportType={handleChangeSupportType}
               handleChangeSupportAmount={handleChangeSupportAmount}
               onSubmit={handleSupportSubmit}
+              title={title ?? ''}
             />
           )}
         </motion.div>

@@ -1,29 +1,37 @@
-import Button from '@/components/button/Button';
 import { useNavigate } from 'react-router-dom';
+
+import hanaIeumLogo from '@/assets/onboarding/hanaIeumLogo.png';
+import Button from '@/components/button/Button';
 
 const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="relative h-full flex flex-col items-center w-full pt-28 px-6">
-      <div className="font-hana-regular text-3xl flex flex-col w-full">
-        <p>하나이음</p>
+    <div className="relative flex h-full w-full flex-col items-center justify-start px-6 pt-25">
+      <img
+        src={hanaIeumLogo}
+        alt="하나이음 로고"
+        className="animate-floating h-auto w-96"
+      />
+
+      <div className="font-hana-bold text-text-secondary mt-3 text-center text-xl">
+        "꿈꾸는 순간부터 이뤄지는 순간까지"
       </div>
 
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
+      <div className="absolute bottom-9 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
         <div className="flex flex-col gap-5">
           <Button
             intent={'green'}
             label="로그인"
             size="full"
-            className="h-[46px]"
+            className="!font-hana-bold !h-11 !text-2xl"
             onClick={() => navigate('/login')}
           />
           <Button
             intent={'mint'}
             label="회원가입"
             size="full"
-            className="h-[46px]"
+            className="!font-hana-bold !h-11 !text-2xl"
             onClick={() => navigate('/register')}
           />
         </div>

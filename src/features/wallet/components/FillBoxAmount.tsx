@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+
 import Button from '@/components/button/Button';
 import Input from '@/components/input/Input';
-import type { Box } from '../types';
+import type { Box } from '@/features/wallet/types';
 
 interface FillBoxAmountProps {
   box: Box;
@@ -29,7 +30,7 @@ const FillBoxAmount: React.FC<FillBoxAmountProps> = ({
 
   return (
     <>
-      <p className="text-3xl font-hana-regular text-text-primary !mb-8 !mt-3">
+      <p className="font-hana-regular text-text-primary !mt-3 !mb-8 text-3xl">
         <span className="font-hana-bold">금액</span>을 입력해 주세요
       </p>
 
@@ -42,29 +43,22 @@ const FillBoxAmount: React.FC<FillBoxAmountProps> = ({
               placeholder="100,000"
               intent="green"
               font="regular"
-              className="!text-2xl !px-4"
+              className="!px-4 !text-2xl"
             />
           </div>
-          <span className="text-4xl font-hana-medium text-text-secondary whitespace-nowrap">
+          <span className="font-hana-medium text-text-secondary text-4xl whitespace-nowrap">
             원
           </span>
         </div>
       </div>
 
       <div className="mt-114 flex gap-3">
-        <Button
-          intent="silver"
-          size="lg"
-          font="regular"
-          className="flex-1"
-          onClick={onBack}
-        >
+        <Button intent="silver" size="full" className="flex-1" onClick={onBack}>
           뒤로
         </Button>
         <Button
           intent={hasAmount ? 'green' : 'silver'}
-          size="lg"
-          font="bold"
+          size="full"
           className="flex-1"
           onClick={() => onConfirm(amount)}
           disabled={!hasAmount}

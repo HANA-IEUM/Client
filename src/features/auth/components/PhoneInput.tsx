@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from 'react';
 import type { InputRef } from 'antd';
-import { useVerification } from '@/features/auth/hooks/useVerification.ts';
+import React, { useEffect, useRef } from 'react';
+
 import phoneIcon from '@/assets/common/user/phone.png';
-import Input from '@/components/input/Input.tsx';
 import Button from '@/components/button/Button.tsx';
+import Input from '@/components/input/Input.tsx';
+import { useCheckPhoneNumber } from '@/features/auth/hooks/useCheckPhoneNumber.ts';
+import { useVerification } from '@/features/auth/hooks/useVerification.ts';
+import { showError } from '@/lib/toast';
 
 export type PhoneInputProps = {
   phoneNumber: string;
@@ -18,12 +21,28 @@ export const PhoneInput = ({
 }: PhoneInputProps) => {
   const inputRef = useRef<InputRef>(null);
 
+  const checkPhoneNumberMutation = useCheckPhoneNumber(
+    (data) => {
+      if (data.data.available) {
+        goNextStep();
+      } else {
+        showError('이미 가입된 전화번호예요.');
+      }
+    },
+    () => {}
+  );
   const verificationMutation = useVerification(
     () => {},
     () => {}
   );
 
   const buttonClick = () => {
+    checkPhoneNumberMutation.mutate({
+      phoneNumber: phoneNumber,
+    });
+  };
+
+  const goNextStep = () => {
     onNext();
     verificationMutation.mutate({
       to: phoneNumber,
@@ -34,12 +53,12 @@ export const PhoneInput = ({
   }, []);
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-grow space-y-6">
-        <div className="w-16 h-16 bg-theme-secondary rounded-full flex items-center justify-center mx-auto">
-          <img src={phoneIcon} alt="phone" className="w-10 h-10" />
+    <div className="flex h-full flex-col">
+      <div className="flex-grow">
+        <div className="bg-theme-secondary mx-auto my-15 flex h-24 w-24 items-center justify-center rounded-full">
+          <img src={phoneIcon} alt="phone" className="h-11 w-11" />
         </div>
-        <p className="text-3xl font-hana-regular pt-4 text-left">
+        <p className="font-hana-regular !mb-9.5 text-left text-3xl">
           <span className="font-hana-bold">전화번호</span>를 입력해주세요
         </p>
         <Input
@@ -53,9 +72,8 @@ export const PhoneInput = ({
       </div>
       <Button
         label="확 인"
-        size="full-lg"
+        size="full"
         intent="green"
-        font="regular"
         onClick={buttonClick}
         disabled={phoneNumber.length < 10} // 전화번호가 입력되어야 활성화
       />

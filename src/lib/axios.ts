@@ -1,11 +1,13 @@
 import axios, { type InternalAxiosRequestConfig } from 'axios';
+
+import { refreshToken as refreshTokenAPI } from '@/features/auth/apis/auth';
 import {
+  clearTokens,
   getAccessToken,
   getRefreshToken,
   setTokens,
-  clearTokens,
 } from '@/lib/token';
-import { refreshToken as refreshTokenAPI } from '@/features/auth/apis/auth';
+import { useSessionStore } from '@/stores/useSessionStore';
 
 let isRefreshing = false;
 let failedQueue: ((token: string) => void)[] = [];
@@ -42,6 +44,9 @@ api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+    if (originalRequest.url === '/auth/logout') {
+      return Promise.reject(error);
+    }
 
     if (error.response?.status === 403 && !originalRequest._retry) {
       if (isRefreshing) {
@@ -61,7 +66,8 @@ api.interceptors.response.use(
         if (!currentRefreshToken) {
           // 재발급에 사용할 토큰이 없으면 로그인 페이지로 보냅니다.
           clearTokens();
-          window.location.href = '/login';
+          useSessionStore.getState().openModal('로그인이 필요한 서비스입니다.');
+          // window.location.href = '/login';
           return Promise.reject(error);
         }
         const response = await refreshTokenAPI({
@@ -78,7 +84,10 @@ api.interceptors.response.use(
         return api(originalRequest);
       } catch (refreshError) {
         clearTokens();
-        window.location.href = '/login';
+        useSessionStore
+          .getState()
+          .openModal('인증이 만료되었습니다. 다시 로그인해주세요.');
+        // window.location.href = '/login';
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;

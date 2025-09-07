@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchSupportDetail } from '../apis/support';
+
 import type { SupportHistory } from '@/types/supportHistory';
+
+import { fetchSupportDetail } from '../apis/support';
 
 export const supportQK = {
   detail: (supportId: number) => ['support', 'detail', supportId] as const,

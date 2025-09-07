@@ -8,7 +8,7 @@ export type AccountItemProps = {
   accountName?: string;
   accountNum?: string;
   selected?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 export type BucketStateItemProps = {

@@ -1,6 +1,6 @@
-import type { AccountItemProps } from '@/types/common';
 import CheckIcon from '@/assets/common/CheckIcon';
 import HanaIcon from '@/assets/common/HanaIcon';
+import type { AccountItemProps } from '@/types/common';
 
 const AccountItem = ({
   accountName = '달달 하나 통장',
@@ -10,11 +10,10 @@ const AccountItem = ({
 }: AccountItemProps) => {
   return (
     <div
-      className={`w-full h-[66px] flex justify-between items-center cursor-pointer py-2 pl-3 pr-2 shadow-sm rounded-md transition-colors
-        ${selected ? 'bg-accent-secondary' : 'bg-btn-default-bg'}`}
+      className={`flex h-[66px] w-full cursor-pointer items-center justify-between rounded-md py-2 pr-2 pl-3 shadow-sm transition-colors ${selected ? 'bg-accent-secondary' : 'bg-btn-default-bg'}`}
       onClick={onClick}
     >
-      <div className="flex justify-center items-center gap-4">
+      <div className="flex items-center justify-center gap-4">
         <HanaIcon />
         <div className="flex flex-col">
           <span className="font-hana-bold text-primary text-xl">
@@ -24,7 +23,7 @@ const AccountItem = ({
         </div>
       </div>
 
-      <div className="flex justify-center items-center">
+      <div className="flex items-center justify-center">
         <CheckIcon selected={selected} />
       </div>
     </div>

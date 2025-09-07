@@ -1,0 +1,7 @@
+{
+  "editor.formatOnSave": true, // 저장 시 포맷팅 (Prettier)
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  }
+}

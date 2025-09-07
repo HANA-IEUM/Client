@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import type { BoxInfoProps } from '../types/props.ts';
 import { Switch, type InputRef } from 'antd';
-import Input from '@/components/input/Input';
+import React, { useEffect, useRef } from 'react';
+
 import Button from '@/components/button/Button';
 import BoxInput from '@/components/common/BoxInput.tsx';
+import Input from '@/components/input/Input';
+
+import type { BoxInfoProps } from '../types/props.ts';
 
 // Step 6: 박스 정보 입력
 export const BoxInfo = ({
@@ -35,9 +37,9 @@ export const BoxInfo = ({
     }
   }, [automaticTransfer]);
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <div className="flex-grow space-y-6 text-left">
-        <p className="font-hana-regular text-3xl mb-3">
+        <p className="font-hana-regular mb-3 text-3xl">
           <span className="font-hana-bold">박스 별명</span>을 입력해 주세요
         </p>
         <Input
@@ -47,7 +49,7 @@ export const BoxInfo = ({
             setBoxName(e.target.value)
           }
         />
-        <div className="flex items-center gap-15 w-full my-10">
+        <div className="my-10 flex w-full items-center gap-15">
           <span className="font-hana-regular text-3xl">
             <span className="font-hana-bold">자동이체</span> 설정{' '}
           </span>
@@ -66,7 +68,7 @@ export const BoxInfo = ({
         {automaticTransfer ? (
           <>
             <div className="mt-10">
-              <p className="font-hana-regular text-3xl mb-3">
+              <p className="font-hana-regular mb-3 text-3xl">
                 <span className="font-hana-bold">매월 박스에 충전할 금액</span>
                 을
                 <br />
@@ -80,21 +82,21 @@ export const BoxInfo = ({
                   type="text"
                   intent="green"
                 />
-                <span className="text-3xl font-hana-regular">원</span>
+                <span className="font-hana-regular text-3xl">원</span>
               </div>
               <div className="mt-10">
-                <p className="font-hana-regular text-3xl mb-3">
+                <p className="font-hana-regular mb-3 text-3xl">
                   <span className="font-hana-bold">자동이체일</span>을 입력해
                   주세요
                 </p>
-                <div className="flex gap-4 items-center">
+                <div className="flex items-center gap-4">
                   <BoxInput
                     length={2}
                     value={transferDay}
                     onChange={setTransferDay}
                     align="start"
                   />
-                  <p className="text-3xl font-hana-regular !m-0">일</p>
+                  <p className="font-hana-regular !m-0 text-3xl">일</p>
                 </div>
               </div>
             </div>
@@ -106,9 +108,8 @@ export const BoxInfo = ({
       <Button
         label="확 인"
         disabled={boxName.length === 0}
-        size="full-lg"
+        size="full"
         intent="green"
-        font="regular"
         onClick={onNext}
       />
     </div>

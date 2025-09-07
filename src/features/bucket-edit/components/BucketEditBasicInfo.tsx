@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
-import Button from '@/components/button/Button';
-import SelectItem from '@/components/SelectItem';
-import Input from '@/components/input/Input';
 import { Switch } from 'antd';
 import type { SwitchChangeEventHandler } from 'antd/es/switch';
+import { useState, useEffect } from 'react';
+
+import Button from '@/components/button/Button';
 import Header from '@/components/Header';
+import Input from '@/components/input/Input';
+import SelectItem from '@/components/SelectItem';
 
 type BucketEditBasicInfoProps = {
   onNext: () => void;
@@ -13,6 +14,9 @@ type BucketEditBasicInfoProps = {
   onChangePublicFlag: (flag: boolean) => void;
   onChangeShareFlag: (flag: boolean) => void;
   familyCount: number;
+  initialTitle: string;
+  initialShareFlag: boolean;
+  initialPublicFlag: boolean;
 };
 
 const BucketEditBasicInfo = ({
@@ -22,10 +26,15 @@ const BucketEditBasicInfo = ({
   onChangePublicFlag,
   onChangeShareFlag,
   familyCount,
+  initialTitle,
+  initialShareFlag,
+  initialPublicFlag,
 }: BucketEditBasicInfoProps) => {
-  const [withWho, setWithWho] = useState<'혼자' | '함께'>('혼자');
-  const [what, setWhat] = useState<string>('');
-  const [checked, setChecked] = useState<boolean>(false);
+  const [withWho, setWithWho] = useState<'혼자' | '함께'>(
+    initialShareFlag ? '함께' : '혼자'
+  );
+  const [what, setWhat] = useState<string>(initialTitle);
+  const [checked, setChecked] = useState<boolean>(initialPublicFlag);
 
   useEffect(() => {
     onChangeTitle(what);
@@ -38,6 +47,18 @@ const BucketEditBasicInfo = ({
   useEffect(() => {
     onChangeShareFlag(withWho === '함께');
   }, [withWho]);
+
+  useEffect(() => {
+    setWhat(initialTitle);
+  }, [initialTitle]);
+
+  useEffect(() => {
+    setWithWho(initialShareFlag ? '함께' : '혼자');
+  }, [initialShareFlag]);
+
+  useEffect(() => {
+    setChecked(initialPublicFlag);
+  }, [initialPublicFlag]);
 
   const onChange: SwitchChangeEventHandler = (
     checked: boolean,
@@ -55,10 +76,10 @@ const BucketEditBasicInfo = ({
   };
 
   return (
-    <div className="relative h-full flex flex-col items-center w-full px-6 pb-5">
+    <div className="relative flex h-full w-full flex-col items-center px-6 pb-5">
       <Header onClick={onBack} />
 
-      <div className="font-hana-regular text-3xl flex flex-col w-full">
+      <div className="font-hana-regular flex w-full flex-col text-3xl">
         <p>
           <br />
           <span className="font-hana-bold">버킷리스트</span>에 대한 정보를
@@ -67,16 +88,16 @@ const BucketEditBasicInfo = ({
         </p>
       </div>
 
-      <div className="w-full scrollbar-hide overflow-y-auto min-h-0 pr-1 mb-5 pb-10">
+      <div className="scrollbar-hide mb-5 min-h-0 w-full overflow-y-auto pr-1 pb-10">
         <div className="w-full">
           <p className="font-hana-bold text-3xl">1. 누구와</p>
-          <div className="flex gap-2 w-full mt-3">
+          <div className="mt-3 flex w-full gap-2">
             <SelectItem
               text="혼자"
               selected={withWho === '혼자'}
               onClick={() => setWithWho('혼자')}
             />
-            <div className={familyCount > 1 ? '' : 'invisible w-full'}>
+            <div className={familyCount > 1 ? 'w-full' : 'invisible w-full'}>
               <SelectItem
                 text="함께"
                 selected={withWho === '함께'}
@@ -86,7 +107,7 @@ const BucketEditBasicInfo = ({
           </div>
         </div>
 
-        <div className="w-full mt-12">
+        <div className="mt-12 w-full">
           <p className="font-hana-bold text-3xl">2. 무엇을</p>
           <Input
             placeholder="유럽여행 가기"
@@ -97,7 +118,7 @@ const BucketEditBasicInfo = ({
           />
         </div>
 
-        <div className="w-full mt-12 flex gap-15 items-center">
+        <div className="mt-12 flex w-full items-center gap-12">
           <span className="font-hana-regular text-3xl">
             <span className="font-hana-bold">가족</span>에게 버킷 공개{' '}
           </span>
@@ -115,7 +136,7 @@ const BucketEditBasicInfo = ({
         </div>
       </div>
 
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
+      <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
         <Button
           onClick={handleNext}
           intent={isValid ? 'green' : 'gray'}

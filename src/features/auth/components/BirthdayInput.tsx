@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
+
+import birthdayIcon from '@/assets/common/user/birthday.png';
+import Button from '@/components/button/Button.tsx';
 import BoxInput, {
   type BoxInputHandle,
 } from '@/components/common/BoxInput.tsx';
-import Button from '@/components/button/Button.tsx';
-import birthdayIcon from '@/assets/common/user/birthday.png';
 
 export type BirthdayInputProps = {
   birthday: string;
@@ -36,15 +37,15 @@ export const BirthdayInput = ({
   }, [year, month, day, onBirthdayChange]);
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-grow space-y-6">
-        <div className="w-16 h-16 bg-theme-secondary rounded-full flex items-center justify-center mx-auto">
-          <img src={birthdayIcon} alt="birthday" className="w-10 h-10" />
+    <div className="flex h-full flex-col">
+      <div className="flex-grow">
+        <div className="bg-theme-secondary mx-auto my-15 flex h-24 w-24 items-center justify-center rounded-full">
+          <img src={birthdayIcon} alt="birthday" className="h-11 w-11" />
         </div>
-        <p className="text-3xl font-hana-regular text-left">
+        <p className="font-hana-regular !mb-9.5 text-left text-3xl">
           <span className="font-hana-bold">생년월일</span>을 입력해 주세요
         </p>
-        <div className="space-y-4">
+        <div className="space-y-8">
           <div className="flex items-center gap-2">
             <BoxInput
               ref={yearInputRef}
@@ -54,7 +55,7 @@ export const BirthdayInput = ({
               value={year}
               align="start"
             />
-            <span className="text-3xl font-hana-regular">년</span>
+            <span className="font-hana-regular text-3xl">년</span>
           </div>
           <div className="flex items-center gap-2">
             <BoxInput
@@ -65,7 +66,7 @@ export const BirthdayInput = ({
               value={month}
               align="start"
             />
-            <span className="text-3xl font-hana-regular">월</span>
+            <span className="font-hana-regular text-3xl">월</span>
           </div>
           <div className="flex items-center gap-2">
             <BoxInput
@@ -75,15 +76,14 @@ export const BirthdayInput = ({
               value={day}
               align="start"
             />
-            <span className="text-3xl font-hana-regular">일</span>
+            <span className="font-hana-regular text-3xl">일</span>
           </div>
         </div>
       </div>
       <Button
         label="다 음"
-        size="full-lg"
+        size="full"
         intent="green"
-        font="regular"
         onClick={onNext}
         disabled={birthday.length !== 10}
       />

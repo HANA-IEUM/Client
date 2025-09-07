@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
+
+import passwordIcon from '@/assets/common/user/password.png';
+import Button from '@/components/button/Button.tsx';
 import BoxInput, {
   type BoxInputHandle,
 } from '@/components/common/BoxInput.tsx';
-import Button from '@/components/button/Button.tsx';
-import passwordIcon from '@/assets/common/user/password.png';
 
 export type PasswordInputProps = {
   pw: string;
@@ -31,12 +32,12 @@ export const PasswordInput = ({
     onPwChange(pin);
   };
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-grow space-y-6">
-        <div className="w-16 h-16 bg-theme-secondary rounded-full flex items-center justify-center mx-auto">
-          <img src={passwordIcon} alt="message" className="w-10 h-10" />
+    <div className="flex h-full flex-col">
+      <div className="flex-grow">
+        <div className="bg-theme-secondary mx-auto my-15 flex h-24 w-24 items-center justify-center rounded-full">
+          <img src={passwordIcon} alt="password" className="h-11 w-11" />
         </div>
-        <p className="text-3xl font-hana-regular text-left">
+        <p className="font-hana-regular !mb-9.5 text-left text-3xl">
           <span className="font-hana-bold">비밀번호</span>를 설정해주세요
         </p>
         <BoxInput
@@ -47,8 +48,8 @@ export const PasswordInput = ({
           isPassword
         />
         {pw.length === 6 ? (
-          <div className="mt-4">
-            <p className="text-3xl font-hana-regular text-left">
+          <div className="mt-8">
+            <p className="font-hana-regular text-left text-3xl">
               <span className="font-hana-bold">다시 한 번</span> 확인해 주세요
             </p>
             <BoxInput
@@ -64,9 +65,8 @@ export const PasswordInput = ({
       </div>
       <Button
         label="확 인"
-        size="full-lg"
+        size="full"
         intent="green"
-        font="regular"
         onClick={onNext}
         disabled={pw.length !== 6 || pw !== checkPw}
       />

@@ -1,10 +1,13 @@
-import ReactQueryProvider from './app/providers/ReactQueryProvider';
-import AppRouter from './app/AppRouter';
 import { Toaster } from 'react-hot-toast';
+
+import AppRouter from './app/AppRouter';
+import ReactQueryProvider from './app/providers/ReactQueryProvider';
+import SessionExpireModal from './components/common/SessionExpireModal';
 
 function App() {
   return (
     <ReactQueryProvider>
+      <SessionExpireModal />
       <Toaster
         position="bottom-center"
         gutter={8}

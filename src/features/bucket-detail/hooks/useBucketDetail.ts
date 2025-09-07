@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { fetchBucketDetail } from '../apis/bucketDetail';
 import type { BucketDetail } from '../apis/bucketDetail';
 

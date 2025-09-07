@@ -1,5 +1,5 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
@@ -19,7 +19,7 @@ export default function LetterTypeSlider({ value = 'PINK', onChange }: Props) {
 
   return (
     <div
-      className="mt-3 relative !overflow-visible [&_.swiper-pagination]:static [&_.swiper-pagination]:mt-4 pb-2"
+      className="relative mt-3 !overflow-visible pb-2 [&_.swiper-pagination]:static [&_.swiper-pagination]:mt-4"
       style={
         {
           '--swiper-pagination-color': '#ffffff',
@@ -27,7 +27,7 @@ export default function LetterTypeSlider({ value = 'PINK', onChange }: Props) {
         } as React.CSSProperties
       }
     >
-      <div className="absolute top-24 left-1/2 -translate-x-1/2 w-full h-[132px] bg-neutral-200" />
+      <div className="absolute top-24 left-1/2 h-[132px] w-full -translate-x-1/2 bg-neutral-200" />
 
       <Swiper
         modules={[Pagination]}
@@ -41,12 +41,12 @@ export default function LetterTypeSlider({ value = 'PINK', onChange }: Props) {
           const idx = swiper.activeIndex;
           onChange?.(colors[idx] ?? 'pink');
         }}
-        className="!overflow-visible relative z-10"
+        className="relative z-10 !overflow-visible"
       >
         {colors.map((color) => (
           <SwiperSlide
             key={color}
-            className="!w-[293px] !h-[298px] scale-90 transition-transform duration-700 ease-in-out [&.swiper-slide-active]:scale-105"
+            className="!h-[298px] !w-[293px] scale-90 transition-transform duration-700 ease-in-out [&.swiper-slide-active]:scale-105"
           >
             <CheerCard text={TEXT} author={AUTHOR} color={color} />
           </SwiperSlide>
@@ -73,13 +73,13 @@ function CheerCard({
         : 'bg-icon-green';
 
   return (
-    <article className="w-full h-full aspect-square rounded-[32px] bg-white shadow overflow-hidden flex flex-col">
+    <article className="flex aspect-square h-full w-full flex-col overflow-hidden rounded-[32px] bg-white shadow">
       <div className={`h-12 ${bar}`} />
-      <div className="flex-1 flex flex-col justify-center items-center p-6">
-        <p className="whitespace-pre-line text-center text-2xl font-hana-bold">
+      <div className="flex flex-1 flex-col items-center justify-center p-6">
+        <p className="font-hana-bold text-center text-2xl whitespace-pre-line">
           {text}
         </p>
-        <p className="mt-4 text-center text-2xl font-hana-bold text-neutral-500">
+        <p className="font-hana-bold mt-4 text-center text-2xl text-neutral-500">
           –{author}–
         </p>
       </div>

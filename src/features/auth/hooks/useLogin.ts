@@ -1,8 +1,9 @@
-import type { LoginPayload, LoginResponse } from '@/types/auth.ts';
 import { useMutation } from '@tanstack/react-query';
+
 import { loginUser } from '@/features/auth/apis/auth';
 import { setTokens } from '@/lib/token.ts';
 import { useAuthStore } from '@/stores/authStore.ts';
+import type { LoginPayload, LoginResponse } from '@/types/auth.ts';
 
 export const useLogin = (
   onSuccess?: (data: LoginResponse) => void,

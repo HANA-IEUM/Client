@@ -1,18 +1,22 @@
 import starBoyIcon from '@/assets/common/header/starBoy.png';
-import { useNavigate } from 'react-router-dom';
 import Button from '@/components/button/Button.tsx';
+import { useCheckCreationAvailability } from '@/features/home/hooks/useCheckCreationAvailability.ts';
 
 export type HomeHeaderProps = {
   name: string;
 };
 
 export const HomeHeader = ({ name }: HomeHeaderProps) => {
-  const navigate = useNavigate();
+  const checkCreationMutation = useCheckCreationAvailability();
+
+  const handleRegisterClick = () => {
+    checkCreationMutation.mutate();
+  };
   return (
-    <header className="relative px-6 pt-8 text-white bg-theme-primary w-full mb-[-50px] z-0">
+    <header className="bg-theme-primary relative z-0 mb-[-50px] w-full px-6 pt-8 text-white">
       <div className="flex items-start justify-between">
-        <div className="w-1/2 mt-2">
-          <p className="text-3xl font-hana-regular">
+        <div className="mt-2 w-1/2">
+          <p className="font-hana-regular text-3xl">
             <span className="font-hana-bold">{name}</span>님의 <br />
             <span className="font-hana-bold">버킷리스트</span>
           </p>
@@ -20,11 +24,12 @@ export const HomeHeader = ({ name }: HomeHeaderProps) => {
             label="등록하기"
             intent="yellow"
             size="lg"
-            font="regular"
-            onClick={() => navigate('/bucket-create')}
+            className="!h-10 !w-36 !text-xl"
+            onClick={handleRegisterClick}
+            loading={checkCreationMutation.isPending}
           />
         </div>
-        <img src={starBoyIcon} alt="캐릭터" className="w-36 h-60" />
+        <img src={starBoyIcon} alt="캐릭터" className="h-60 w-36" />
       </div>
     </header>
   );

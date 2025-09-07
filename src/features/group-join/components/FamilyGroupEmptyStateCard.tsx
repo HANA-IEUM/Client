@@ -1,71 +1,75 @@
 import inviteSvg from '@/assets/group-join/invite.svg';
 import plusSvg from '@/assets/group-join/plus.svg';
 import Button from '@/components/button/Button';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useToken.ts';
 
 type FamilyGroupEmptyStateCardProps = {
   onInviteClick: () => void;
   onCreateClick: () => void;
   onHide: () => void;
+  onDoLater: () => void;
 };
 
 const FamilyGroupEmptyStateCard = ({
   onInviteClick,
   onCreateClick,
   onHide,
+  onDoLater,
 }: FamilyGroupEmptyStateCardProps) => {
-  const navigate = useNavigate();
-  const goHome = () => navigate('/home');
+  const { user } = useAuth();
 
   return (
-    <div className="relative h-full flex flex-col items-center w-full pt-28 px-6">
-      <div className="font-hana-regular text-3xl flex flex-col w-full">
+    <div className="relative flex h-full w-full flex-col items-center px-6 pt-28">
+      <div className="font-hana-regular text-text-primary flex w-full flex-col text-3xl">
         <p>
-          <span className="font-hana-bold">승희</span>님은 아직 가족 그룹에{' '}
+          <span className="font-hana-bold">{user?.name || '고객'}</span>님은
           <br />
+          아직 가족 그룹에 <br />
           속해있지 않아요
         </p>
       </div>
 
       <div
         onClick={onInviteClick}
-        className="bg-btn-default-bg gap-3 cursor-pointer rounded-lg w-full h-[110px] flex pb-5 pt-6 pl-5 pr-9 mt-20"
+        className="bg-btn-default-bg mt-20 flex h-[110px] w-full cursor-pointer gap-3 rounded-lg pt-6 pr-9 pb-5 pl-5"
       >
         <img src={inviteSvg} />
         <div className="flex flex-col gap-1">
-          <span className="text-xl font-hana-regular">
+          <span className="font-hana-regular text-text-primary text-xl">
             이미 초대코드를 받았다면
           </span>
-          <span className="text-2xl font-hana-bold">가족 그룹 참여하기</span>
+          <span className="font-hana-bold text-text-primary text-2xl">
+            가족 그룹 참여하기
+          </span>
         </div>
       </div>
 
       <div
         onClick={onCreateClick}
-        className="bg-btn-default-bg gap-3 rounded-lg cursor-pointer flex w-full h-[110px] mt-9 pb-6 pt-5 pl-8 pr-12 border-2 border-dashed border-[var(--color-line)]"
+        className="bg-btn-default-bg mt-9 flex h-[110px] w-full cursor-pointer gap-3 rounded-lg border-2 border-dashed border-[var(--color-line)] pt-5 pr-12 pb-6 pl-8"
       >
         <img src={plusSvg} />
         <div className="flex flex-col gap-1">
-          <span className="text-xl font-hana-regular">
+          <span className="font-hana-regular text-xl">
             초대 받은 그룹이 없다면
           </span>
-          <span className="text-2xl font-hana-bold">새 가족 그룹 만들기</span>
+          <span className="font-hana-bold text-2xl">새 가족 그룹 만들기</span>
         </div>
       </div>
 
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
+      <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
         <div className="flex flex-col gap-5">
           <Button
             intent="gray"
             label="나중에 하기"
             size="full"
-            onClick={goHome}
+            onClick={onDoLater}
           />
           <div
             onClick={onHide}
-            className="flex justify-center items-center cursor-pointer"
+            className="flex cursor-pointer items-center justify-center"
           >
-            <span className="text-lg font-hana-bold text-line">
+            <span className="font-hana-bold text-line pb-9 text-2xl">
               다시 보지 않기
             </span>
           </div>

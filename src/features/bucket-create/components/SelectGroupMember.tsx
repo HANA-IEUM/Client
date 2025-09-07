@@ -1,7 +1,8 @@
 // Step 3: 함께할 그룹원
-import SelectItem from '@/components/SelectItem.tsx';
 import Button from '@/components/button/Button.tsx';
+import SelectItem from '@/components/SelectItem.tsx';
 import type { SelectGroupMemberProps } from '@/features/bucket-create/types/props.ts';
+import { useAuth } from '@/hooks/useToken.ts';
 
 export const SelectGroupMember = ({
   selectedNames,
@@ -16,28 +17,31 @@ export const SelectGroupMember = ({
         : [...prev, memberId]
     );
   };
+  const { user } = useAuth();
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <div className="flex-grow space-y-6 text-left">
-        <p className="text-3xl font-hana-regular">
+        <p className="font-hana-regular text-3xl">
           버킷리스트를 <span className="font-hana-bold">함께할 가족</span>을
           <br />
           모두 선택해 주세요
         </p>
-        <div className="w-full scrollbar-hide overflow-y-auto min-h-0 pr-1 mb-5 pb-24">
-          <div className="grid grid-cols-2 gap-3 mt-6">
-            {groupMemberInfo.map((data) => (
-              <SelectItem
-                key={data.memberId}
-                text={data.name}
-                selected={selectedNames.includes(data.memberId)}
-                onClick={() => toggleName(data.memberId)}
-              />
-            ))}
+        <div className="scrollbar-hide mb-5 min-h-0 w-full overflow-y-auto pr-1 pb-24">
+          <div className="mt-6 grid grid-cols-2 gap-3">
+            {groupMemberInfo
+              .filter((member) => member.memberId !== Number(user?.sub))
+              .map((data) => (
+                <SelectItem
+                  key={data.memberId}
+                  text={data.name}
+                  selected={selectedNames.includes(data.memberId)}
+                  onClick={() => toggleName(data.memberId)}
+                />
+              ))}
           </div>
         </div>
       </div>
-      <Button label="다 음" size="full-lg" intent="green" onClick={onNext} />
+      <Button label="다 음" size="full" intent="green" onClick={onNext} />
     </div>
   );
 };

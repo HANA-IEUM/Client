@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { linkMainAccount } from '../apis/accountApi';
+
 import { accountQK } from './useMainAccount';
+import { linkMainAccount } from '../apis/accountApi';
 
 export function useLinkMainAccount() {
   const qc = useQueryClient();

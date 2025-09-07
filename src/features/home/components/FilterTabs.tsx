@@ -18,11 +18,11 @@ export const FilterTabs = ({
 }: FilterTabsProps) => {
   return (
     <nav
-      className="flex space-x-2 px-6 w-full justify-between"
+      className="flex w-full justify-start space-x-8 px-6"
       role="tablist"
       aria-label="Filter options"
     >
-      {tabs.map(({ id, label }) => (
+      {tabs.map(({ id, label }, index) => (
         <Button
           key={id}
           label={label}
@@ -31,7 +31,7 @@ export const FilterTabs = ({
           font="regular"
           onClick={() => setSelected(id)}
           role="tab"
-          className="rounded-3xl"
+          className={`rounded-3xl ${index > 0 ? '!ml-2' : ''}`}
           aria-selected={id === selected}
         />
       ))}

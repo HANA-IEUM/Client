@@ -1,23 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '@/components/Header';
+
 import Stepper from '@/components/common/Stepper.tsx';
-import { SelectCategory } from '@/features/bucket-create/components/SelectCategory.tsx';
-import { WhoAndWhat } from '@/features/bucket-create/components/WhoAndWhat';
-import { SelectGroupMember } from '@/features/bucket-create/components/SelectGroupMember';
-import { GoalAmountPeriod } from '@/features/bucket-create/components/GoalAmountPeriod.tsx';
-import { CreateBox } from '@/features/bucket-create/components/CreateBox.tsx';
-import { ConfirmBucket } from '@/features/bucket-create/components/ConfirmBucket.tsx';
+import Header from '@/components/Header';
 import { BoxInfo } from '@/features/bucket-create/components/BoxInfo.tsx';
+import { ConfirmBucket } from '@/features/bucket-create/components/ConfirmBucket.tsx';
+import { CreateBox } from '@/features/bucket-create/components/CreateBox.tsx';
+import { GoalAmount } from '@/features/bucket-create/components/GoalAmount.tsx';
+import { GoalPeriod } from '@/features/bucket-create/components/GoalPeriod.tsx';
+import { SelectCategory } from '@/features/bucket-create/components/SelectCategory.tsx';
+import { SelectGroupMember } from '@/features/bucket-create/components/SelectGroupMember';
+import { WhoAndWhat } from '@/features/bucket-create/components/WhoAndWhat';
 import { useCreateBucket } from '@/features/bucket-create/hooks/useCreateBucket.ts';
 import type {
   BucketCategoryType,
   CreateBucketPayload,
 } from '@/features/bucket-create/types/bucket.ts';
-import { useQuery } from '@tanstack/react-query';
-import { groupQK } from '@/features/group-join/hooks/useGroupInfo.ts';
 import { fetchGroupInfo } from '@/features/group-join/apis/groupApi.ts';
+import { groupQK } from '@/features/group-join/hooks/useGroupInfo.ts';
+import { useGAEvent } from '@/hooks/useGAEvent';
+import { useMonthlyLivingCost } from '@/hooks/useMonthlyLivingCost.ts';
+import { showError } from '@/lib/toast';
 
 const variants = {
   enter: (direction: number) => ({
@@ -35,6 +40,8 @@ const variants = {
 };
 
 export default function BucketCreatePage() {
+  const trackBucketEvent = useGAEvent('bucket_create');
+
   const today = new Date();
   const dayStr = String(today.getDate()).padStart(2, '0');
   const [step, setStep] = useState(1);
@@ -49,23 +56,17 @@ export default function BucketCreatePage() {
   const [period, setPeriod] = useState<number | null>(null);
   const [monthlyAmount, setMonthlyAmount] = useState(0);
   const [selectedMembersIds, setSelectedMembersIds] = useState<number[]>([]);
-  const [livingCost, setLivingCost] = useState(0);
   const [boxName, setBoxName] = useState('');
   const [automaticTransfer, setAutomaticTransfer] = useState(false);
   const [transferDay, setTransferDay] = useState(dayStr);
-
+  const { data: livingCost } = useMonthlyLivingCost();
   // 그룹정보 불러오기
   const { data: groupInfo } = useQuery({
     queryKey: groupQK.info,
     queryFn: fetchGroupInfo,
   });
 
-  const TOTAL_STEPS = 4;
-
-  useEffect(() => {
-    // TODO 실제 사용자의 월 생활비 데이터
-    setLivingCost(3000000);
-  }, []);
+  const TOTAL_STEPS = 5;
 
   const getNumberAmount = (str: string) => {
     return Number(str.replace(/,/g, ''));
@@ -80,10 +81,15 @@ export default function BucketCreatePage() {
 
   const createBucketMutation = useCreateBucket(
     () => {
+      trackBucketEvent('bucket_create_success', 'completed');
       navigate('/home', { replace: true });
     },
-    () => {}
+    () => {
+      trackBucketEvent('bucket_create_failed', 'error');
+      showError('버킷 생성에 실패했어요. 다시 시도해 주세요.');
+    }
   );
+
   const handleCreate = () => {
     const payload: CreateBucketPayload = {
       type: category,
@@ -104,6 +110,37 @@ export default function BucketCreatePage() {
 
   const goNext = () => {
     setDirection(1);
+
+    switch (step) {
+      case 1:
+        trackBucketEvent('bucket_category_selected', category);
+        break;
+      case 2:
+        trackBucketEvent(
+          'bucket_whoandwhat_done',
+          withFamily ? 'with_family' : 'solo'
+        );
+        break;
+      case 3:
+        trackBucketEvent(
+          'bucket_members_selected',
+          selectedMembersIds.length.toString()
+        );
+        break;
+      case 4:
+        trackBucketEvent('bucket_goal_amount_set', amount);
+        break;
+      case 5:
+        trackBucketEvent('bucket_goal_period_set', String(period));
+        break;
+      case 6:
+        trackBucketEvent(
+          'bucket_boxinfo_done',
+          automaticTransfer ? 'auto_transfer' : 'manual'
+        );
+        break;
+    }
+
     if (withFamily === false && step === 2) {
       setStep(4);
     } else {
@@ -155,26 +192,33 @@ export default function BucketCreatePage() {
         );
       case 4:
         return (
-          <GoalAmountPeriod
+          <GoalAmount
+            bucket={title}
             amount={amount}
             setAmount={setAmount}
-            period={period}
-            setPeriod={setPeriod}
-            handleAmount={handleAmount}
             onNext={goNext}
           />
         );
       case 5:
         return (
+          <GoalPeriod
+            period={period}
+            setPeriod={setPeriod}
+            onNext={goNext}
+            handleAmount={handleAmount}
+          />
+        );
+      case 6:
+        return (
           <CreateBox
             title={title}
             targetAmount={amount}
             period={period}
-            livingCost={livingCost}
+            livingCost={livingCost || 0}
             onNext={goNext}
           />
         );
-      case 6:
+      case 7:
         return (
           <BoxInfo
             boxName={boxName}
@@ -188,7 +232,7 @@ export default function BucketCreatePage() {
             onNext={goNext}
           />
         );
-      case 7:
+      case 8:
         return <ConfirmBucket title={title} onSubmit={handleCreate} />;
       default:
         return null;
@@ -196,24 +240,24 @@ export default function BucketCreatePage() {
   };
 
   return (
-    <div className="mx-6 flex flex-col h-screen">
+    <div className="mx-6 flex h-screen flex-col">
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <Header onClick={goBack} isVisible={step !== 5 && step !== 7} />{' '}
+          <Header onClick={goBack} isVisible={step !== 6 && step !== 8} />{' '}
         </motion.div>
       </AnimatePresence>
-      {step < 5 ? (
+      {step < 6 ? (
         <div className="pt-5">
           <Stepper totalSteps={TOTAL_STEPS} currentStep={step} />
         </div>
       ) : (
         <></>
       )}
-      <div className="flex-grow my-10 relative overflow-hidden">
+      <div className="relative my-10 flex-grow overflow-hidden">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={step}
@@ -223,7 +267,7 @@ export default function BucketCreatePage() {
             animate="center"
             exit="exit"
             transition={{ type: 'tween', ease: 'easeInOut', duration: 0.4 }}
-            className="absolute w-full h-full"
+            className="absolute h-full w-full"
           >
             {renderStepContent()}
           </motion.div>

@@ -1,29 +1,26 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { useNavigate } from 'react-router-dom';
 import { Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-type Cheer = { id: string; text: string; author: string };
+type Cheer = { id: string; text: string; author: string; color: string };
+
 interface SupportSliderProps {
   items?: Cheer[];
 }
 
-const DEFAULT_ITEMS: Cheer[] = [
-  {
-    id: '1',
-    text: '엄마가 유럽가는\n그 날까지!\n파이팅이에요 :)',
-    author: '유진',
-  },
-  { id: '2', text: '조금씩, 꾸준히!\n우리 같이 달려요 🙌', author: '민수' },
-  { id: '3', text: '오늘도 한 걸음 전진 💚', author: '지연' },
-];
+interface CheerCardProps {
+  id: string | number;
+  text: string;
+  author: string;
+  color: string;
+}
 
-export default function SupportSlider({
-  items = DEFAULT_ITEMS,
-}: SupportSliderProps) {
+export default function SupportSlider({ items }: SupportSliderProps) {
   return (
     <div
-      className="mt-3 relative !overflow-visible [&_.swiper-pagination]:static [&_.swiper-pagination]:mt-4 pb-2"
+      className="relative mt-3 !overflow-visible pb-2 [&_.swiper-pagination]:static [&_.swiper-pagination]:mt-4"
       style={
         {
           '--swiper-pagination-color': '#ffffff',
@@ -43,12 +40,17 @@ export default function SupportSlider({
         grabCursor
         className="!overflow-visible"
       >
-        {items.map((c) => (
+        {items?.map((c) => (
           <SwiperSlide
             key={c.id}
-            className="!w-[280px] !h-[280px] scale-90 transition-transform duration-700 ease-in-out [&.swiper-slide-active]:scale-105"
+            className="!h-[280px] !w-[280px] scale-90 transition-transform duration-700 ease-in-out [&.swiper-slide-active]:scale-105"
           >
-            <CheerCard text={c.text} author={c.author} color={'green'} />
+            <CheerCard
+              id={c.id}
+              text={c.text}
+              author={c.author}
+              color={c.color}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -56,25 +58,25 @@ export default function SupportSlider({
   );
 }
 
-export function CheerCard({
-  text,
-  author,
-  color,
-}: {
-  text: string;
-  author: string;
-  color: string;
-}) {
+export function CheerCard({ id, text, author, color }: CheerCardProps) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/support/${id}`);
+  };
   return (
-    <article className="w-full h-full aspect-square rounded-[32px] bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)] overflow-hidden flex flex-col">
+    <article
+      onClick={handleClick}
+      className="flex aspect-square h-full w-full flex-col overflow-hidden rounded-[32px] bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)]"
+    >
       <div
         className={`h-12 ${color === 'PINK' ? 'bg-icon-pink' : color === 'BLUE' ? 'bg-icon-blue' : 'bg-icon-green'} shrink-0`}
       />
-      <div className="flex-1 flex flex-col justify-center items-center p-6">
-        <p className="whitespace-pre-line text-center text-2xl leading-snug font-hana-bold text-neutral-700">
+      <div className="flex flex-1 flex-col items-center justify-center p-6">
+        <p className="font-hana-bold text-center text-2xl leading-snug whitespace-pre-line text-neutral-700">
           {text}
         </p>
-        <p className="mt-4 text-center text-2xl font-hana-bold text-neutral-500">
+        <p className="font-hana-bold mt-4 text-center text-2xl text-neutral-500">
           –{author}–
         </p>
       </div>

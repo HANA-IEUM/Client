@@ -1,8 +1,10 @@
 import { useState } from 'react';
+
 import Button from '@/components/button/Button';
+import Header from '@/components/Header';
 import SelectItem from '@/components/SelectItem';
 import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
-import Header from '@/components/Header';
+import { useAuthStore } from '@/stores/authStore';
 
 type BucketEditFamilyProps = {
   onNext: () => void;
@@ -17,6 +19,7 @@ const BucketEditFamily = ({
 }: BucketEditFamilyProps) => {
   const { data: groupInfo } = useGroupInfo();
   const [selectedMemberIds, setSelectedMemberIds] = useState<number[]>([]);
+  const user = useAuthStore((state) => state.user);
 
   const toggleMember = (id: number) => {
     let updated: number[];
@@ -30,11 +33,12 @@ const BucketEditFamily = ({
   };
 
   const members = groupInfo?.members ?? [];
+  const myMemberId = user?.sub ? Number(user.sub) : undefined;
 
   return (
-    <div className="relative h-full flex flex-col items-center w-full px-6 pb-5">
+    <div className="relative flex h-full w-full flex-col items-center px-6 pb-5">
       <Header onClick={onBack} />
-      <div className="font-hana-regular text-3xl flex flex-col w-full">
+      <div className="font-hana-regular flex w-full flex-col text-3xl">
         <p>
           <br />
           버킷리스트를 <span className="font-hana-bold">함께할 가족</span>을
@@ -43,20 +47,22 @@ const BucketEditFamily = ({
         </p>
       </div>
 
-      <div className="w-full scrollbar-hide overflow-y-auto min-h-0 pr-1 mb-5 pb-24">
-        <div className="grid grid-cols-2 gap-3 mt-6">
-          {members.map((member) => (
-            <SelectItem
-              key={member.memberId}
-              text={member.name}
-              selected={selectedMemberIds.includes(member.memberId)}
-              onClick={() => toggleMember(member.memberId)}
-            />
-          ))}
+      <div className="scrollbar-hide mb-5 min-h-0 w-full overflow-y-auto pr-1 pb-24">
+        <div className="mt-6 grid grid-cols-2 gap-3">
+          {members
+            .filter((member) => member.memberId !== myMemberId)
+            .map((member) => (
+              <SelectItem
+                key={member.memberId}
+                text={member.name}
+                selected={selectedMemberIds.includes(member.memberId)}
+                onClick={() => toggleMember(member.memberId)}
+              />
+            ))}
         </div>
       </div>
 
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
+      <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
         <Button
           onClick={onNext}
           intent="green"
