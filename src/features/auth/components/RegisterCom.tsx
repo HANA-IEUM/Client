@@ -8,7 +8,7 @@ export default function RegisterCom() {
   return (
     <div className="flex h-full flex-col">
       <div className="flex-grow space-y-6 text-left">
-        <p className="font-hana-regular text-3xl">
+        <p className="font-hana-regular !mt-9 text-3xl">
           <span className="font-hana-bold">회원가입</span>을 완료했어요
           <br />
           <span className="font-hana-bold">로그인</span>하고 서비스를
@@ -21,9 +21,8 @@ export default function RegisterCom() {
       </div>
       <Button
         label="로그인하러 가기"
-        size="full-lg"
+        size="full"
         intent={'green'}
-        font="regular"
         onClick={() => navigate('/login')}
       />
     </div>

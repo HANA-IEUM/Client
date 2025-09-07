@@ -40,7 +40,7 @@ const GroupNameForm = ({ onBack, onSubmit, loading }: GroupNameFormProps) => {
         />
       </div>
 
-      <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
+      <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6 pb-9">
         <Button
           intent={hasText ? 'green' : 'gray'}
           label={loading ? '생성 중...' : '확인'}

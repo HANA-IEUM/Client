@@ -35,11 +35,11 @@ export const MonthlyCostInput = ({
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex-grow space-y-6">
-        <div className="bg-theme-secondary mx-auto flex h-16 w-16 items-center justify-center rounded-full">
-          <img src={coinIcon} alt="wallet" className="h-10 w-10" />
+      <div className="flex-grow">
+        <div className="bg-theme-secondary mx-auto my-15 flex h-24 w-24 items-center justify-center rounded-full">
+          <img src={coinIcon} alt="coin" className="h-11 w-11" />
         </div>
-        <p className="font-hana-regular text-left text-3xl">
+        <p className="font-hana-regular !mb-9.5 text-left text-3xl">
           <span className="font-hana-bold">월 생활비</span>를 입력해 주세요
         </p>
         <div className="flex items-center gap-2">
@@ -53,16 +53,15 @@ export const MonthlyCostInput = ({
           <span className="font-hana-regular text-3xl">원</span>
         </div>
       </div>
-      <div className="font-hana-regular mb-4">
+      <div className="font-hana-regular text-text-primary mb-4 text-base">
         <p>
           은퇴 후 자금 설계 이전이라면, <br />
           아래 버튼을 클릭해 진단을 먼저 받아주세요
         </p>
         <Button
           label="자금 설계 →"
-          size="full-lg"
+          size="full"
           intent="mint"
-          font="regular"
           onClick={() =>
             window.open(
               'https://pension.kebhana.com/rpc/hhom/kr/rpc02060201.do',
@@ -73,9 +72,8 @@ export const MonthlyCostInput = ({
       </div>
       <Button
         label="완료"
-        size="full-lg"
+        size="full"
         intent="green"
-        font="regular"
         onClick={onNext}
         disabled={!cost}
       />

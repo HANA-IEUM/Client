@@ -152,9 +152,9 @@ const MyPage = () => {
       <BottomSheet
         isOpen={visible}
         onClose={() => setVisible(false)}
-        maxHeight="90vh"
+        maxHeight="80vh"
       >
-        <div className="min-h-[475px]">
+        <div className="mt-4 min-h-[475px]">
           <div className="mb-4 flex h-full flex-col items-center">
             <p className="font-hana-regular !mb-0 w-full text-left text-3xl">
               수정할 <span className="font-hana-bold"> 월 생활비</span>를
@@ -175,20 +175,18 @@ const MyPage = () => {
             <span className="font-hana-regular text-3xl">원</span>
           </div>
         </div>
-        <div className="flex w-full gap-2">
+        <div className="mb-4 flex w-full gap-2">
           <Button
             label="뒤 로"
-            size="lg"
+            size="full"
             intent="gray"
-            font="regular"
             onClick={() => setVisible(false)}
             className="w-1/4"
           />
           <Button
             label="수정하기"
-            size="lg"
+            size="full"
             intent="green"
-            font="regular"
             onClick={handleCostUpdate}
             className="w-3/4"
             loading={updateCostMutation.isPending}

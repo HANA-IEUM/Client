@@ -22,7 +22,7 @@ const buttonVariants = cva(
         md: 'px-4 py-2 !text-base h-10',
         lg: 'px-6 py-3 !text-lg h-12',
         xl: 'px-8 py-4 !text-xl h-14',
-        full: 'w-full px-4 py-2 !text-base h-10',
+        full: 'w-full !px-3.5 !py-1 !text-2xl !h-12',
         'full-lg': 'w-full px-6 py-3 !text-lg h-12',
       },
       font: {

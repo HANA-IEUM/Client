@@ -2,8 +2,7 @@ import React, { useRef, useState } from 'react';
 
 import Button from '@/components/button/Button';
 import BoxInput, { type BoxInputHandle } from '@/components/common/BoxInput';
-
-import type { Box } from '../types';
+import type { Box } from '@/features/wallet/types';
 
 interface FillBoxPasswordProps {
   box: Box;
@@ -48,14 +47,14 @@ const FillBoxPassword: React.FC<FillBoxPasswordProps> = ({
       <div className="mt-auto flex gap-3">
         <Button
           intent="silver"
-          size="lg"
+          size="full"
           label="뒤로"
           onClick={onBack}
           className="flex-1"
         />
         <Button
           intent={isPasswordComplete ? 'green' : 'silver'}
-          size="lg"
+          size="full"
           label="채우기"
           onClick={handleSubmit}
           className="flex-1"

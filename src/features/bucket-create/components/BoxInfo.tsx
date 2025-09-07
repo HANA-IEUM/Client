@@ -108,9 +108,8 @@ export const BoxInfo = ({
       <Button
         label="확 인"
         disabled={boxName.length === 0}
-        size="full-lg"
+        size="full"
         intent="green"
-        font="regular"
         onClick={onNext}
       />
     </div>

@@ -121,7 +121,7 @@ const BoxEdit: React.FC<BoxEditProps> = ({ box, onBack, onSave }) => {
             <Header onClick={onBack} />
           </div>
 
-          <div className="flex-1 overflow-y-auto px-6 pb-6">
+          <div className="flex-1 overflow-y-auto px-6 pb-20">
             <div className="space-y-6 text-left">
               <p className="font-hana-regular mb-3 text-3xl">
                 <span className="font-hana-bold">박스 별명</span>을 입력해
@@ -196,7 +196,7 @@ const BoxEdit: React.FC<BoxEditProps> = ({ box, onBack, onSave }) => {
           </div>
         </div>
 
-        <div className="!mb-20 px-6 pb-6">
+        <div className="px-6 !pb-29">
           <Button
             intent="green"
             size="lg"

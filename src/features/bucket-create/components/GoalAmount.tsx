@@ -67,6 +67,11 @@ export const GoalAmount = ({
     setAmount(formatted);
   };
 
+  const handleApplyAiAmount = () => {
+    setAmount(aiAmount);
+    inputRef.current?.focus();
+  };
+
   return (
     <div className="flex h-full flex-col">
       <div className="flex-grow space-y-6 text-left">
@@ -107,7 +112,7 @@ export const GoalAmount = ({
           <div>
             <div className="relative">
               <img src={BubbleIcon} alt="말풍선 배경" className="w-full" />
-              <div className="absolute top-0 left-0 mt-4 ml-4 flex h-full w-full text-left">
+              <div className="absolute top-0 left-0 mt-2 ml-4 flex h-full w-full text-left">
                 <p
                   className={
                     'font-hana-regular text-text-primary text-2xl leading-relaxed'
@@ -126,7 +131,7 @@ export const GoalAmount = ({
                 label={'AI 추천 금액 적용'}
                 intent={'yellow'}
                 className={'w-full'}
-                onClick={() => setAmount(aiAmount)}
+                onClick={handleApplyAiAmount}
               />
               <img className={'h-56 w-32'} src={starBoyIcon} alt={'!'} />
             </div>
@@ -135,7 +140,7 @@ export const GoalAmount = ({
       )}
       <Button
         label="다 음"
-        size="full-lg"
+        size="full"
         intent="green"
         onClick={onNext}
         disabled={!amount || isDisplayingLoader}

@@ -20,8 +20,8 @@ const AccountConnect = ({
   };
 
   return (
-    <div className="relative h-full flex flex-col items-center w-full pt-28 px-6">
-      <div className="font-hana-regular text-3xl flex flex-col w-full">
+    <div className="relative flex h-full w-full flex-col items-center px-6 pt-28">
+      <div className="font-hana-regular flex w-full flex-col text-3xl">
         <p>
           서비스를 사용하기 위해
           <br />
@@ -35,18 +35,18 @@ const AccountConnect = ({
         <HanaIcon width={92} height={92} />
       </div>
 
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-6 w-full max-w-md px-6 z-50">
+      <div className="absolute bottom-6 left-1/2 z-50 mb-9 w-full max-w-md -translate-x-1/2 px-6">
         <div
           onClick={onClickHandler}
-          className="bg-btn-default-bg rounded-md flex gap-3 w-full py-2 pl-5 mb-7"
+          className="bg-btn-default-bg mb-7 flex w-full gap-3 rounded-md py-2 pl-5"
         >
-          <div className="flex justify-center items-center">
+          <div className="flex items-center justify-center">
             <CheckIcon selected={selected} />
           </div>
 
           <div className="flex flex-col">
-            <span className="text-xl font-hana-bold">선택 동의</span>
-            <span className="text-lg font-hana-regular">
+            <span className="font-hana-bold text-xl">선택 동의</span>
+            <span className="font-hana-regular text-lg">
               이용 약관 확인 및 동의
             </span>
           </div>

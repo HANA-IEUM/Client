@@ -47,7 +47,7 @@ const InviteCodeForm = ({
         />
       </div>
 
-      <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
+      <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6 pb-9">
         <Button
           intent={hasText ? 'green' : 'gray'}
           label={loading ? '참여 중…' : '그룹 참여하기'}

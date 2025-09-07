@@ -99,7 +99,7 @@ const TermOfUse = ({ onNext }: TermOfUseProps) => {
         ))}
       </div>
 
-      <div className="pb-6">
+      <div className="mb-4 pb-6">
         <Button
           intent={allRequiredChecked ? 'green' : 'gray'}
           label="확인"

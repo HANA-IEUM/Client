@@ -68,18 +68,16 @@ export const CreateBox = ({
 
       <div className="flex w-full gap-2">
         <Button
-          label="취 소"
-          size="lg"
+          label="취소"
+          size="full"
           intent="gray"
-          font="regular"
           onClick={() => navigate('/home')}
           className="w-1/4"
         />
         <Button
           label="확 인"
-          size="lg"
+          size="full"
           intent="green"
-          font="regular"
           onClick={(e) => setBottomVisible(true)}
           className="w-3/4"
         />
@@ -88,7 +86,7 @@ export const CreateBox = ({
         isOpen={bottomVisible}
         onClose={() => setBottomVisible(false)}
       >
-        <div className="flex h-full flex-col items-center">
+        <div className="mt-4 flex h-full flex-col items-center">
           <p className="font-hana-regular !mb-0 w-full text-left text-3xl">
             <span className="font-hana-bold">{title}</span>
             <br />
@@ -102,8 +100,7 @@ export const CreateBox = ({
         </div>
         <Button
           label="확 인"
-          size="full-lg"
-          font="regular"
+          size="full"
           intent="green"
           onClick={() => {
             setBottomVisible(false);

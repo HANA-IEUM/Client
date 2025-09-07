@@ -72,8 +72,8 @@ const Coupon = ({
       <Button intent="mint" label="사용하기" onClick={handleOpenSheet} />
 
       <BottomSheet isOpen={isSheetOpen} onClose={handleCloseSheet}>
-        <div className="mt-12 flex flex-col gap-4">
-          <p className="font-hana-regular text-text-primary text-3xl">
+        <div className="mt-4 flex flex-col gap-4">
+          <p className="font-hana-regular text-text-primary !mb-0 text-3xl">
             <span className="font-hana-bold">쿠폰번호</span>를 복사해
             <br />
             제휴사에서 사용해 보세요
@@ -88,8 +88,10 @@ const Coupon = ({
 
           <Button
             intent="green"
-            label={`${partnerName} 으로 이동하기`}
+            size="full"
+            label={`${partnerName}으로 이동하기`}
             onClick={handleCloseSheet}
+            className="!mb-4"
           />
         </div>
       </BottomSheet>

@@ -118,7 +118,7 @@ const BucketEditBasicInfo = ({
           />
         </div>
 
-        <div className="mt-12 flex w-full items-center gap-15">
+        <div className="mt-12 flex w-full items-center gap-12">
           <span className="font-hana-regular text-3xl">
             <span className="font-hana-bold">가족</span>에게 버킷 공개{' '}
           </span>

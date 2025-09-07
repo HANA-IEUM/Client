@@ -5,11 +5,10 @@ import Button from '@/components/button/Button';
 import EmptyStateMessage from '@/components/common/EmptyStateMessage';
 import type { Photo } from '@/features/album/apis/albumApi';
 import AlbumDetailPage from '@/features/album/components/AlbumDetailPage';
+import FamilyRegistrationBottomSheet from '@/features/album/components/FamilyRegistrationBottomSheet';
 import PhotoUploadPage from '@/features/album/components/PhotoUploadPage';
 import { useAlbums } from '@/features/album/hooks/useAlbums';
 import { useGroupInfo } from '@/features/group-join/hooks/useGroupInfo';
-
-import FamilyRegistrationBottomSheet from './FamilyRegistrationBottomSheet';
 
 type FilterType = 'all' | string;
 
@@ -203,7 +202,7 @@ const SharedAlbum = () => {
             subtitle={
               selectedFilter === 'all'
                 ? '가족들과 추억을 공유해 보세요'
-                : '다른 가족 구성원의 글을 확인해 보세요'
+                : '다른 가족의 글을 확인해 보세요'
             }
           />
         )}

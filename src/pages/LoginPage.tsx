@@ -54,11 +54,11 @@ const LoginStep1 = ({
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex-grow space-y-6">
-        <div className="bg-accent-secondary mx-auto flex h-16 w-16 items-center justify-center rounded-full">
-          <img src={phoneIcon} alt="phone" className="h-10 w-10" />
+      <div className="flex-grow">
+        <div className="bg-accent-secondary mx-auto my-15 flex h-24 w-24 items-center justify-center rounded-full">
+          <img src={phoneIcon} alt="phone" className="h-11 w-11" />
         </div>
-        <p className="font-hana-regular pt-4 text-left text-3xl">
+        <p className="font-hana-regular !mb-9.5 text-left text-3xl">
           <span className="font-hana-bold">전화번호</span>를 입력해주세요
         </p>
         <Input
@@ -71,9 +71,8 @@ const LoginStep1 = ({
       </div>
       <Button
         label="다 음"
-        size="full-lg"
+        size="full"
         intent="red"
-        font="regular"
         onClick={onNext}
         disabled={phoneNumber.length < 10}
       />
@@ -101,11 +100,11 @@ const LoginStep2 = ({
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex-grow space-y-6">
-        <div className="bg-accent-secondary mx-auto flex h-16 w-16 items-center justify-center rounded-full">
-          <img src={passwordIcon} alt="password" className="h-10 w-10" />
+      <div className="flex-grow">
+        <div className="bg-accent-secondary mx-auto my-15 flex h-24 w-24 items-center justify-center rounded-full">
+          <img src={passwordIcon} alt="password" className="h-11 w-11" />
         </div>
-        <p className="font-hana-regular pt-4 text-left text-3xl">
+        <p className="font-hana-regular !mb-9.5 text-left text-3xl">
           <span className="font-hana-bold">비밀번호</span>를 입력해주세요
         </p>
         <BoxInput
@@ -119,9 +118,8 @@ const LoginStep2 = ({
       </div>
       <Button
         label="로그인"
-        size="full-lg"
+        size="full"
         intent="red"
-        font="regular"
         onClick={() => {
           onTrackEvent('login_attempt', 'password_input');
           onLogin();
@@ -139,12 +137,6 @@ export default function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  // const goNext = () => {
-  //   if (step >= 2) return;
-  //   setDirection(1);
-  //   setStep(2);
-  // };
 
   const goNext = () => {
     if (step >= 2) return;
@@ -232,7 +224,7 @@ export default function LoginPage() {
       <div className="pt-5">
         <Stepper totalSteps={2} currentStep={step} color="bg-accent-primary" />
       </div>
-      <div className="relative my-10 flex-grow overflow-hidden">
+      <div className="relative mb-10 flex-grow overflow-hidden">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={step}

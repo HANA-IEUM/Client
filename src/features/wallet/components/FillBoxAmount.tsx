@@ -53,19 +53,12 @@ const FillBoxAmount: React.FC<FillBoxAmountProps> = ({
       </div>
 
       <div className="mt-114 flex gap-3">
-        <Button
-          intent="silver"
-          size="lg"
-          font="regular"
-          className="flex-1"
-          onClick={onBack}
-        >
+        <Button intent="silver" size="full" className="flex-1" onClick={onBack}>
           뒤로
         </Button>
         <Button
           intent={hasAmount ? 'green' : 'silver'}
-          size="lg"
-          font="bold"
+          size="full"
           className="flex-1"
           onClick={() => onConfirm(amount)}
           disabled={!hasAmount}

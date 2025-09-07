@@ -37,13 +37,7 @@ export const ConfirmBucket = ({ title, onSubmit }: ConfirmBucketProps) => {
         </div>
         <img src={confettiGif} alt={'축하해요!'} />
       </div>
-      <Button
-        label="확 인"
-        size="full-lg"
-        font="regular"
-        intent="green"
-        onClick={goHome}
-      />
+      <Button label="확 인" size="full" intent="green" onClick={goHome} />
     </div>
   );
 };

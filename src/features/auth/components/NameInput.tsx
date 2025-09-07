@@ -20,11 +20,11 @@ export const NameInput = ({ name, onNameChange, onNext }: NameInputProps) => {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex-grow space-y-6">
-        <div className="bg-theme-secondary mx-auto flex h-16 w-16 items-center justify-center rounded-full">
-          <img src={nameIcon} alt="message" className="h-10 w-10" />
+      <div className="flex-grow">
+        <div className="bg-theme-secondary mx-auto my-15 flex h-24 w-24 items-center justify-center rounded-full">
+          <img src={nameIcon} alt="name" className="h-11 w-11" />
         </div>
-        <p className="font-hana-regular text-left text-3xl">
+        <p className="font-hana-regular !mb-9.5 text-left text-3xl">
           <span className="font-hana-bold">성함</span>을 입력해 주세요
         </p>
         <Input
@@ -37,9 +37,8 @@ export const NameInput = ({ name, onNameChange, onNext }: NameInputProps) => {
       </div>
       <Button
         label="다 음"
-        size="full-lg"
+        size="full"
         intent="green"
-        font="regular"
         onClick={onNext}
         disabled={!name}
       />
