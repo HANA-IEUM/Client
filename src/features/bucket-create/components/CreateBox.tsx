@@ -86,7 +86,7 @@ export const CreateBox = ({
         isOpen={bottomVisible}
         onClose={() => setBottomVisible(false)}
       >
-        <div className="flex h-full flex-col items-center">
+        <div className="mt-4 flex h-full flex-col items-center">
           <p className="font-hana-regular !mb-0 w-full text-left text-3xl">
             <span className="font-hana-bold">{title}</span>
             <br />

@@ -31,8 +31,8 @@ const BoxPasswordBottomSheet = ({
   }, [open]);
 
   return (
-    <BottomSheet isOpen={open} onClose={onClose} maxHeight="90vh">
-      <div className="flex min-h-[675px] flex-col gap-4 p-6">
+    <BottomSheet isOpen={open} onClose={onClose} maxHeight="80vh">
+      <div className="mt-4 flex min-h-[675px] flex-col gap-4">
         <div className="font-hana-regular mb-6 w-full text-3xl">
           <p className="!mb-0">
             계좌 <span className="font-hana-bold">비밀번호</span>를
@@ -55,14 +55,14 @@ const BoxPasswordBottomSheet = ({
           <div className="flex w-full gap-3">
             <Button
               intent="silver"
-              size="lg"
+              size="full"
               label="뒤로"
               onClick={onClose}
               className="w-1/3"
             />
             <Button
               intent={isPinValid ? 'green' : 'silver'}
-              size="lg"
+              size="full"
               label="확인"
               onClick={() => onConfirm(pin)}
               className="w-2/3"

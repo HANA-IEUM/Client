@@ -82,7 +82,7 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
   // useEffect 제거 (refetchOnWindowFocus: true로 자동 처리됨)
 
   return (
-    <div className="h-full w-full overflow-y-auto pb-20">
+    <div className="h-full w-full overflow-y-auto">
       <div className="mb-7 px-6 pt-5">
         <Header onClick={onBack} />
         <div className="flex items-center justify-between">
@@ -178,36 +178,34 @@ const BoxTransferHistory: React.FC<BoxTransferHistoryProps> = ({
                   {txs.map((tx) => (
                     <div
                       key={tx.transactionId}
-                      className="flex items-center justify-between"
+                      className="flex items-start justify-between gap-3"
                     >
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <span className="text-text-secondary font-hana-bold text-xl">
-                            {tx.counterpartyName
-                              ? `${tx.counterpartyName} ㅣ ${tx.description || tx.transactionType}`
-                              : tx.description || tx.transactionType}
-                          </span>
-                          {(() => {
-                            const isDeposit = tx.transactionType === 'DEPOSIT';
-                            const sign = isDeposit ? '+' : '-';
-                            const colorClass = isDeposit
-                              ? 'text-blue-400'
-                              : 'text-red-400';
-                            return (
-                              <span
-                                className={`font-hana-bold text-xl ${colorClass}`}
-                              >
-                                {sign}
-                                {tx.amount.toLocaleString()}원
-                              </span>
-                            );
-                          })()}
-                        </div>
-                        <div className="flex items-center justify-end">
-                          <span className="font-hana-regular text-text-secondary !mt-0 mb-2 text-base">
-                            {tx.balanceAfter.toLocaleString()}원
-                          </span>
-                        </div>
+                      <div className="min-w-0 flex-1">
+                        <span className="text-text-secondary font-hana-bold text-xl break-words">
+                          {tx.counterpartyName
+                            ? `${tx.counterpartyName} ㅣ ${tx.description || tx.transactionType}`
+                            : tx.description || tx.transactionType}
+                        </span>
+                      </div>
+                      <div className="flex flex-shrink-0 flex-col items-end">
+                        {(() => {
+                          const isDeposit = tx.transactionType === 'DEPOSIT';
+                          const sign = isDeposit ? '+' : '-';
+                          const colorClass = isDeposit
+                            ? 'text-blue-400'
+                            : 'text-red-400';
+                          return (
+                            <span
+                              className={`font-hana-bold text-xl ${colorClass} whitespace-nowrap`}
+                            >
+                              {sign}
+                              {tx.amount.toLocaleString()}원
+                            </span>
+                          );
+                        })()}
+                        <span className="font-hana-regular text-text-secondary text-base whitespace-nowrap">
+                          {tx.balanceAfter.toLocaleString()}원
+                        </span>
                       </div>
                     </div>
                   ))}
