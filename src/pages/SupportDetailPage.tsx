@@ -28,30 +28,30 @@ const SupportDetailPage = () => {
         />
       </div>
 
-      <div className="mt-12 px-6">
+      <div className="relative mt-12 px-6">
         {supportDetail?.supportType === 'SPONSOR' && (
-          <div>
+          <div className="relative z-10">
             <p className="font-hana-regular text-3xl">
               <span className="font-hana-bold text-3xl">후원금액 : </span>
               {supportDetail?.supportAmount} 원
             </p>
           </div>
         )}
-        <p className="font-hana-regular text-3xl">
+        <p className="font-hana-regular relative z-10 !mb-0 text-3xl">
           <span className="font-hana-bold text-3xl">작성일자 : </span>
           {supportDetail?.supportedAt
             ? formatKoreanDateTime(supportDetail.supportedAt)
             : '작성일자 없음'}
         </p>
+
+        {supportDetail?.supportType === 'SPONSOR' && (
+          <div className="absolute -top-8 left-0 z-0 mt-20 w-full">
+            <img src={moneyGif} />
+          </div>
+        )}
       </div>
 
-      {supportDetail?.supportType === 'SPONSOR' && (
-        <div className="w-full">
-          <img src={moneyGif} />
-        </div>
-      )}
-
-      <div className="absolute bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-6">
+      <div className="absolute bottom-6 left-1/2 z-50 !mb-9 w-full max-w-md -translate-x-1/2 px-6">
         <Button
           intent="green"
           label="확인"

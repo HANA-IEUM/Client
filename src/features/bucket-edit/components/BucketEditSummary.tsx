@@ -29,7 +29,8 @@ const BucketEditSummary = ({ onConfirm }: BucketEditSummaryProps) => {
             onClick={onConfirm}
             intent="green"
             label="수정 완료"
-            className="w-full cursor-pointer"
+            size="full"
+            className="cursor-pointer"
           />
         </div>
       </div>

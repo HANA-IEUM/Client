@@ -175,13 +175,15 @@ const BucketDetailBox = ({
             <Button
               intent="gray"
               label="취소"
-              className="w-1/3"
+              font="bold"
+              className="!h-12 w-1/3 !text-2xl"
               onClick={() => setIsDeleteSheetOpen(false)}
             />
             <Button
               intent="red"
               label="삭제"
-              className="w-2/3"
+              font="bold"
+              className="!h-12 w-2/3 !text-2xl"
               onClick={confirmDelete}
               disabled={isPending}
             />
