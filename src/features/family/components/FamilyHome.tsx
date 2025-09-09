@@ -59,7 +59,7 @@ const FamilyHome = () => {
       <div className="h-full w-full pt-12">
         <div className="px-6">
           <h1 className="font-hana-bold text-text-primary !mb-8 text-4xl">
-            가족
+            {groupInfo.groupName}
           </h1>
         </div>
 
