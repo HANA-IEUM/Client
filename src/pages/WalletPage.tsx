@@ -1,6 +1,8 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { bucketQK } from '@/features/bucket-detail/hooks/useBucketDetail';
 import BoxEdit from '@/features/wallet/components/BoxEdit';
 import BoxTransferHistory from '@/features/wallet/components/BoxTransferHistory';
 import FillBoxAmount from '@/features/wallet/components/FillBoxAmount';
@@ -21,6 +23,7 @@ const WalletPage = () => {
 
   const { data: mainAccount } = useMainAccount();
   const { mutate: fillMoneyBox } = useFillMoneyBox();
+  const queryClient = useQueryClient();
 
   const handleFillBox = useCallback((box: Box) => {
     setSelectedBox(box);
@@ -49,6 +52,11 @@ const WalletPage = () => {
         },
         {
           onSuccess: () => {
+            if (selectedBox?.bucketListId) {
+              queryClient.invalidateQueries({
+                queryKey: bucketQK.detail(selectedBox.bucketListId),
+              });
+            }
             showSuccess('박스에 금액을 채웠어요!');
             setStep(0);
             setSelectedBox(null);
@@ -60,7 +68,7 @@ const WalletPage = () => {
         }
       );
     },
-    [fillAmount, selectedBox, fillMoneyBox]
+    [fillAmount, selectedBox, fillMoneyBox, queryClient]
   );
 
   const handleViewHistory = useCallback((box: Box) => {
