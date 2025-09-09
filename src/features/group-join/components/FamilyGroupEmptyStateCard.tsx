@@ -31,7 +31,7 @@ const FamilyGroupEmptyStateCard = ({
 
       <div
         onClick={onInviteClick}
-        className="bg-btn-default-bg mt-20 flex h-[110px] w-full cursor-pointer gap-3 rounded-lg pt-6 pb-5 pl-8"
+        className="bg-btn-default-bg mt-20 flex w-full cursor-pointer gap-3 rounded-lg pt-6 pr-5 pb-5 pl-8"
       >
         <img src={inviteSvg} />
         <div className="flex flex-col gap-1">
@@ -46,7 +46,7 @@ const FamilyGroupEmptyStateCard = ({
 
       <div
         onClick={onCreateClick}
-        className="bg-btn-default-bg mt-9 flex h-[110px] w-full cursor-pointer gap-3 rounded-lg border-2 border-dashed border-[var(--color-line)] pt-5 pb-6 pl-8"
+        className="bg-btn-default-bg mt-9 flex w-full cursor-pointer gap-3 rounded-lg border-2 border-dashed border-[var(--color-line)] pt-5 pr-5 pb-6 pl-8"
       >
         <img src={plusSvg} />
         <div className="flex flex-col gap-1">
