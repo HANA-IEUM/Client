@@ -56,7 +56,7 @@ const TermOfUse = ({ onNext }: TermOfUseProps) => {
   };
 
   return (
-    <div className="grid h-full min-h-0 w-full grid-rows-[auto,auto,1fr,auto] px-6 pt-28">
+    <div className="grid h-full min-h-0 w-full grid-rows-[auto,auto,1fr,auto] px-6 pt-20">
       <div className="font-hana-regular mb-7 text-3xl">
         <span>
           하나이음

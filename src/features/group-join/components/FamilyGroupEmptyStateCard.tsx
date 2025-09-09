@@ -19,7 +19,7 @@ const FamilyGroupEmptyStateCard = ({
   const { user } = useAuth();
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center px-6 pt-28">
+    <div className="relative flex h-full w-full flex-col items-center px-6 pt-20">
       <div className="font-hana-regular text-text-primary flex w-full flex-col text-3xl">
         <p>
           <span className="font-hana-bold">{user?.name || '고객'}</span>님은
