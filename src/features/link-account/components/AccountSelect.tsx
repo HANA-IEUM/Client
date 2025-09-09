@@ -27,7 +27,7 @@ const AccountSelect = ({
   };
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center px-6 pt-28">
+    <div className="relative flex h-full w-full flex-col items-center px-6 pt-20">
       <div className="font-hana-regular flex w-full flex-col text-3xl">
         <p className="!mb-0">
           서비스에서 사용할

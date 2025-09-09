@@ -20,7 +20,7 @@ const AccountConnect = ({
   };
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center px-6 pt-28">
+    <div className="relative flex h-full w-full flex-col items-center px-6 pt-20">
       <div className="font-hana-regular flex w-full flex-col text-3xl">
         <p>
           서비스를 사용하기 위해
