@@ -3,8 +3,12 @@ export function formatKoreanDateTime(
   showTime: boolean = true
 ): string {
   try {
-    // 서버에서 UTC로 보내긴 하는데 Z가 없어서 브라우저가 로컬 시간으로 해석해서 우선 Z 붙여줌
-    const utcString = dateString.endsWith('Z') ? dateString : dateString + 'Z';
+    const isDateOnly = /^\d{4}-\d{2}-\d{2}$/.test(dateString);
+    const utcString = isDateOnly
+      ? `${dateString}T00:00:00Z`
+      : dateString.endsWith('Z')
+        ? dateString
+        : `${dateString}Z`;
     const date = new Date(utcString);
 
     if (isNaN(date.getTime())) {
