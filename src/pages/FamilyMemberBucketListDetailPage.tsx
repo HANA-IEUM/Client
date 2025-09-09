@@ -83,7 +83,7 @@ const FamilyMemberBucketListDetailPage = () => {
       />
       <BucketInfo
         withWho={
-          bucketDetail?.participants && bucketDetail.participants.length > 1
+          bucketDetail?.participants && bucketDetail.participants.length > 0
             ? '함께'
             : '혼자'
         }
