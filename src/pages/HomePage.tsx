@@ -1,18 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import BucketListItem from '@/components/BucketListItem.tsx';
-import EmptyStateMessage from '@/components/common/EmptyStateMessage.tsx';
+import BucketListItem from '@/components/BucketListItem';
+import EmptyStateMessage from '@/components/common/EmptyStateMessage';
 import { EmptyBucketList } from '@/features/home/components/EmptyBucketList';
-import {
-  FilterTabs,
-  type Tab,
-} from '@/features/home/components/FilterTabs.tsx';
-import { HomeHeader } from '@/features/home/components/HomeHeader.tsx';
-import { useBucketLists } from '@/features/home/hooks/useBucketLists.ts';
-import { useAuth } from '@/hooks/useToken.ts';
+import { FilterTabs, type Tab } from '@/features/home/components/FilterTabs';
+import { HomeHeader } from '@/features/home/components/HomeHeader';
+import { useBucketLists } from '@/features/home/hooks/useBucketLists';
+import { useAuth } from '@/hooks/useToken';
 import type { BucketListItem as BucketListItemType } from '@/types/bucket';
-import { formatKoreanDateTime } from '@/utils/dateFormat.ts';
+import { formatKoreanDateTime } from '@/utils/dateFormat';
 
 const HomePage = () => {
   const [selected, setSelected] = useState('in_progress');
