@@ -25,6 +25,7 @@ export interface MemberBucketListItem {
   status: 'IN_PROGRESS' | 'COMPLETED';
   createdAt: string;
   participants: Participant[];
+  targetDate: string;
 }
 
 export interface MemberBucketListResponse {
