@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
+import emptySvg from '@/assets/common/empty.svg';
 import inviteSvg from '@/assets/group-join/invite.svg';
 import plusSvg from '@/assets/group-join/plus.svg';
 
@@ -46,7 +47,7 @@ const FamilyGroupEmptyStateCard = ({
           {/* 빈 상태 아이콘 */}
           <div className="mb-6 flex h-32 w-40 items-center justify-center">
             <img
-              src="/src/assets/common/empty.svg"
+              src={emptySvg}
               alt="빈 가족 그룹"
               className="h-full w-full object-contain"
               style={{
