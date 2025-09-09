@@ -93,7 +93,7 @@ const FamilyMemberBucketList = () => {
                   <BucketListItem
                     key={item.id}
                     text={item.title}
-                    date={formatKoreanDateTime(item.createdAt, false)}
+                    date={formatKoreanDateTime(item.targetDate, false)}
                     category={item.type === 'FAMILY' ? 'FAMILY' : item.type}
                     completed={item.status === 'COMPLETED'}
                     onClick={() =>
