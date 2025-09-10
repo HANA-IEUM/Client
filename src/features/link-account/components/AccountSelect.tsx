@@ -27,7 +27,7 @@ const AccountSelect = ({
   };
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center px-6 pt-20">
+    <div className="relative flex h-full w-full flex-col items-center px-6 pt-20 md:pt-10">
       <div className="font-hana-regular flex w-full flex-col text-3xl">
         <p className="!mb-0">
           서비스에서 사용할
@@ -68,18 +68,29 @@ const AccountSelect = ({
         />
       </div>
 
-      <div className="absolute bottom-6 left-1/2 z-50 mb-9 w-full max-w-md -translate-x-1/2 px-6">
+      <div className="absolute bottom-6 left-1/2 z-50 mb-9 w-full max-w-md -translate-x-1/2 px-6 md:bottom-0">
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-center">
-            <p className="font-hana-regular text-center text-2xl">
+            <p className="font-hana-regular text-center text-2xl md:hidden">
               <span className="font-hana-bold text-2xl">
                 💡 하나은행 연금 수령 계좌
               </span>
               를 <br />
               연결하면{' '}
-              <span className="font-hana-bold text-2xl">우대금리 1%</span>를
-              <br />
+              <span className="font-hana-bold text-2xl">우대금리 1%</span>
+              를 <br />
               추가로 받을 수 있어요
+            </p>
+
+            <p className="font-hana-regular hidden text-center text-2xl md:block md:text-sm">
+              <span className="font-hana-bold text-2xl md:text-sm">
+                💡 하나은행 연금 수령 계좌
+              </span>
+              를 연결하면 <br />
+              <span className="font-hana-bold text-2xl md:text-sm">
+                우대금리 1%
+              </span>
+              를 추가로 받을 수 있어요
             </p>
           </div>
 

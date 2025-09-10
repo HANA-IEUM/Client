@@ -20,7 +20,7 @@ const AccountConnect = ({
   };
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center px-6 pt-20">
+    <div className="relative flex h-full w-full flex-col items-center px-6 pt-20 md:pt-10">
       <div className="font-hana-regular flex w-full flex-col text-3xl">
         <p>
           서비스를 사용하기 위해
@@ -31,7 +31,7 @@ const AccountConnect = ({
         </p>
       </div>
 
-      <div className="mt-36">
+      <div className="mt-36 md:mt-20">
         <HanaIcon width={92} height={92} />
       </div>
 

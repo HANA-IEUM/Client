@@ -19,7 +19,7 @@ const FamilyGroupEmptyStateCard = ({
   const { user } = useAuth();
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center px-6 pt-20">
+    <div className="relative flex h-full w-full flex-col items-center px-6 pt-20 md:pt-10">
       <div className="font-hana-regular text-text-primary flex w-full flex-col text-3xl">
         <p>
           <span className="font-hana-bold">{user?.name || '고객'}</span>님은
@@ -31,7 +31,7 @@ const FamilyGroupEmptyStateCard = ({
 
       <div
         onClick={onInviteClick}
-        className="bg-btn-default-bg mt-20 flex w-full cursor-pointer gap-3 rounded-lg pt-6 pr-5 pb-5 pl-8"
+        className="bg-btn-default-bg mt-20 flex w-full cursor-pointer gap-3 rounded-lg pt-6 pr-5 pb-5 pl-8 md:mt-10"
       >
         <img src={inviteSvg} />
         <div className="flex flex-col gap-1">

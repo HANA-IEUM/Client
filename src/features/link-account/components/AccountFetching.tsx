@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/useToken.ts';
 const AccountFetching = () => {
   const { user } = useAuth();
   return (
-    <div className="relative flex h-full w-full flex-col items-center px-6 pt-28">
+    <div className="relative flex h-full w-full flex-col items-center px-6 pt-28 md:pt-10">
       <div className="font-hana-regular mb-28 flex w-full flex-col text-3xl">
         <p>
           <br />
